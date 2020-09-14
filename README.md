@@ -1,1 +1,1 @@
-# OmniscientFileAssistant
+# Omniscient File Assistant
