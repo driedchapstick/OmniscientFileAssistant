@@ -1,5 +1,5 @@
 const { Connection, Request } = require("tedious");
-var queryOutput;
+
 // Create connection to database
 const config = {
   authentication: {
@@ -44,12 +44,9 @@ function queryDatabase() {
 
   request.on("row", (columns) => {
     columns.forEach((column) => {
-      //console.log("%s\t%s", column.metadata.colName, column.value);
-      queryOutput += column.metadata.colName + column.value + "";
+      console.log("%s\t%s", column.metadata.colName, column.value);
     });
   });
 
   connection.execSql(request);
-  console.log(queryOutput);
-  console.log("poop");
 }
