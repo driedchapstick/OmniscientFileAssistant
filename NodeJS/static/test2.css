@@ -37,10 +37,14 @@ li a {
   display: block;
   background-color: #000000;
   color: #ffffff;
+  /*background-color: #000000;
+  color: #33ff33;*/
 }
 li a:hover {
   background-color: #f57272;
   color: #000000;
+  /*background-color: #33ff33;
+  color: #000000;*/
 }
 
 #dashboard-icon {
