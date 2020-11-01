@@ -4,8 +4,8 @@ const { Connection, Request } = require("tedious");
 const config = {
   authentication: {
     options: {
-      userName: "OmniFileAsDBA", // update me
-      password: "Weseeyourfiles2!", // update me
+      userName: "BLANK", // update me
+      password: "BLANK", // update me
     },
     type: "default",
   },
