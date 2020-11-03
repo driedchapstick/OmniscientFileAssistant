@@ -1,0 +1,25 @@
+{
+  "name": "omnifi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dbapi.js",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "mssql": "^6.2.3",
+    "path": "^0.12.7",
+    "tedious": "^9.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server.js",
+    "devserver": "nodemon server.js",
+    "devsql": "nodemon dbapi.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
