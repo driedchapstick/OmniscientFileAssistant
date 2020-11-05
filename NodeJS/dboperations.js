@@ -28,9 +28,12 @@ async function getFoundFiles() {
   try {
     // connect() is aysnchronous --> await is needed.
     let pool = await sql.connect(config);
-    let foundFiles = await pool.request().query("SELECT * FROM FoundFiles");
+    let foundFiles = await pool.request().execute("GetAllFoundFiles");
     return foundFiles.recordsets;
   } catch (error) {
+    console.log("------------------------------------------------");
+    console.log("This is an error with the connection or request.");
+    console.log("------------------------------------------------");
     console.log(error);
   }
 }
