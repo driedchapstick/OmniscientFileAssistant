@@ -1,5 +1,6 @@
 const express = require("express");
 
+const dashboardService = require("../services/DashboardService");
 const scanningRoute = require("./scanning");
 const patternsRoute = require("./patterns");
 const auditingRoute = require("./auditing");
@@ -8,7 +9,9 @@ const router = express.Router();
 
 module.exports = () => {
   router.get("/", function (req, res) {
-    res.render("dashboard", { randomString: "This is the dashboard." });
+    dashboardService.getRecentFoundFiles().then((result) => {
+      res.render("dashboard", { data: result });
+    });
   });
 
   router.use("/scanning", scanningRoute());

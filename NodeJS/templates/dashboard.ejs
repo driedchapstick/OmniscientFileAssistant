@@ -5,12 +5,6 @@
   </head>
   <body>
     <header>
-      <img
-        src="complete-part-gray.png"
-        alt="Omniscient File Assistant Logo"
-        width="98"
-        height="100"
-      />
       <pre>
  ██████╗ ███╗   ███╗███╗   ██╗██╗███████╗ ██████╗██╗███████╗███╗   ██╗████████╗    ███████╗██╗██╗     ███████╗     █████╗ ███████╗███████╗██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗
 ██╔═══██╗████╗ ████║████╗  ██║██║██╔════╝██╔════╝██║██╔════╝████╗  ██║╚══██╔══╝    ██╔════╝██║██║     ██╔════╝    ██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝
@@ -29,7 +23,7 @@
       <li><a href="/auditing">Auditing</a></li>
     </ul>
     <main>
-      <table style="width: 45%">
+      <table style="width: 40%">
         <tr>
           <th>File Name</th>
           <th>File Path</th>
@@ -41,27 +35,107 @@
           <th>File Size</th>
         </tr>
         <tr>
-          <td>File01</td>
-          <td>c:\</td>
-          <td>.txt</td>
-          <td>Computer01</td>
-          <td>Jill</td>
-          <td>01/01/1970</td>
-          <td>01/01/2070</td>
-          <td>1000 GB</td>
+          <td><%= data[0].FileName %></td>
+          <td><%= data[0].FilePath %></td>
+          <td><%= data[0].FileExt %></td>
+          <td><%= data[0].CompName %></td>
+          <td><%= data[0].FileCreator %></td>
+          <td><%= data[0].FileCreated %></td>
+          <td><%= data[0].FileModified %></td>
+          <td><%= data[0].FileSize %></td>
         </tr>
         <tr>
-          <td>File02</td>
-          <td>c:\</td>
-          <td>.txt</td>
-          <td>Computer02</td>
-          <td>Jill</td>
-          <td>01/01/1970</td>
-          <td>01/01/2070</td>
-          <td>10042 GB</td>
+          <td><%= data[1].FileName %></td>
+          <td><%= data[1].FilePath %></td>
+          <td><%= data[1].FileExt %></td>
+          <td><%= data[1].CompName %></td>
+          <td><%= data[1].FileCreator %></td>
+          <td><%= data[1].FileCreated %></td>
+          <td><%= data[1].FileModified %></td>
+          <td><%= data[1].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[2].FileName %></td>
+          <td><%= data[2].FilePath %></td>
+          <td><%= data[2].FileExt %></td>
+          <td><%= data[2].CompName %></td>
+          <td><%= data[2].FileCreator %></td>
+          <td><%= data[2].FileCreated %></td>
+          <td><%= data[2].FileModified %></td>
+          <td><%= data[2].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[3].FileName %></td>
+          <td><%= data[3].FilePath %></td>
+          <td><%= data[3].FileExt %></td>
+          <td><%= data[3].CompName %></td>
+          <td><%= data[3].FileCreator %></td>
+          <td><%= data[3].FileCreated %></td>
+          <td><%= data[3].FileModified %></td>
+          <td><%= data[3].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[4].FileName %></td>
+          <td><%= data[4].FilePath %></td>
+          <td><%= data[4].FileExt %></td>
+          <td><%= data[4].CompName %></td>
+          <td><%= data[4].FileCreator %></td>
+          <td><%= data[4].FileCreated %></td>
+          <td><%= data[4].FileModified %></td>
+          <td><%= data[4].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[5].FileName %></td>
+          <td><%= data[5].FilePath %></td>
+          <td><%= data[5].FileExt %></td>
+          <td><%= data[5].CompName %></td>
+          <td><%= data[5].FileCreator %></td>
+          <td><%= data[5].FileCreated %></td>
+          <td><%= data[5].FileModified %></td>
+          <td><%= data[5].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[6].FileName %></td>
+          <td><%= data[6].FilePath %></td>
+          <td><%= data[6].FileExt %></td>
+          <td><%= data[6].CompName %></td>
+          <td><%= data[6].FileCreator %></td>
+          <td><%= data[6].FileCreated %></td>
+          <td><%= data[6].FileModified %></td>
+          <td><%= data[6].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[7].FileName %></td>
+          <td><%= data[7].FilePath %></td>
+          <td><%= data[7].FileExt %></td>
+          <td><%= data[7].CompName %></td>
+          <td><%= data[7].FileCreator %></td>
+          <td><%= data[7].FileCreated %></td>
+          <td><%= data[7].FileModified %></td>
+          <td><%= data[7].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[8].FileName %></td>
+          <td><%= data[8].FilePath %></td>
+          <td><%= data[8].FileExt %></td>
+          <td><%= data[8].CompName %></td>
+          <td><%= data[8].FileCreator %></td>
+          <td><%= data[8].FileCreated %></td>
+          <td><%= data[8].FileModified %></td>
+          <td><%= data[8].FileSize %></td>
+        </tr>
+        <tr>
+          <td><%= data[9].FileName %></td>
+          <td><%= data[9].FilePath %></td>
+          <td><%= data[9].FileExt %></td>
+          <td><%= data[9].CompName %></td>
+          <td><%= data[9].FileCreator %></td>
+          <td><%= data[9].FileCreated %></td>
+          <td><%= data[9].FileModified %></td>
+          <td><%= data[9].FileSize %></td>
         </tr>
       </table>
-      <p><%= randomString %></p>
+      <p><%= data.randomString %></p>
     </main>
   </body>
 </html>
