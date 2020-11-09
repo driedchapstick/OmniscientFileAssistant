@@ -2,114 +2,15 @@ const config = require("./dbconfig");
 const sql = require("mssql");
 var blankRecent = [
   {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
-  },
-  {
-    id: "",
-    name: "",
-    loc: "",
-    ext: "",
-    comp: "",
-    own: "",
-    cre: "",
-    mod: "",
-    size: "",
+    FileID: "ERROR",
+    FileName: "ERROR",
+    FilePath: "ERROR",
+    FileExt: "ERROR",
+    CompName: "ERROR",
+    FileCreator: "ERROR",
+    FileCreated: "ERROR",
+    FileModified: "ERROR",
+    FileSize: "ERROR",
   },
 ];
 
@@ -132,7 +33,10 @@ function formatTime(theTime) {
 async function getRecentFoundFiles() {
   try {
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool.request().execute("GetAllFoundFiles");
+    let recentFoundFiles = await pool
+      .request()
+      .input("ColNum", sql.Int, 10)
+      .execute("GetTopFF");
     let iterator = 0;
     recentFoundFiles.recordset.forEach(function (row) {
       blankRecent[iterator] = { ...row };
@@ -145,7 +49,7 @@ async function getRecentFoundFiles() {
       );
       iterator++;
     });
-    console.log(blankRecent);
+    //console.log(blankRecent);
     return blankRecent;
   } catch (error) {
     console.log(error);
