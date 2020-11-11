@@ -61,7 +61,14 @@ main {
   background-color: #ffffff;
 }
 table {
+  table-layout: fixed;
   border-collapse: collapse;
+  max-width: 1000px;
+}
+td {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 1000px;
 }
 td,
 th {

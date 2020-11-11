@@ -2,6 +2,21 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="test2.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("td").hover(
+          function () {
+            $(this).css("white-space", "normal");
+            $(this).siblings().css("white-space", "normal");
+          },
+          function () {
+            $(this).css("white-space", "nowrap");
+            $(this).siblings().css("white-space", "nowrap");
+          }
+        );
+      });
+    </script>
   </head>
   <body>
     <header>
