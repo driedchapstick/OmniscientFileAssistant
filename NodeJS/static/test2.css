@@ -10,6 +10,8 @@ header {
   box-sizing: border-box;
   border: 2px solid #000000;
 }
+h2 {
+}
 header img {
   margin-top: 8px;
   margin-left: 45px;
@@ -78,4 +80,25 @@ th {
 }
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+#recent {
+  width: 50%;
+  float: left;
+}
+#recentHeader {
+  margin-left: 30%;
+}
+#recentTable {
+  margin-left: 5%;
+}
+#schedule {
+  width: 50%;
+  margin-left: 50%;
+}
+#scheduleHeader {
+  margin-left: 45%;
+}
+#scheduleTable {
+  margin-left: 15%;
 }
