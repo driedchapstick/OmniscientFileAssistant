@@ -12,23 +12,36 @@ namespace OmniFi_Metadata_Service
 {
     class MetadataScanner
     {
-        public void commenceScan(EventLog theEventLog)
+        public void CommenceScan(EventLog theEventLog)
         {
             string startingString = "C:\\Users\\johno\\Downloads";
             DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
+
             ArrayList allFoundFiles = new ArrayList();
+            ArrayList allOldFiles = new ArrayList();
+            ArrayList allNewFiles = new ArrayList();
+            ArrayList allMatchCriteria = new ArrayList();
+            ArrayList allTerms = new ArrayList();
 
             if (startingDirectory.Exists)
             {
-                searchTheDir(startingDirectory, allFoundFiles);
-                printFiles(allFoundFiles, theEventLog);
+                SearchTheDir(startingDirectory, allFoundFiles);
+                DatabaseConnect.GetAllMatchCriteria(allMatchCriteria);
+                DatabaseConnect.GetAllTerms(allTerms);
+                DatabaseConnect.GetAllCriteriaTerms(allMatchCriteria, allTerms);
+
+                InspectFoundFiles(allFoundFiles, allTerms);
+                DetermineFlagging(allFoundFiles, allMatchCriteria);
+                RetrieveOldFiles(allOldFiles);
+                CompareOldAndFound(allOldFiles, allFoundFiles, allNewFiles);
+                SendNewMetadata(allNewFiles);
             }
             else
             {
                 theEventLog.WriteEntry("COULD NOT FIND THE STARTING DIRECTORY" + " " + "-" + " " + startingString + " " + "!!!!!"+"\r\n"+ "Task was aborted.");
             }
         }
-        void searchTheDir(DirectoryInfo currentParentDir, ArrayList allFoundFiles)
+        void SearchTheDir(DirectoryInfo currentParentDir, ArrayList allFoundFiles)
         {
             FileInfo[] filesInDir = currentParentDir.GetFiles();
             DirectoryInfo[] subDirInDir = currentParentDir.GetDirectories();
@@ -42,10 +55,103 @@ namespace OmniFi_Metadata_Service
 
             foreach (DirectoryInfo direct in subDirInDir)
             {
-                searchTheDir(direct, allFoundFiles);
+                SearchTheDir(direct, allFoundFiles);
             }
         }
-        void printFiles(ArrayList allFoundFiles, EventLog theEventLog)
+        static void InspectFoundFiles(ArrayList scanned, ArrayList suppliedTerms)
+        {
+            foreach (FoundFile zoomer in scanned)
+            {
+                if (zoomer.FileExtension.Equals(".txt") || zoomer.FileExtension.Equals(".rtf") || zoomer.FileExtension.Equals(".tex") || zoomer.FileExtension.Equals(".bak") || zoomer.FileExtension.Equals(".doc") || zoomer.FileExtension.Equals(".docx") || zoomer.FileExtension.Equals(".pdf") || zoomer.FileExtension.Equals(".odt") || zoomer.FileExtension.Equals(".wpd"))
+                {
+                    string fullFile = System.IO.File.ReadAllText(zoomer.FilePath + "\\" + zoomer.FileName);
+                    foreach (Term theTerm in suppliedTerms)
+                    {
+                        int indexOfTerm = fullFile.IndexOf(theTerm.TermValue);
+
+                        if (indexOfTerm != -1)
+                        {
+                            zoomer.AddTerm(theTerm.TermID);
+
+                        }
+
+                    }
+                }
+            }
+        }
+        static void DetermineFlagging(ArrayList scanned, ArrayList theCriers)
+        {
+            foreach (MatchCriteria leCri in theCriers)
+            {
+                foreach (FoundFile leFile in scanned)
+                {
+                    if (leFile.TermsFound.SetEquals(leCri.CriteriaTerms))
+                    {
+                        Console.WriteLine("------------------");
+                        Console.WriteLine("File: " + leFile.FilePath + "\\" + leFile.FileName);
+                        Console.WriteLine("Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")");
+                        Console.WriteLine("");
+
+                        string possibleFileID = DatabaseConnect.VerifyFileID(leFile);
+                        if (possibleFileID.Equals(""))
+                        {
+                            Console.WriteLine("Does not have a FileID, will not be flagged.");
+                        }
+                        else
+                        {
+                            string possibleFlagID = DatabaseConnect.GetSpecificFlaggedFiles(Int32.Parse(possibleFileID), leCri.CriteriaID);
+                            if (possibleFlagID.Equals(""))
+                            {
+                                DatabaseConnect.AddFlaggedFiles(Int32.Parse(possibleFileID), leCri.CriteriaID);
+                                Console.WriteLine("Has been flagged in the database.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Was already flagged. (Will not be reflagged.)");
+                            }
+                        }
+                        Console.WriteLine("");
+                        Console.WriteLine("------------------");
+                        Console.WriteLine("");
+
+                    }
+                }
+            }
+        }
+        static void CompareOldAndFound(ArrayList oldies, ArrayList scanned, ArrayList noobs)
+        {
+
+            foreach (FoundFile zoomer in scanned)
+            {
+                bool match = false;
+                foreach (FoundFile boomer in oldies)
+                {
+                    if (zoomer.FileName == boomer.FileName & zoomer.FilePath == boomer.FilePath & zoomer.FileExtension == boomer.FileExtension & zoomer.ComputerName == boomer.ComputerName & zoomer.FileCreator == boomer.FileCreator & zoomer.DateCreated == boomer.DateCreated)
+                    {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match == false)
+                {
+                    noobs.Add(zoomer);
+                }
+            }
+
+        }
+        static void RetrieveOldFiles(ArrayList allOldFiles)
+        {
+            DatabaseConnect.GetAllFoundFiles(allOldFiles);
+            // Aparently, I do not need to assign the output of the function to the allOldFiles variable
+            // allOldFiles = databaseConnect.GetAllFoundFiles(allOldFiles);
+        }
+        static void SendNewMetadata(ArrayList noobs)
+        {
+           
+            DatabaseConnect.AddFoundFiles(noobs);
+        }
+        void PrintFiles(ArrayList allFoundFiles, EventLog theEventLog)
         {
             int counter = 1;
             foreach (FoundFile file in allFoundFiles)

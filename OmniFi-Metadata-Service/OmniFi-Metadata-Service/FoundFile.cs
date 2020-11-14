@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-//using System.ComponentModel.DataAnnotations;
 
 namespace OmniFi_Metadata_Service
 {
-    class FoundFile
+    public class FoundFile
     {
         private String fileName;
         private String filePath;
@@ -17,6 +15,7 @@ namespace OmniFi_Metadata_Service
         private String dateCreated;
         private String dateModified;
         private String fileSize;
+        private HashSet<int> termsFound;
 
         public String FileName
         {
@@ -58,7 +57,15 @@ namespace OmniFi_Metadata_Service
             get { return fileSize; }
             set
             {
+                //Removing any spaces or suffixes in case they are on the end of the size.
+                int spaceInValue = value.IndexOf(" ");
+                if (spaceInValue != -1)
+                {
+                    value = value.Substring(0, spaceInValue);
+                }
+
                 string[] sizeSuffix = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
                 float floatValue = float.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
 
                 int counter = 0;
@@ -71,7 +78,15 @@ namespace OmniFi_Metadata_Service
                 fileSize = floatValue.ToString() + " " + sizeSuffix[counter];
             }
         }
-
+        public HashSet<int> TermsFound
+        {
+            get { return termsFound; }
+            set { termsFound = value; }
+        }
+        public void AddTerm(int newTerm)
+        {
+            termsFound.Add(newTerm);
+        }
         public FoundFile(string suppliedName, string suppliedPath, string suppliedExt,
                          string suppliedComp, string suppliedCreator, string suppliedCreated,
                          string suppliedModed, string suppliedSize)
@@ -84,6 +99,8 @@ namespace OmniFi_Metadata_Service
             DateCreated = suppliedCreated;
             DateModified = suppliedModed;
             FileSize = suppliedSize;
+            TermsFound = new HashSet<int>();
         }
+
     }
 }

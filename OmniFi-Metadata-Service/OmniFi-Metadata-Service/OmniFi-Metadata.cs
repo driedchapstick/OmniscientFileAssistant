@@ -33,7 +33,7 @@ namespace OmniFi_Metadata_Service
             eventLog1.WriteEntry("Scanning the Directory");
             
             MetadataScanner theScan = new MetadataScanner();
-            theScan.commenceScan(eventLog1);
+            theScan.CommenceScan(eventLog1);
             theScan = null;
 
             Timer timer = new Timer();
@@ -52,7 +52,7 @@ namespace OmniFi_Metadata_Service
             eventLog1.WriteEntry("Scanning the Directory");
             
             MetadataScanner theScan = new MetadataScanner();
-            theScan.commenceScan(eventLog1);
+            theScan.CommenceScan(eventLog1);
             theScan = null;
         }
     }

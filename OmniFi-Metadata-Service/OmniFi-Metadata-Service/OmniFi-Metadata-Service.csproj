@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseConnect.cs" />
     <Compile Include="MetadataScanner.cs" />
     <Compile Include="FoundFile.cs" />
     <Compile Include="OmniFi-Metadata.cs">
