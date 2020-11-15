@@ -47,12 +47,6 @@ li a:hover {
   /*background-color: #33ff33;
   color: #000000;*/
 }
-
-#dashboard-icon {
-  float: right;
-  padding-right: 12px;
-  padding-bottom: 10px;
-}
 main {
   height: 787px;
   width: 1693px;
@@ -61,6 +55,73 @@ main {
   border: 1px solid #cccccc;
   background-color: #ffffff;
 }
+#recentTable {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+  /*grid-template-columns: 1fr 2fr 1fr 1.5fr 1.5fr 1fr 1fr 1fr*/
+  grid-template-rows: auto;
+  /*grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;*/
+}
+.heading-card {
+  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  background-color: #ffffff;
+
+  padding: 2px;
+  font-weight: bold;
+}
+.heading-card:nth-child(1) {
+  border-left: 1px solid #dddddd;
+}
+.card {
+  border-right: 1px solid #dddddd;
+  background-color: #dddddd;
+
+  padding: 2px;
+  overflow: clip;
+}
+/*  Last row of grid */
+.card:nth-last-child(-n + 8) {
+  border-bottom: 1px solid #dddddd;
+}
+/* First column of grid */
+.card:nth-child(8n + 1) {
+  border-left: 1px solid #dddddd;
+}
+
+.card:nth-child(16n + 1),
+.card:nth-child(16n + 2),
+.card:nth-child(16n + 3),
+.card:nth-child(16n + 4),
+.card:nth-child(16n + 5),
+.card:nth-child(16n + 6),
+.card:nth-child(16n + 7),
+.card:nth-child(16n + 8) {
+  background-color: #ffffff;
+}
+
+/*
+.card:hover {
+  border: 1px solid #fffffe;
+  background-color: #fffffe;
+  transform: scale(2);
+  overflow: normal;
+}
+.card:hover:nth-child(16n + 1),
+.card:hover:nth-child(16n + 2),
+.card:hover:nth-child(16n + 3),
+.card:hover:nth-child(16n + 4),
+.card:hover:nth-child(16n + 5),
+.card:hover:nth-child(16n + 6),
+.card:hover:nth-child(16n + 7),
+.card:hover:nth-child(16n + 8) {
+  border: 1px solid #dddddd;
+  background-color: #dddddd;
+}
+.card:hover .data {
+  transform: scale(0.5);
+}
+*/
 table {
   table-layout: fixed;
   border-collapse: collapse;
@@ -86,7 +147,7 @@ tr:nth-child(even) {
   float: left;
 }
 #recentHeader {
-  margin-left: 30%;
+  text-align: center;
 }
 #recentTable {
   margin-left: 5%;

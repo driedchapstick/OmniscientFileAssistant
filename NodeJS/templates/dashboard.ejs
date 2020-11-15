@@ -40,30 +40,166 @@
     <main>
       <div id="recent">
         <h2 id="recentHeader">Recently Scanned Files</h2>
-        <table id="recentTable" style="width: 80%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
-          <% } %>
-        </table>
+        <section id="recentTable" style="width: 80%">
+          <div class="heading-card">File Name</div>
+          <div class="heading-card">File Path</div>
+          <div class="heading-card">File Extension</div>
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">File Creator</div>
+          <div class="heading-card">Date Created</div>
+          <div class="heading-card">Date Modified</div>
+          <div class="heading-card">FileSize</div>
+
+          <div class="card"><div class="data"><%=data[0].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[0].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[0].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[0].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[0].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[0].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[0].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[0].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[1].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[1].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[1].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[1].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[1].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[1].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[1].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[1].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[2].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[2].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[2].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[2].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[2].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[2].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[2].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[2].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[3].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[3].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[3].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[3].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[3].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[3].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[3].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[3].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[4].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[4].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[4].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[4].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[4].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[4].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[4].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[4].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[5].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[5].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[5].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[5].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[5].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[5].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[5].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[5].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[6].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[6].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[6].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[6].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[6].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[6].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[6].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[6].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[7].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[7].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[7].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[7].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[7].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[7].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[7].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[7].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[8].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[8].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[8].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[8].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[8].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[8].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[8].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[8].FileSize %></div></div>
+
+          <div class="card"><div class="data"><%=data[9].FileName %></div></div>
+          <div class="card"><div class="data"><%=data[9].FilePath %></div></div>
+          <div class="card"><div class="data"><%=data[9].FileExt %></div></div>
+          <div class="card"><div class="data"><%=data[9].CompName %></div></div>
+          <div class="card">
+            <div class="data"><%=data[9].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[9].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%=data[9].FileModified %></div>
+          </div>
+          <div class="card"><div class="data"><%=data[9].FileSize %></div></div>
+        </section>
       </div>
       <div id="schedule">
         <h2 id="scheduleHeader">Scanning Schedule</h2>
