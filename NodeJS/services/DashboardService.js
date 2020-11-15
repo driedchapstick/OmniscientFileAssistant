@@ -13,6 +13,14 @@ var blankRecent = [
     FileSize: "ERROR",
   },
 ];
+var blankSched = [
+  {
+    SchedName: "ERROR",
+    BaseTime: "ERROR",
+    InterName: "ERROR",
+    NumberOfComp: "ERROR",
+  },
+];
 
 function formatTime(theTime) {
   theTime = theTime.toString();
@@ -136,7 +144,21 @@ async function getRecentFoundFiles() {
     console.log(error);
   }
 }
-
+async function getScheduleTableData() {
+  try {
+    let pool = await sql.connect(config);
+    let scheduleData = await pool.request().execute("GetScheduleTableData");
+    let iterator = 0;
+    scheduleData.recordset.forEach(function (row) {
+      blankSched[iterator] = { ...row };
+      iterator++;
+    });
+    return blankSched;
+  } catch (error) {
+    console.log(error);
+  }
+}
 module.exports = {
   getRecentFoundFiles: getRecentFoundFiles,
+  getScheduleTableData: getScheduleTableData,
 };
