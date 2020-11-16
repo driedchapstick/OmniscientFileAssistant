@@ -30,11 +30,12 @@ namespace OmniFi_Metadata_Service
                 DatabaseConnect.GetAllTerms(allTerms);
                 DatabaseConnect.GetAllCriteriaTerms(allMatchCriteria, allTerms);
 
-                InspectFoundFiles(allFoundFiles, allTerms);
-                DetermineFlagging(allFoundFiles, allMatchCriteria);
                 RetrieveOldFiles(allOldFiles);
                 CompareOldAndFound(allOldFiles, allFoundFiles, allNewFiles);
-                SendNewMetadata(allNewFiles);
+                SendNewMetadata(allNewFiles, theEventLog);
+
+                InspectFoundFiles(allFoundFiles, allTerms);
+                DetermineFlagging(allFoundFiles, allMatchCriteria, theEventLog);
             }
             else
             {
@@ -79,23 +80,22 @@ namespace OmniFi_Metadata_Service
                 }
             }
         }
-        static void DetermineFlagging(ArrayList scanned, ArrayList theCriers)
+        static void DetermineFlagging(ArrayList scanned, ArrayList theCriers, EventLog leEventLog)
         {
             foreach (MatchCriteria leCri in theCriers)
             {
                 foreach (FoundFile leFile in scanned)
                 {
+                    string entryContent = "";
                     if (leFile.TermsFound.SetEquals(leCri.CriteriaTerms))
                     {
-                        Console.WriteLine("------------------");
-                        Console.WriteLine("File: " + leFile.FilePath + "\\" + leFile.FileName);
-                        Console.WriteLine("Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")");
-                        Console.WriteLine("");
-
                         string possibleFileID = DatabaseConnect.VerifyFileID(leFile);
                         if (possibleFileID.Equals(""))
                         {
-                            Console.WriteLine("Does not have a FileID, will not be flagged.");
+                            entryContent += "File does not have a FileID, cannot be flagged." +"\r\n";
+                            entryContent += "\r\n";
+                            entryContent += "File: " + leFile.FilePath + "\\" + leFile.FileName + "\r\n";
+                            entryContent += "Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")" + "\r\n";
                         }
                         else
                         {
@@ -103,18 +103,37 @@ namespace OmniFi_Metadata_Service
                             if (possibleFlagID.Equals(""))
                             {
                                 DatabaseConnect.AddFlaggedFiles(Int32.Parse(possibleFileID), leCri.CriteriaID);
-                                Console.WriteLine("Has been flagged in the database.");
+                                entryContent += "File has been flagged." + "\r\n";
+                                entryContent += "\r\n";
                             }
                             else
                             {
-                                Console.WriteLine("Was already flagged. (Will not be reflagged.)");
+                                entryContent += "The file Was already flagged. (Will not be reflagged.)" + "\r\n";
+                                entryContent += "\r\n";
+                            }
+
+                            entryContent += "File: " + leFile.FilePath + "\\" + leFile.FileName + "\r\n";
+                            entryContent += "Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")" + "\r\n";
+                            entryContent += "\r\n";
+
+                            if (leCri.Backup == true)
+                            {
+                                string srcDir = leFile.FilePath;
+                                string destDir = "C:\\Users\\johno\\OmniFileAs" + "\\" + leCri.CriteriaName;
+                                Directory.CreateDirectory(destDir);
+
+                                string srcFile = srcDir + "\\" + leFile.FileName;
+                                string destFile = destDir + "\\" + leFile.FileName;
+                                File.Copy(srcFile, destFile, true);
+                                entryContent += "The file has been sent to the central server, as required by the Match Criteria.";
+                            }
+                            else
+                            {
+                                entryContent += "The Match Criteria does not require the file to be sent to the central server, therefore it will not.";
                             }
                         }
-                        Console.WriteLine("");
-                        Console.WriteLine("------------------");
-                        Console.WriteLine("");
-
                     }
+                    leEventLog.WriteEntry(entryContent);
                 }
             }
         }
@@ -146,19 +165,18 @@ namespace OmniFi_Metadata_Service
             // Aparently, I do not need to assign the output of the function to the allOldFiles variable
             // allOldFiles = databaseConnect.GetAllFoundFiles(allOldFiles);
         }
-        static void SendNewMetadata(ArrayList noobs)
+        static void SendNewMetadata(ArrayList noobs, EventLog leEventLog)
         {
-           
+            PrintFiles(noobs, leEventLog);
             DatabaseConnect.AddFoundFiles(noobs);
         }
-        void PrintFiles(ArrayList allFoundFiles, EventLog theEventLog)
+        static void PrintFiles(ArrayList allFoundFiles, EventLog theEventLog)
         {
-            int counter = 1;
             foreach (FoundFile file in allFoundFiles)
             {
                 string entryContent = "";
-
-                entryContent += "File " + counter + "\r\n";
+                entryContent += "New File Found on Computer." + "\r\n";
+                entryContent += "\r\n";
                 entryContent += "File Name: " + file.FileName + "\r\n";
                 entryContent += "File Path: " + file.FilePath + "\r\n";
                 entryContent += "File Ext: " + file.FileExtension + "\r\n";
@@ -169,7 +187,6 @@ namespace OmniFi_Metadata_Service
                 entryContent += "Size: " + file.FileSize;
 
                 theEventLog.WriteEntry(entryContent);
-                counter++;
             }
         }
         void printSpacer(String words)
