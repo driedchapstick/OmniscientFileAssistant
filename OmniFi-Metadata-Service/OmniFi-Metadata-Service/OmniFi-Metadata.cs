@@ -37,7 +37,7 @@ namespace OmniFi_Metadata_Service
             theScan = null;
 
             Timer timer = new Timer();
-            timer.Interval = 60000; // 60 seconds
+            timer.Interval = 300000; // 5 Minutes
             timer.Elapsed += new ElapsedEventHandler(this.OnTimer);
             timer.Start();
 

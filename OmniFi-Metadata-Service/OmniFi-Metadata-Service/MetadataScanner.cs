@@ -89,13 +89,14 @@ namespace OmniFi_Metadata_Service
                     string entryContent = "";
                     if (leFile.TermsFound.SetEquals(leCri.CriteriaTerms))
                     {
+                        entryContent += "File: " + leFile.FilePath + "\\" + leFile.FileName + "\r\n";
+                        entryContent += "Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")" + "\r\n";
+                        entryContent += "\r\n";
+
                         string possibleFileID = DatabaseConnect.VerifyFileID(leFile);
                         if (possibleFileID.Equals(""))
                         {
                             entryContent += "File does not have a FileID, cannot be flagged." +"\r\n";
-                            entryContent += "\r\n";
-                            entryContent += "File: " + leFile.FilePath + "\\" + leFile.FileName + "\r\n";
-                            entryContent += "Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")" + "\r\n";
                         }
                         else
                         {
@@ -104,16 +105,12 @@ namespace OmniFi_Metadata_Service
                             {
                                 DatabaseConnect.AddFlaggedFiles(Int32.Parse(possibleFileID), leCri.CriteriaID);
                                 entryContent += "File has been flagged." + "\r\n";
-                                entryContent += "\r\n";
                             }
                             else
                             {
                                 entryContent += "The file Was already flagged. (Will not be reflagged.)" + "\r\n";
-                                entryContent += "\r\n";
                             }
 
-                            entryContent += "File: " + leFile.FilePath + "\\" + leFile.FileName + "\r\n";
-                            entryContent += "Match Criteria: " + leCri.CriteriaName + " (#" + leCri.CriteriaID + ")" + "\r\n";
                             entryContent += "\r\n";
 
                             if (leCri.Backup == true)
@@ -132,8 +129,8 @@ namespace OmniFi_Metadata_Service
                                 entryContent += "The Match Criteria does not require the file to be sent to the central server, therefore it will not.";
                             }
                         }
+                        leEventLog.WriteEntry(entryContent);
                     }
-                    leEventLog.WriteEntry(entryContent);
                 }
             }
         }
@@ -170,9 +167,9 @@ namespace OmniFi_Metadata_Service
             PrintFiles(noobs, leEventLog);
             DatabaseConnect.AddFoundFiles(noobs);
         }
-        static void PrintFiles(ArrayList allFoundFiles, EventLog theEventLog)
+        static void PrintFiles(ArrayList deNewFiles, EventLog deEventLog)
         {
-            foreach (FoundFile file in allFoundFiles)
+            foreach (FoundFile file in deNewFiles)
             {
                 string entryContent = "";
                 entryContent += "New File Found on Computer." + "\r\n";
@@ -186,7 +183,7 @@ namespace OmniFi_Metadata_Service
                 entryContent += "Date Modified: " + file.DateModified + "\r\n";
                 entryContent += "Size: " + file.FileSize;
 
-                theEventLog.WriteEntry(entryContent);
+                deEventLog.WriteEntry(entryContent);
             }
         }
         void printSpacer(String words)
