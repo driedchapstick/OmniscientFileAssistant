@@ -14,7 +14,7 @@ namespace OmniFi_Metadata_Service
     {
         public void CommenceScan(EventLog theEventLog)
         {
-            string startingString = "C:\\Users\\johno\\Downloads";
+            string startingString = "C:\\Users\\johno\\Desktop";
             DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
 
             ArrayList allFoundFiles = new ArrayList();

@@ -75,7 +75,7 @@ namespace OmniFi_Metadata_Service
                     counter++;
                 }
 
-                fileSize = floatValue.ToString() + " " + sizeSuffix[counter];
+                fileSize =  System.Math.Round(floatValue,2).ToString() + " " + sizeSuffix[counter];
             }
         }
         public HashSet<int> TermsFound
