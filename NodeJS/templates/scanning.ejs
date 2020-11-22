@@ -1,7 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="test2.css" />
+    <link rel="stylesheet" href="scanning.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function searchFn() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("recentTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+
+      $(document).ready(function () {
+        $("td").hover(
+          function () {
+            $(this).css("white-space", "normal");
+            $(this).siblings().css("white-space", "normal");
+          },
+          function () {
+            $(this).css("white-space", "nowrap");
+            $(this).siblings().css("white-space", "nowrap");
+          }
+        );
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -23,31 +60,37 @@
       <li><a href="/auditing">Auditing</a></li>
     </ul>
     <main>
-      <table style="width: 40%">
-        <tr>
-          <th>File Name</th>
-          <th>File Path</th>
-          <th>File Extension</th>
-          <th>Computer Name</th>
-          <th>File Creator</th>
-          <th>Date Created</th>
-          <th>Date Modified</th>
-          <th>File Size</th>
-        </tr>
-        <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-        <tr>
-          <td><%= data[i].FileName %></td>
-          <td><%= data[i].FilePath %></td>
-          <td><%= data[i].FileExt %></td>
-          <td><%= data[i].CompName %></td>
-          <td><%= data[i].FileCreator %></td>
-          <td><%= data[i].FileCreated %></td>
-          <td><%= data[i].FileModified %></td>
-          <td><%= data[i].FileSize %></td>
-        </tr>
-        <% } %>
-      </table>
-      <p><%= data.randomString %></p>
+      <div class="wrapper">
+        <input type="text" id="myInput" placeholder="Search for data..">
+        <button onclick="searchFn()">Search</button>
+        <div class="searchbtn">
+      </div>
+      <div id="recent">
+        <table id="recentTable" style="width: 200%">
+          <tr>
+            <th>File Name</th>
+            <th>File Path</th>
+            <th>File Extension</th>
+            <th>Computer Name</th>
+            <th>File Creator</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th>File Size</th>
+          </tr>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <tr>
+            <td><%= data[i].FileName %></td>
+            <td><%= data[i].FilePath %></td>
+            <td><%= data[i].FileExt %></td>
+            <td><%= data[i].CompName %></td>
+            <td><%= data[i].FileCreator %></td>
+            <td><%= data[i].FileCreated %></td>
+            <td><%= data[i].FileModified %></td>
+            <td><%= data[i].FileSize %></td>
+          </tr>
+          <% } %>
+        </table>
+      </div>
     </main>
   </body>
 </html>

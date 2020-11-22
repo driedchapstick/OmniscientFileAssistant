@@ -1,15 +1,18 @@
 const express = require("express");
-
+const { Connection } = require("tedious");
+const patternService = require("../services/PatternService");
 const router = express.Router();
 
 module.exports = () => {
   router.get("/", function (req, res) {
-    res.render("patterns", { randomString: "This is the Patterns Page." });
+    patternService.getRecentFoundFiles().then((result) => {
+      res.render("scanning", { data: result });
+    });
   });
 
   router.get("/:subpage", function (req, res) {
     return res.render("patterns", {
-      randomString: "This is the Patterns Subpage.",
+      randomString: "This is the Scanning Subpage.",
     });
   });
 
