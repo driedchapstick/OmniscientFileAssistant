@@ -60,11 +60,10 @@
       <li><a href="/auditing">Auditing</a></li>
     </ul>
     <main>
-      <div class="wrapper">
-        <input type="text" id="myInput" placeholder="Search for data..">
-        <button onclick="searchFn()">Search</button>
-        <div class="searchbtn">
-      </div>
+      <form action="" method="POST">
+        <input id="filter" type="text" name="filter_field" value="" />
+        <input type="submit" value="Search" />
+      </form>
       <div id="recent">
         <table id="recentTable" style="width: 200%">
           <tr>

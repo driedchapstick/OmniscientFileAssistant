@@ -1,20 +1,131 @@
 const sql = require("mssql");
 const config = require("./dbconfig");
-
 const blankRecent = [
   {
-    FileID: "ERROR",
-    FileName: "ERROR",
-    FilePath: "ERROR",
-    FileExt: "ERROR",
-    CompName: "ERROR",
-    FileCreator: "ERROR",
-    FileCreated: "ERROR",
-    FileModified: "ERROR",
-    FileSize: "ERROR",
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
   },
 ];
-
+var specialOutput;
+var initialQuery =
+  "SELECT FoundFiles.FileID, FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize FROM FoundFiles WHERE ";
 function formatTime(theTime) {
   theTime = theTime.toString();
 
@@ -27,36 +138,56 @@ function formatTime(theTime) {
   zoneID = theTime.lastIndexOf(" ");
   theTime = theTime.substring(0, zoneID);
 
-  console.log(theTime);
   return theTime;
 }
 
-async function getRecentFoundFiles() {
+function initalLoad() {
+  return blankRecent;
+}
+
+async function searchForMiiFiles(whereClause) {
   try {
+    specialOutput = [
+      {
+        FileID: "",
+        FileName: "",
+        FilePath: "",
+        FileExt: "",
+        CompName: "",
+        FileCreator: "",
+        FileCreated: "",
+        FileModified: "",
+        FileSize: "",
+      },
+    ];
+    let tempQuery = initialQuery + whereClause;
+    console.log("===============");
+    console.log("THE QUERY");
+    console.log("");
+    console.log(tempQuery);
+    console.log("===============");
+    console.log("");
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool
-      .request()
-      .input("ColNum", sql.Int, 19)
-      .execute("GetTopFF");
+    let recentFoundFiles = await pool.request().query(tempQuery);
     let iterator = 0;
     recentFoundFiles.recordset.forEach(function (row) {
-      blankRecent[iterator] = { ...row };
-
-      blankRecent[iterator].FileCreated = formatTime(
-        blankRecent[iterator].FileCreated
+      specialOutput[iterator] = { ...row };
+      specialOutput[iterator].FileCreated = formatTime(
+        specialOutput[iterator].FileCreated
       );
-      blankRecent[iterator].FileModified = formatTime(
-        blankRecent[iterator].FileModified
+      specialOutput[iterator].FileModified = formatTime(
+        specialOutput[iterator].FileModified
       );
+      console.log(specialOutput[iterator]);
       iterator++;
     });
-    //console.log(blankRecent);
-    return blankRecent;
+    return specialOutput;
   } catch (error) {
     console.log(error);
   }
 }
 
 module.exports = {
-  getRecentFoundFiles: getRecentFoundFiles,
+  searchForMiiFiles: searchForMiiFiles,
+  initalLoad: initalLoad,
 };
