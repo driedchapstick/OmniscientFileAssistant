@@ -95,10 +95,35 @@ tr:nth-child(even) {
 }
 
 button {
-  border: solid;
-  background-color: inherit;
+  border: 4px solid #acacac;
+  background: rgb(0, 0, 0);
   padding: 14px 28px;
-  font-size: 12px;
+  font-size: 18px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
   cursor: pointer;
+  width: 150px;
   display: inline-block;
+  text-align: center;
+  margin-top: 30px;
+  color: rgb(197, 197, 197);
+  text-decoration: none;
+  position: sticky;
+}
+
+a.dynamic {
+  border: 4px solid #acacac;
+  background: rgb(0, 0, 0);
+  padding: 14px 28px;
+  font-size: 24px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 50px;
+  width: 350px;
+  color: rgb(197, 197, 197);
+  text-decoration: none;
 }
