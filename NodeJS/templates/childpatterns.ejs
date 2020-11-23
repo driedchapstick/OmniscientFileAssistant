@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="patterns.css" />
+    <link rel="stylesheet" href="../../childpatterns.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(document).ready(function () {
@@ -20,7 +20,7 @@
   </head>
   <body>
     <header>
-    <pre>
+      <pre>
  ██████╗ ███╗   ███╗███╗   ██╗██╗███████╗ ██████╗██╗███████╗███╗   ██╗████████╗    ███████╗██╗██╗     ███████╗     █████╗ ███████╗███████╗██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗
 ██╔═══██╗████╗ ████║████╗  ██║██║██╔════╝██╔════╝██║██╔════╝████╗  ██║╚══██╔══╝    ██╔════╝██║██║     ██╔════╝    ██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝
 ██║   ██║██╔████╔██║██╔██╗ ██║██║███████╗██║     ██║█████╗  ██╔██╗ ██║   ██║       █████╗  ██║██║     █████╗      ███████║███████╗███████╗██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   
@@ -28,7 +28,8 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-	</pre>
+	</pre
+      >
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
@@ -36,31 +37,53 @@
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
     </ul>
-    <div id="recent">
-        <table id="recentTable" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
+    <main>
+      <div id="recent">
+        <h2 id="recentHeader">Flagged Files</h2>
+        <section id="recentTable" style="width: 100%">
+          <div class="heading-card">File Name</div>
+          <div class="heading-card">File Path</div>
+          <div class="heading-card">File Extension</div>
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">File Creator</div>
+          <div class="heading-card">Date Created</div>
+          <div class="heading-card">Date Modified</div>
+          <div class="heading-card">FileSize</div>
+          <div class="heading-card">Download</div>
           <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
+          <div class="card">
+            <div class="data"><%= data[i].FileName %></div>
+          </div>
+          <div class="card"><div class="data"><%= data[i].Path %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
+          <div class="card">
+            <div class="data"><%= data[i].CompName %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%= data[i].FileCreator %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%= data[i].FileCreated %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%= data[i].FileModified %></div>
+          </div>
+          <div class="card">
+            <div class="data"><%= data[i].FileSize %></div>
+          </div>
+          <div class="card">
+            <div class="data">
+              <form action="" method="POST">
+                <input
+                  type="submit"
+                  name="downloadB"
+                  value="<%=data[i].FileName%>"
+                />
+              </form>
+            </div>
+          </div>
           <% } %>
-        </table>
+        </section>
       </div>
     </main>
   </body>
