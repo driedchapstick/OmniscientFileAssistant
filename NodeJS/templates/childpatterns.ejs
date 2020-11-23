@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="patterns.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("td").hover(
+          function () {
+            $(this).css("white-space", "normal");
+            $(this).siblings().css("white-space", "normal");
+          },
+          function () {
+            $(this).css("white-space", "nowrap");
+            $(this).siblings().css("white-space", "nowrap");
+          }
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+    <pre>
+ ██████╗ ███╗   ███╗███╗   ██╗██╗███████╗ ██████╗██╗███████╗███╗   ██╗████████╗    ███████╗██╗██╗     ███████╗     █████╗ ███████╗███████╗██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗
+██╔═══██╗████╗ ████║████╗  ██║██║██╔════╝██╔════╝██║██╔════╝████╗  ██║╚══██╔══╝    ██╔════╝██║██║     ██╔════╝    ██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝
+██║   ██║██╔████╔██║██╔██╗ ██║██║███████╗██║     ██║█████╗  ██╔██╗ ██║   ██║       █████╗  ██║██║     █████╗      ███████║███████╗███████╗██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   
+██║   ██║██║╚██╔╝██║██║╚██╗██║██║╚════██║██║     ██║██╔══╝  ██║╚██╗██║   ██║       ██╔══╝  ██║██║     ██╔══╝      ██╔══██║╚════██║╚════██║██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║   
+╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
+ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
+ 
+	</pre>
+    </header>
+    <ul>
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="/scanning">Scanning</a></li>
+      <li><a href="/patterns">Patterns</a></li>
+      <li><a href="/auditing">Auditing</a></li>
+    </ul>
+    <div id="recent">
+        <table id="recentTable" style="width: 200%">
+          <tr>
+            <th>File Name</th>
+            <th>File Path</th>
+            <th>File Extension</th>
+            <th>Computer Name</th>
+            <th>File Creator</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th>File Size</th>
+          </tr>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <tr>
+            <td><%= data[i].FileName %></td>
+            <td><%= data[i].FilePath %></td>
+            <td><%= data[i].FileExt %></td>
+            <td><%= data[i].CompName %></td>
+            <td><%= data[i].FileCreator %></td>
+            <td><%= data[i].FileCreated %></td>
+            <td><%= data[i].FileModified %></td>
+            <td><%= data[i].FileSize %></td>
+          </tr>
+          <% } %>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>
