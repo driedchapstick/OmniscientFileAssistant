@@ -38,34 +38,14 @@
       <li><a href="/auditing">Auditing</a></li>
     </ul>
     <main>
-      <div id="recent">
-        <h2 id="recentHeader">Pattern 1 - Results</h2>
-        <table id="recentTable" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-            <th>Download</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-            <td><%= data[i].Download %></td>
-          </tr>
-          <% } %>
-        </table>
+      <div id="patterns">
+        <button class="btn Patterns1">Pattern 1 - Results</button>
+        <button
+          class="btn Patterns2"
+          onclick="javascript:document.location='/patterns2'"
+        >
+          <span class="label">Patterns 2 - Demonstration</span>
+        </button>
       </div>
     </main>
   </body>
