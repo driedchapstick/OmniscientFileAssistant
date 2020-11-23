@@ -76,32 +76,10 @@
           <div class="card"><div class="data"><%=data[0].FileSize %></div></div>
             -->
       <div id="recent">
-        <table id="recentTable" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-            <th>Download</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-            <td><a href="<%= data[i].FileName %>"></a></td>
-          </tr>
-          <% } %>
-        </table>
+        <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+        <a href="/patterns"><%=data[i].CriteriaName %></a>
+
+        <% } %>
       </div>
     </main>
   </body>

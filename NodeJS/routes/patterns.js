@@ -11,9 +11,9 @@ module.exports = () => {
   });
 
   router.get("/:subpage", function (req, res) {
-    return res.render("patterns", {
-      randomString: "This is the Scanning Subpage.",
-    });
+    return res.send(
+      `This is for the Specific Pattern/Criteria named ${req.params.subpage}`
+    );
   });
 
   //Got to 4:20 on LinkedIn Learning course for subpath routing (Section 3 Episode 3)
