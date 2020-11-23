@@ -23,45 +23,8 @@
       <li><a href="/scanning">Scanning</a></li>
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/patterns2">Demo</a></li>
     </ul>
     <main>
-      <!-- <div id="patterns">
-        <button class="btn Patterns1">Pattern 1 - Results</button>
-        <button
-          class="btn Patterns2"
-          onclick="javascript:document.location='/patterns2'"
-        >
-          <span class="label">Patterns 2 - Demonstration</span>
-        </button>
-      </div>
-      <div id="recent"></div>
-        <h2 id="recentHeader">Pattern Results - Demo</h2>
-        <section id="recentTable" style="width: 80%">
-          <div class="heading-card">File Name</div>
-          <div class="heading-card">File Path</div>
-          <div class="heading-card">File Extension</div>
-          <div class="heading-card">Computer Name</div>
-          <div class="heading-card">File Creator</div>
-          <div class="heading-card">Date Created</div>
-          <div class="heading-card">Date Modified</div>
-          <div class="heading-card">FileSize</div>
-
-          <div class="card"><div class="data"><%=data[0].FileName %></div></div>
-          <div class="card"><div class="data"><%=data[0].FilePath %></div></div>
-          <div class="card"><div class="data"><%=data[0].FileExt %></div></div>
-          <div class="card"><div class="data"><%=data[0].CompName %></div></div>
-          <div class="card">
-            <div class="data"><%=data[0].FileCreator %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%=data[0].FileCreated %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%=data[0].FileModified %></div>
-          </div>
-          <div class="card"><div class="data"><%=data[0].FileSize %></div></div>
-            -->
       <div id="recent">
         <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
         <a class="dynamic" href="/patterns/<%=data[i].CriteriaName%>">
@@ -69,7 +32,10 @@
         </a>
         <% } %>
       </div>
-      <p id="hihi">Hello</p>
+      <button type="button">Create New Pattern</button>
+      <button type="button">Modify Current Pattern</button>
+      <button type="button">Create New Terms</button>
+      <button type="button">Modify Current Terms</button>
     </main>
   </body>
 </html>
