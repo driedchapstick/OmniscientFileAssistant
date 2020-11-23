@@ -11,8 +11,16 @@ module.exports = () => {
   });
 
   router.get("/:subpage", function (req, res) {
-    return res.send(
-      `This is for the Specific Pattern/Criteria named ${req.params.subpage}`
+    patternService.getFlaggedFiles(req.params.subpage).then((result) => {
+      res.render("childpatterns", { data: result });
+    });
+  });
+
+  router.use(express.urlencoded({ extended: true }));
+
+  router.post("/:subpage", function (req, res) {
+    res.download(
+      `C:\\Users\\OmniFileAsAdmin\\Google Drive\\${req.params.subpage}\\${req.body.downloadB}`
     );
   });
 
