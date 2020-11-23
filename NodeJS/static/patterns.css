@@ -85,9 +85,20 @@ tr:nth-child(even) {
   width: 50%;
   float: left;
 }
+
 #recentHeader {
-  margin-left: 50%;
+  text-align: center;
 }
+
 #recentTable {
   margin-left: 5%;
+}
+
+button {
+  border: solid;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-block;
 }

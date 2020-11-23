@@ -5,8 +5,8 @@ const router = express.Router();
 
 module.exports = () => {
   router.get("/", function (req, res) {
-    patternService.getRecentFoundFiles().then((result) => {
-      res.render("scanning", { data: result });
+    patternService.getPatternsTable().then((result) => {
+      res.render("patterns", { data: result });
     });
   });
 
