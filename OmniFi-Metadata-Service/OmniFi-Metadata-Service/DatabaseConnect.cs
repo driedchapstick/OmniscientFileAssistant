@@ -9,7 +9,7 @@ namespace OmniFi_Metadata_Service
 {
     public static class DatabaseConnect
     {
-        static readonly string connectionString = "Server=omnifileasdbs.database.windows.net;Database=OmniFileAsDB;User ID=OmniFileAsDBA;Password=;Encrypt=true;";
+        static readonly string connectionString = "";
         static readonly CultureInfo usaDates = new CultureInfo("en-US");
         public static ArrayList GetAllMatchCriteria(ArrayList allMatchCriteria)
         {
