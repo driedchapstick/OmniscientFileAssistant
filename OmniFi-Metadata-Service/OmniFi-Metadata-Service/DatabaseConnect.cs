@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Collections;
 using System.Globalization;
 
 namespace OmniFi_Metadata_Service
 {
     public static class DatabaseConnect
     {
-        static readonly string connectionString = "";
+        static readonly string connectionString = "Server=omnifileasdbs.database.windows.net;Database=OmniFileAsDB;User ID=OmniFileAsDBA;Password=;Encrypt=true;";
         static readonly CultureInfo usaDates = new CultureInfo("en-US");
-        public static void AssimilateMatches()
-        {
-
-        }
         public static ArrayList GetAllMatchCriteria(ArrayList allMatchCriteria)
         {
             using (SqlConnection theConnection = new SqlConnection(connectionString))
@@ -31,6 +26,7 @@ namespace OmniFi_Metadata_Service
                         allMatchCriteria.Add(new MatchCriteria(Int32.Parse(theReader[0].ToString()), theReader[1].ToString(), Convert.ToBoolean(theReader[2].ToString())));
                     }
                 }
+                theConnection.Close();
             }
             return allMatchCriteria;
         }
@@ -59,11 +55,10 @@ namespace OmniFi_Metadata_Service
                                 }
                             }
                         }
-
                     }
+                    theConnection.Close();
                 }
             }
-
             return theCriterias;
         }
         public static ArrayList GetAllTerms(ArrayList allTerms)
@@ -81,14 +76,16 @@ namespace OmniFi_Metadata_Service
                         allTerms.Add(new Term(Int32.Parse(theReader[0].ToString()), theReader[2].ToString(), theReader[3].ToString()));
                     }
                 }
+                theConnection.Close();
             }
             return allTerms;
         }
-        public static ArrayList GetAllFoundFiles(ArrayList allOldFiles)
+        public static HashSet<FoundFile> GetAllFoundFiles(HashSet<FoundFile> allOldFiles)
         {
             using (SqlConnection theConnection = new SqlConnection(connectionString))
             {
-                SqlCommand theCommand = new SqlCommand("exec GetAllFoundFiles", theConnection);
+                SqlCommand theCommand = new SqlCommand("GetAllFoundFiles", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
                 theConnection.Open();
 
@@ -99,11 +96,34 @@ namespace OmniFi_Metadata_Service
                         allOldFiles.Add(new FoundFile(theReader[1].ToString(), theReader[2].ToString(), theReader[3].ToString(), theReader[4].ToString(), theReader[5].ToString(), theReader[6].ToString(), theReader[7].ToString(), theReader[8].ToString()));
                     }
                 }
+                theConnection.Close();
             }
             return allOldFiles;
         }
+        public static HashSet<FoundFile> GetComputersFoundFiles(HashSet<FoundFile> allOldFiles)
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("GetComputersFoundFiles", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
-        public static void AddFoundFiles(ArrayList allFoundFiles)
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters["@CompName"].Value = Environment.MachineName;
+
+                theConnection.Open();
+
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        allOldFiles.Add(new FoundFile(theReader[1].ToString(), theReader[2].ToString(), theReader[3].ToString(), theReader[4].ToString(), theReader[5].ToString(), theReader[6].ToString(), theReader[7].ToString(), theReader[8].ToString()));
+                    }
+                }
+                theConnection.Close();
+            }
+            return allOldFiles;
+        }
+        public static void AddFoundFiles(HashSet<FoundFile> allFoundFiles)
         {
             using (SqlConnection theConnection = new SqlConnection(connectionString))
             {
@@ -142,7 +162,46 @@ namespace OmniFi_Metadata_Service
                     }
                     theConnection.Close();
                 }
+            }
+        }
+        public static void DeleteFoundFiles(HashSet<FoundFile> zombies)
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("DeleteFoundFiles", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
+                theCommand.Parameters.Add("@FileName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@FilePath", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@FileExt", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@FileCreator", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@FileCreated", System.Data.SqlDbType.DateTime2);
+                theCommand.Parameters.Add("@FileModified", System.Data.SqlDbType.DateTime2);
+                theCommand.Parameters.Add("@FileSize", System.Data.SqlDbType.NVarChar);
+
+                foreach (FoundFile file in zombies)
+                {
+                    theCommand.Parameters["@FileName"].Value = file.FileName;
+                    theCommand.Parameters["@FilePath"].Value = file.FilePath;
+                    theCommand.Parameters["@FileExt"].Value = file.FileExtension;
+                    theCommand.Parameters["@CompName"].Value = file.ComputerName;
+                    theCommand.Parameters["@FileCreator"].Value = file.FileCreator;
+                    theCommand.Parameters["@FileCreated"].Value = Convert.ToDateTime(file.DateCreated, usaDates);
+                    theCommand.Parameters["@FileModified"].Value = Convert.ToDateTime(file.DateModified, usaDates);
+                    theCommand.Parameters["@FileSize"].Value = file.FileSize;
+
+                    theConnection.Open();
+
+                    using (SqlDataReader theReader = theCommand.ExecuteReader())
+                    {
+                        while (theReader.Read())
+                        {
+                            //If I do not incluse this, the connection closes too quickly
+                        }
+                    }
+                    theConnection.Close();
+                }
             }
         }
         public static string VerifyFileID(FoundFile leFile)
@@ -181,6 +240,7 @@ namespace OmniFi_Metadata_Service
 
                     }
                 }
+                theConnection.Close();
             }
             return tempString;
         }
@@ -205,6 +265,7 @@ namespace OmniFi_Metadata_Service
                         //If I do not incluse this (while loop), the connection closes too quickly
                     }
                 }
+                theConnection.Close();
             }
         }
         public static string GetSpecificFlaggedFiles(int leFileID, int leCriID)
@@ -229,8 +290,109 @@ namespace OmniFi_Metadata_Service
                         tempString = theReader[0].ToString();
                     }
                 }
+                theConnection.Close();
             }
             return tempString;
+        }
+        public static HashSet<Array> GetComputersAuditFiles()
+        {
+            HashSet<Array> AuditFiles = new HashSet<Array>();
+
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("GetComputersAuditFiles", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters["@CompName"].Value = Environment.MachineName;
+
+                theConnection.Open();
+
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        //AuditFiles.Add(new FoundFile(theReader[1].ToString(), theReader[2].ToString(), theReader[3].ToString(), theReader[4].ToString(), theReader[5].ToString(), theReader[6].ToString(), theReader[7].ToString(), theReader[8].ToString()));
+
+                        //string[] poop = {AuditID, FilePath\FileName, Most Recently Recorded Hash, AuditName, HistoryID}
+                        string[] poop = { theReader[0].ToString(), theReader[1].ToString() + "\\" + theReader[2].ToString(), theReader[3].ToString(), theReader[4].ToString(), theReader[5].ToString() };
+                        AuditFiles.Add(poop);
+                        /*
+                        Console.WriteLine(theReader[0].ToString());
+                        Console.WriteLine(theReader[1].ToString());
+                        Console.WriteLine(theReader[2].ToString());
+                        Console.WriteLine(theReader[3].ToString());
+                        Console.WriteLine(theReader[4].ToString());
+                        Console.WriteLine(theReader[5].ToString());
+                        Console.WriteLine(theReader[6].ToString());
+                        Console.WriteLine(theReader[7].ToString());
+                        Console.WriteLine(theReader[8].ToString());
+                        Console.WriteLine("");*/
+
+                    }
+                }
+                theConnection.Close();
+            }
+            return AuditFiles;
+        }
+        public static void AddAuditHistory(int auditID, int historyID, string prvHash, string curHash, string auditRepo)
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("AddAuditHistory", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                theCommand.Parameters.Add("@AuditID", System.Data.SqlDbType.Int);
+                theCommand.Parameters.Add("@HistoryID", System.Data.SqlDbType.Int);
+                theCommand.Parameters.Add("@PrvHash", System.Data.SqlDbType.Char);
+                theCommand.Parameters.Add("@CurHash", System.Data.SqlDbType.Char);
+                theCommand.Parameters.Add("@AuditDate", System.Data.SqlDbType.DateTime);
+                theCommand.Parameters.Add("@AuditRepo", System.Data.SqlDbType.NVarChar);
+
+                theCommand.Parameters["@AuditID"].Value = auditID;
+                theCommand.Parameters["@HistoryID"].Value = historyID;
+                theCommand.Parameters["@PrvHash"].Value = prvHash;
+                theCommand.Parameters["@CurHash"].Value = curHash;
+                theCommand.Parameters["@AuditDate"].Value = DateTime.Now;
+                theCommand.Parameters["@AuditRepo"].Value = auditRepo;
+
+                theConnection.Open();
+
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        //If I do not incluse this (while loop), the connection closes too quickly
+                    }
+                }
+                theConnection.Close();
+            }
+        }
+        public static HashSet<Array> GetComputersSchedule()
+        {
+            HashSet<Array> schedules = new HashSet<Array>();
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("GetComputersSchedule", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters["@CompName"].Value = Environment.MachineName;
+
+                theConnection.Open();
+
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        //{BaseTime, Interval}
+                        string[] sched = { theReader[0].ToString(), theReader[1].ToString() };
+                        schedules.Add(sched);
+                    }
+                }
+                theConnection.Close();
+            }
+            return schedules;
         }
     }
 }
