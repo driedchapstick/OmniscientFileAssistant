@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="../../childpatterns.css" />
+    <link rel="stylesheet" href="createnewaudit.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      function searchFn() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("recentTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+
       $(document).ready(function () {
         $("td").hover(
           function () {
@@ -28,7 +50,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-	</pre
+ </pre
       >
     </header>
     <ul>
@@ -39,55 +61,45 @@
       <li><a href="/createNewAudit">Create New Audit</a></li>
     </ul>
     <main>
-      <div id="recent">
-        <h2 id="recentHeader">Flagged Files</h2>
-        <section id="recentTable" style="width: 100%">
-          <div class="heading-card">File Name</div>
-          <div class="heading-card">File Path</div>
-          <div class="heading-card">File Extension</div>
-          <div class="heading-card">Computer Name</div>
-          <div class="heading-card">File Creator</div>
-          <div class="heading-card">Date Created</div>
-          <div class="heading-card">Date Modified</div>
-          <div class="heading-card">FileSize</div>
-          <div class="heading-card">Download</div>
+      <h1>Create New Audit</h1>
+      <form action="" method="POST">
+        <input
+          id="filter"
+          type="text"
+          placeholder="Search for the file you wish to audit..."
+          name="filter_field"
+          value=""
+        />
+        <input type="submit" value="Search" />
+      </form>
+      <div id="recent1">
+        <table id="recentTable1" style="width: 200%">
+          <tr>
+            <th>File Name</th>
+            <th>File Path</th>
+            <th>File Extension</th>
+            <th>Computer Name</th>
+            <th>File Creator</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th>File Size</th>
+          </tr>
           <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <div class="card">
-            <div class="data"><%= data[i].FileName %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%= data[i].FilePath %></div>
-          </div>
-          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
-          <div class="card">
-            <div class="data"><%= data[i].CompName %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%= data[i].FileCreator %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%= data[i].FileCreated %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%= data[i].FileModified %></div>
-          </div>
-          <div class="card">
-            <div class="data"><%= data[i].FileSize %></div>
-          </div>
-          <div class="card">
-            <div class="data">
-              <form action="" method="POST">
-                <input
-                  type="submit"
-                  name="downloadB"
-                  value="<%=data[i].FileName%>"
-                />
-              </form>
-            </div>
-          </div>
+          <tr>
+            <td><%= data[i].FileName %></td>
+            <td><%= data[i].FilePath %></td>
+            <td><%= data[i].FileExt %></td>
+            <td><%= data[i].CompName %></td>
+            <td><%= data[i].FileCreator %></td>
+            <td><%= data[i].FileCreated %></td>
+            <td><%= data[i].FileModified %></td>
+            <td><%= data[i].FileSize %></td>
+          </tr>
           <% } %>
-        </section>
+        </table>
       </div>
+      <button class="btn cancel">Cancel</button>
+      <button class="btn create">Create</button>
     </main>
   </body>
 </html>

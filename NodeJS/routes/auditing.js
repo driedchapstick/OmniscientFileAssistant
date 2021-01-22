@@ -1,17 +1,23 @@
 const express = require("express");
-
+const { Connection } = require("tedious");
+const auditingService = require("../services/AuditingService");
 const router = express.Router();
 
 module.exports = () => {
   router.get("/", function (req, res) {
-    res.render("auditing", { randomString: "This is the Auditing Page." });
+    res.render("auditing", { data: auditingService.initalLoad() });
   });
 
-  router.get("/:subpage", function (req, res) {
-    res.render("auditing", { randomString: "This is the Auditing Subpage." });
+  router.use(express.urlencoded({ extended: true }));
+
+  router.post("/", function (req, res) {
+    console.log("===============");
+    console.log("IVE BEEN POSTED");
+    console.log("===============");
+    console.log("");
+    auditingService.searchForMiiFiles(req.body.filter_field).then((result) => {
+      res.render("auditing", { data: result });
+    });
   });
-
-  //Got to 4:20 on LinkedIn Learning course for subpath routing (Section 3 Episode 3)
-
   return router;
 };
