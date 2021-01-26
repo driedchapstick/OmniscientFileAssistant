@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="createnewaudit.css" />
+    <link rel="stylesheet" href="modifyaudit.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       function searchFn() {
@@ -63,12 +63,23 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Audit</h1>
+      <h1>Modify Current Audit</h1>
       <form action="" method="POST">
         <input
           id="filter"
           type="text"
-          placeholder="Search for the file you wish to audit..."
+          placeholder="Name the file you wish to audit..."
+          name="filter_field"
+          value=""
+        />
+        <input type="submit" value="Submit" />
+      </form>
+      <h2>Select the file you wish to audit, once found press "create"...</h2>
+      <form action="" method="POST">
+        <input
+          id="filter"
+          type="text"
+          placeholder="Search here for the audit you wish to modify..."
           name="filter_field"
           value=""
         />

@@ -5,6 +5,8 @@ const scanningRoute = require("./scanning");
 const patternsRoute = require("./patterns");
 const auditingRoute = require("./auditing");
 const createNewAuditRoute = require("./createNewAudit");
+const createNewPatternRoute = require("./createNewPattern");
+const modifyAuditRoute = require("./modifyAudit");
 const { response } = require("express");
 
 const router = express.Router();
@@ -27,5 +29,7 @@ module.exports = () => {
   router.use("/patterns", patternsRoute());
   router.use("/auditing", auditingRoute());
   router.use("/createNewAudit", createNewAuditRoute());
+  router.use("/createNewPattern", createNewPatternRoute());
+  router.use("/modifyAudit", modifyAuditRoute());
   return router;
 };

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="createnewaudit.css" />
+    <link rel="stylesheet" href="createnewpattern.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       function searchFn() {
@@ -63,43 +63,27 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Audit</h1>
+      <h1>Create New Pattern</h1>
       <form action="" method="POST">
         <input
           id="filter"
           type="text"
-          placeholder="Search for the file you wish to audit..."
+          placeholder="Enter the name of the pattern you would like to create..."
           name="filter_field"
           value=""
         />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Submit" />
       </form>
-      <div id="recent1">
-        <table id="recentTable1" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
-          <% } %>
-        </table>
-      </div>
+      <form action="" method="POST">
+        <input
+          id="filter"
+          type="text"
+          placeholder="Enter the term of the pattern you are creating..."
+          name="filter_field"
+          value=""
+        />
+        <input type="submit" value="Submit" />
+      </form>
       <button class="btn cancel">Cancel</button>
       <button class="btn create">Create</button>
     </main>
