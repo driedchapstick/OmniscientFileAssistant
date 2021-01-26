@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OmniFi_Metadata_Service
 {
@@ -61,21 +59,25 @@ namespace OmniFi_Metadata_Service
                 int spaceInValue = value.IndexOf(" ");
                 if (spaceInValue != -1)
                 {
-                    value = value.Substring(0, spaceInValue);
+                    fileSize = value;
                 }
-
-                string[] sizeSuffix = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
-
-                float floatValue = float.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
-
-                int counter = 0;
-                while (Math.Round(floatValue / 1024) >= 1)
+                else
                 {
-                    floatValue /= 1024;
-                    counter++;
+                    string[] sizeSuffix = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
+                    float floatValue = float.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
+
+                    int counter = 0;
+                    while (Math.Round(floatValue / 1024) >= 1)
+                    {
+                        floatValue /= 1024;
+                        counter++;
+                    }
+
+                    fileSize = System.Math.Round(floatValue, 2).ToString() + " " + sizeSuffix[counter];
                 }
 
-                fileSize =  System.Math.Round(floatValue,2).ToString() + " " + sizeSuffix[counter];
+
             }
         }
         public HashSet<int> TermsFound
@@ -102,5 +104,23 @@ namespace OmniFi_Metadata_Service
             TermsFound = new HashSet<int>();
         }
 
+    }
+    class FoundFileComparer : IEqualityComparer<FoundFile>
+    {
+        public bool Equals(FoundFile leFile1, FoundFile leFile2)
+        {
+            if (leFile1.FileName == leFile2.FileName & leFile1.FilePath == leFile2.FilePath & leFile1.FileExtension == leFile2.FileExtension & leFile1.ComputerName == leFile2.ComputerName & leFile1.FileCreator == leFile2.FileCreator & leFile1.DateCreated == leFile2.DateCreated)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public int GetHashCode(FoundFile leFile)
+        {
+            return (leFile.FileName + leFile.FilePath + leFile.FileExtension + leFile.ComputerName + leFile.FileCreator + leFile.DateCreated + leFile.DateModified + leFile.FileSize).GetHashCode();
+        }
     }
 }

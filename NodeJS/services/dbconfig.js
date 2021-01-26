@@ -1,6 +1,6 @@
 const config = {
   user: "omnifileasdba",
-  password: "Wedontseeyourfiles3!",
+  password: "",
   server: "omnifileasdbs.database.windows.net",
   database: "OmniFileAsDB",
   options: {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
-using static System.IO.File;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Security.AccessControl;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Globalization;
+using System.Threading;
 using System.Diagnostics;
 
 namespace OmniFi_Metadata_Service
@@ -14,52 +15,86 @@ namespace OmniFi_Metadata_Service
     {
         public void CommenceScan(EventLog theEventLog)
         {
-            string startingString = "C:\\Users\\johno\\Desktop";
-            DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
-
-            ArrayList allFoundFiles = new ArrayList();
-            ArrayList allOldFiles = new ArrayList();
-            ArrayList allNewFiles = new ArrayList();
+            string[] subFolders = { "Desktop", "Documents", "Downloads", "Pictures", "Videos" };
+            string startingString = "C:\\Users\\johno\\";
+            HashSet<FoundFile> allFoundFiles = new HashSet<FoundFile>(new FoundFileComparer());
+            HashSet<FoundFile> allOldFiles = new HashSet<FoundFile>(new FoundFileComparer());
+            HashSet<FoundFile> allNewFiles = new HashSet<FoundFile>(new FoundFileComparer());
+            HashSet<FoundFile> allDeadFiles = new HashSet<FoundFile>(new FoundFileComparer());
             ArrayList allMatchCriteria = new ArrayList();
             ArrayList allTerms = new ArrayList();
-
-            if (startingDirectory.Exists)
+            try
             {
-                SearchTheDir(startingDirectory, allFoundFiles);
+                //Do not feel like checking EVERY sub folder in a users folder. That is a lot of useless stuff.
+                //Eventually will implement a call to the database to determine which directories to search.
+                foreach (string leSub in subFolders)
+                {
+                    startingString = "C:\\Users\\johno\\" + leSub;
+
+                    DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
+                    SearchTheDir(startingDirectory, allFoundFiles);
+                }
+                //Need to get all the Criterias and Terms setup before I can inspect the files.
                 DatabaseConnect.GetAllMatchCriteria(allMatchCriteria);
                 DatabaseConnect.GetAllTerms(allTerms);
                 DatabaseConnect.GetAllCriteriaTerms(allMatchCriteria, allTerms);
-
-                RetrieveOldFiles(allOldFiles);
-                CompareOldAndFound(allOldFiles, allFoundFiles, allNewFiles);
-                SendNewMetadata(allNewFiles, theEventLog);
-
+                //Just searches for the terms inside files. No associations are made with criterias.
                 InspectFoundFiles(allFoundFiles, allTerms);
+                //Get all entries from FoundFiles that are from this computer.
+                DatabaseConnect.GetComputersFoundFiles(allOldFiles);
+                //Determine who's new, who's old, and who's dead.
+                CompareOldAndFound(allOldFiles, allFoundFiles, allNewFiles, allDeadFiles);
+                //Adding new files to FoundFiles DB.
+                DatabaseConnect.AddFoundFiles(allNewFiles);
+                //Removing files that no longer exist on computer from FoundFiles DB.
+                DatabaseConnect.DeleteFoundFiles(allDeadFiles);
+                //Must run after AddFoundFiles. Want to ensure there are entries in FoundFiles before we add entries to FlaggedFiles.
+                //This is where the files are compared against criteria.
                 DetermineFlagging(allFoundFiles, allMatchCriteria, theEventLog);
+                LetsGetHashin();
             }
-            else
+            catch (Exception e)
             {
-                theEventLog.WriteEntry("COULD NOT FIND THE STARTING DIRECTORY" + " " + "-" + " " + startingString + " " + "!!!!!"+"\r\n"+ "Task was aborted.");
+                theEventLog.WriteEntry("COULD NOT FIND A STARTING DIRECTORY\r\nDirectory: " + startingString + "\r\nDirectory will be skipped.");
             }
         }
-        void SearchTheDir(DirectoryInfo currentParentDir, ArrayList allFoundFiles)
+        static void SearchTheDir(DirectoryInfo currentParentDir, HashSet<FoundFile> allFoundFiles)
         {
-            FileInfo[] filesInDir = currentParentDir.GetFiles();
-            DirectoryInfo[] subDirInDir = currentParentDir.GetDirectories();
-
-
-            foreach (FileInfo file in filesInDir)
+            try
             {
-                string user = file.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
-                allFoundFiles.Add(new FoundFile(file.Name, file.DirectoryName, file.Extension, Environment.MachineName, user, file.CreationTime.ToString(), file.LastWriteTime.ToString(), file.Length.ToString()));
+                FileInfo[] filesInDir = currentParentDir.GetFiles();
+                DirectoryInfo[] subDirInDir = currentParentDir.GetDirectories();
+
+                foreach (FileInfo file in filesInDir)
+                {
+                    string user = file.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
+                    allFoundFiles.Add(new FoundFile(file.Name, file.DirectoryName, file.Extension, Environment.MachineName, user, file.CreationTime.ToString(), file.LastWriteTime.ToString(), file.Length.ToString()));
+                }
+
+                foreach (DirectoryInfo direct in subDirInDir)
+                {
+                    SearchTheDir(direct, allFoundFiles);
+                }
             }
-
-            foreach (DirectoryInfo direct in subDirInDir)
+            catch (UnauthorizedAccessException e)
             {
-                SearchTheDir(direct, allFoundFiles);
+                /*
+                Console.WriteLine("Access Denied to the following directory.");
+                Console.WriteLine(currentParentDir.FullName);
+                Console.WriteLine("");
+                */
+            }
+            catch (Exception e)
+            {
+                /*
+                Console.WriteLine("Error getting the directory's files or sub directories.");
+                Console.WriteLine("NOT an UnauthorizedAccessException!!!");
+                Console.WriteLine("");
+                Console.Write(e);
+                */
             }
         }
-        static void InspectFoundFiles(ArrayList scanned, ArrayList suppliedTerms)
+        static void InspectFoundFiles(HashSet<FoundFile> scanned, ArrayList suppliedTerms)
         {
             foreach (FoundFile zoomer in scanned)
             {
@@ -73,14 +108,43 @@ namespace OmniFi_Metadata_Service
                         if (indexOfTerm != -1)
                         {
                             zoomer.AddTerm(theTerm.TermID);
-
                         }
-
                     }
                 }
             }
         }
-        static void DetermineFlagging(ArrayList scanned, ArrayList theCriers, EventLog leEventLog)
+        static void CompareOldAndFound(HashSet<FoundFile> oldies, HashSet<FoundFile> scanned, HashSet<FoundFile> noobs, HashSet<FoundFile> zombies)
+        {
+            /*
+            oldies = All the file entries retrieved from the DB.
+            scanned = All the files found on the computer.
+
+            confirmedOld = The file was found on the computer but already has a FoundFile entry in the DB.
+            confirmedNew = The file was found on the computer but DOES NOT have a FoundFIle entry in the DB.
+            confirmedDead = The file was NOT found on the computer but DOES have a entry in the DB that needs to be removed.
+
+            noobs = WILL contain the same entries as confirmedNew
+            zombies = Will contain the same entries as confirmedDead
+            */
+            HashSet<FoundFile> confirmedOld = new HashSet<FoundFile>(scanned, new FoundFileComparer());
+            HashSet<FoundFile> confirmedNew = new HashSet<FoundFile>(scanned, new FoundFileComparer());
+            HashSet<FoundFile> confirmedDead = new HashSet<FoundFile>(oldies, new FoundFileComparer());
+
+            confirmedOld.IntersectWith(oldies);
+            confirmedNew.ExceptWith(oldies);
+            confirmedDead.ExceptWith(scanned);
+
+            foreach (FoundFile leFile in confirmedNew)
+            {
+                noobs.Add(leFile);
+            }
+            foreach (FoundFile leFile in confirmedDead)
+            {
+                zombies.Add(leFile);
+            }
+            
+        }
+        static void DetermineFlagging(HashSet<FoundFile> scanned, ArrayList theCriers, EventLog leEventLog)
         {
             foreach (MatchCriteria leCri in theCriers)
             {
@@ -129,45 +193,47 @@ namespace OmniFi_Metadata_Service
                                 entryContent += "The Match Criteria does not require the file to be sent to the central server, therefore it will not.";
                             }
                         }
-                        leEventLog.WriteEntry(entryContent);
+                        //leEventLog.WriteEntry(entryContent);
                     }
                 }
             }
         }
-        static void CompareOldAndFound(ArrayList oldies, ArrayList scanned, ArrayList noobs)
+        static void LetsGetHashin()
         {
-
-            foreach (FoundFile zoomer in scanned)
+            // foundAuditFiles = Files who reside on this computer and have an entry in AuditFiles table.
+            HashSet<Array> foundAuditFiles = new HashSet<Array>(DatabaseConnect.GetComputersAuditFiles());
+            using (SHA256 hasher = SHA256.Create())
             {
-                bool match = false;
-                foreach (FoundFile boomer in oldies)
+                //Each fileAudit is the following --> {AuditID, FilePath\FileName, Most Recently Recorded Hash, AuditName, HistoryID}
+                foreach (Array fileAudit in foundAuditFiles)
                 {
-                    if (zoomer.FileName == boomer.FileName & zoomer.FilePath == boomer.FilePath & zoomer.FileExtension == boomer.FileExtension & zoomer.ComputerName == boomer.ComputerName & zoomer.FileCreator == boomer.FileCreator & zoomer.DateCreated == boomer.DateCreated)
-                    {
-                        match = true;
-                        break;
-                    }
-                }
+                    FileInfo leFileInfo = new FileInfo(fileAudit.GetValue(1).ToString());
+                    FileStream leFileStream = leFileInfo.Open(FileMode.Open);
+                    leFileStream.Position = 0;
 
-                if (match == false)
-                {
-                    noobs.Add(zoomer);
+                    string newHash = ConvertByteArrayToString(hasher.ComputeHash(leFileStream)).ToUpper();
+                    string oldHash = fileAudit.GetValue(2).ToString().ToUpper();
+
+                    if (!(String.Equals(oldHash, newHash)))
+                    {
+                        // AddAuditHistory(int auditID, int historyID, string prvHash, string curHash, string auditRepo)
+                        DatabaseConnect.AddAuditHistory(Int32.Parse(fileAudit.GetValue(0).ToString()), Int32.Parse(fileAudit.GetValue(4).ToString()) + 1, oldHash, newHash, "C:\\TEMP\\DIRECTORY\\");
+                    }
+                    leFileStream.Close();
                 }
             }
-
         }
-        static void RetrieveOldFiles(ArrayList allOldFiles)
+        
+        public static string ConvertByteArrayToString(byte[] leArray)
         {
-            DatabaseConnect.GetAllFoundFiles(allOldFiles);
-            // Aparently, I do not need to assign the output of the function to the allOldFiles variable
-            // allOldFiles = databaseConnect.GetAllFoundFiles(allOldFiles);
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < leArray.Length; i++)
+            {
+                builder.Append(leArray[i].ToString("X2"));
+            }
+            return builder.ToString();
         }
-        static void SendNewMetadata(ArrayList noobs, EventLog leEventLog)
-        {
-            PrintFiles(noobs, leEventLog);
-            DatabaseConnect.AddFoundFiles(noobs);
-        }
-        static void PrintFiles(ArrayList deNewFiles, EventLog deEventLog)
+        static void PrintNewFiles(ArrayList deNewFiles, EventLog deEventLog)
         {
             foreach (FoundFile file in deNewFiles)
             {
