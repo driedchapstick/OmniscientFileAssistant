@@ -21,14 +21,17 @@ module.exports = () => {
     createNewPatternService
       .addMatchCriteria(req.body.name_field, req.body.backupName)
       .then((result) => {
-        let newMatchCriteriaID = result;
-        console.log(newMatchCriteriaID);
-        console.log("newCriteria");
+        console.log("New MatchCriteria was made with an ID of " + result + ".");
         //Create the Criteria Terms link
         createNewPatternService
-          .addCriteriaTerms(newMatchCriteriaID, req.body.terms)
+          .addCriteriaTerms(result, req.body.terms)
           .then((results) => {
-            console.log("new terms linked");
+            console.log(
+              "The Terms below were associated with a MatchCriteria ID of " +
+                result +
+                "."
+            );
+            console.log(req.body.terms);
           });
       });
   });
