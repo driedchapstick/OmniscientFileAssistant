@@ -161,12 +161,7 @@ async function searchForMiiFiles(whereClause) {
       },
     ];
     let tempQuery = initialQuery + whereClause;
-    console.log("===============");
-    console.log("THE QUERY");
-    console.log("");
-    console.log(tempQuery);
-    console.log("===============");
-    console.log("");
+
     let pool = await sql.connect(config);
     let recentFoundFiles = await pool.request().query(tempQuery);
     let iterator = 0;
@@ -178,7 +173,6 @@ async function searchForMiiFiles(whereClause) {
       specialOutput[iterator].FileModified = formatTime(
         specialOutput[iterator].FileModified
       );
-      console.log(specialOutput[iterator]);
       iterator++;
     });
     return specialOutput;

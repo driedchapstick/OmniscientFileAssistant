@@ -66,26 +66,31 @@
       <h1>Create New Pattern</h1>
       <form action="" method="POST">
         <input
-          id="filter"
+          id="patternName"
           type="text"
-          placeholder="Enter the name of the pattern you would like to create..."
-          name="filter_field"
+          placeholder="New Pattern Name"
+          name="name_field"
           value=""
         />
+        <br />
+        <br />
+        <label for="terms">Choose the Terms</label>
+        <select name="terms" id="termsList" multiple>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <option value="<%= data[i].TermID %>">
+            <%= data[i].TermName %> | <%= data[i].TermValue %>
+          </option>
+          <% } %>
+        </select>
+        <br />
+        <br />
+        <label>Backup Files Matched?</label>
+        <input type="checkbox" id="backupCheck" name="backupName" value="yes" />
+        <br />
+        <br />
         <input type="submit" value="Submit" />
+        <input type="reset" />
       </form>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the term of the pattern you are creating..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      <button class="btn cancel">Cancel</button>
-      <button class="btn create">Create</button>
     </main>
   </body>
 </html>

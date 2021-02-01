@@ -11,10 +11,6 @@ module.exports = () => {
   router.use(express.urlencoded({ extended: true }));
 
   router.post("/", function (req, res) {
-    console.log("===============");
-    console.log("IVE BEEN POSTED");
-    console.log("===============");
-    console.log("");
     scanningService.searchForMiiFiles(req.body.filter_field).then((result) => {
       res.render("scanning", { data: result });
     });
