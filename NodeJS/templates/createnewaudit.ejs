@@ -76,32 +76,57 @@
       </form>
       <div id="recent1">
         <table id="recentTable1" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
-          <% } %>
+          <form action="/createnewaudit/NewAudit" id="my_form" method="POST">
+            <tr>
+              <th></th>
+              <th>File Name</th>
+              <th>File Path</th>
+              <th>File Extension</th>
+              <th>Computer Name</th>
+              <th>File Creator</th>
+              <th>Date Created</th>
+              <th>Date Modified</th>
+              <th>File Size</th>
+            </tr>
+            <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+            <tr>
+              <td>
+                <input
+                  type="radio"
+                  id="regular"
+                  name="option"
+                  style="height: 10px; width: 10px"
+                  value="<%=data[i].FileID%>"
+                />
+                
+              </td>
+              <td><%= data[i].FileName %></td>
+              <td><%= data[i].FilePath %></td>
+              <td><%= data[i].FileExt %></td>
+              <td><%= data[i].CompName %></td>
+              <td><%= data[i].FileCreator %></td>
+              <td><%= data[i].FileCreated %></td>
+              <td><%= data[i].FileModified %></td>
+              <td><%= data[i].FileSize %></td>
+            </tr>
+            <% } %>
+          
         </table>
       </div>
-      <button class="btn cancel">Cancel</button>
-      <button class="btn create">Create</button>
+      <br />
+      <input
+          id="MatchCriteria"
+          type="text"
+          placeholder="Name of Audit"
+          name="name_audit"
+          value=""
+          style="width: 684px"
+        />
+      <br />
+      <br />
+      <input type="reset" />
+      <input type="submit" value="Submit" />
+    </form>
     </main>
   </body>
 </html>
