@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="ScheduleConfig.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("td").hover(
+          function () {
+            $(this).css("white-space", "normal");
+            $(this).siblings().css("white-space", "normal");
+          },
+          function () {
+            $(this).css("white-space", "nowrap");
+            $(this).siblings().css("white-space", "nowrap");
+          }
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <pre>
+ ██████╗ ███╗   ███╗███╗   ██╗██╗███████╗ ██████╗██╗███████╗███╗   ██╗████████╗    ███████╗██╗██╗     ███████╗     █████╗ ███████╗███████╗██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗
+██╔═══██╗████╗ ████║████╗  ██║██║██╔════╝██╔════╝██║██╔════╝████╗  ██║╚══██╔══╝    ██╔════╝██║██║     ██╔════╝    ██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝
+██║   ██║██╔████╔██║██╔██╗ ██║██║███████╗██║     ██║█████╗  ██╔██╗ ██║   ██║       █████╗  ██║██║     █████╗      ███████║███████╗███████╗██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   
+██║   ██║██║╚██╔╝██║██║╚██╗██║██║╚════██║██║     ██║██╔══╝  ██║╚██╗██║   ██║       ██╔══╝  ██║██║     ██╔══╝      ██╔══██║╚════██║╚════██║██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║   
+╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
+ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
+ 
+		</pre
+      >
+    </header>
+    <ul>
+      <li><a href="/">Dashboard</a></li>
+      <li><a href="/scanning">Scanning</a></li>
+      <li><a href="/patterns">Patterns</a></li>
+      <li><a href="/auditing">Auditing</a></li>
+      <li><a href="/createNewAudit">Create New Audit</a></li>
+      <li><a href="/createNewPattern">Create New Pattern</a></li>
+      <li><a href="/modifyAudit">Modify Audit</a></li>
+    </ul>
+    <main>
+      <div id="comps">
+        <h2 id="compsHeader">Computers</h2>
+        <section id="compsTable" style="width: 80%">
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">IP Address</div>
+          <div class="heading-card">Schedule Name</div>
+          <% for(var i=0; i < comps.length; i++) { %> <%= comps[i].id %>
+          <div class="card"><div class="data"><%= comps[i].CompName%></div></div>
+          <div class="card"><div class="data"><%= comps[i].IPAddr%></div></div>
+          <div class="card">
+            <div class="data"><%= comps[i].SchedName%><a href="/modifyAudit">(Change)</a></div>
+          </div>
+          <% } %>
+        </section>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <section id="compsNotTable" style="width: 80%">
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">IP Address</div>
+          <div class="heading-card">Schedule Name</div>
+          <% for(var i=0; i < compsNot.length; i++) { %> <%= compsNot[i].id %>
+          <div class="card">
+            <div class="data"><%= compsNot[i].CompName%></div>
+          </div>
+          <div class="card"><div class="data"><%= compsNot[i].IPAddr%></div></div>
+          <div class="card">
+            <div class="data"><a href="/modifyAudit">(Assign)</a></div>
+          </div>
+          <% } %>
+        </section>
+      </div>
+      <div id="scheds">
+        <h2 id="schedsHeader">Schedules</h2>
+        <section id="schedsTable" style="width: 80%">
+          <div class="heading-card">Schedule Name</div>
+          <div class="heading-card"># of Computers</div>
+          <% for(var i=0; i < scheds.length; i++) { %> <%= scheds[i].id %>
+          <div class="card"><div class="data"><%= scheds[i].SchedName%></div></div>
+          <div class="card">
+            <div class="data"><%= scheds[i].Count%><a href="/modifyAudit">(View)</a></div>
+          </div>
+          <% } %>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+body {
+  font-family: monospace;
+  color: #000000;
+  background-color: #e5e5e5;
+}
+header {
+  height: 120px;
+  width: 1890px;
+  background-color: #818080;
+  box-sizing: border-box;
+  border: 2px solid #000000;
+}
+
+header img {
+  margin-top: 8px;
+  margin-left: 45px;
+  float: left;
+}
+pre {
+  text-align: left;
+  padding-left: 210px;
+}
+ul {
+  height: 330px;
+  width: 175px;
+  list-style-type: none;
+  margin-top: 10px;
+  padding: 0px;
+  float: left;
+}
+li a {
+  width: 165px;
+  height: 25px;
+  padding-top: 5px;
+  padding-left: 11%;
+  text-decoration: none;
+  font-size: 125%;
+  display: block;
+  background-color: #000000;
+  color: #ffffff;
+  /*background-color: #000000;
+    color: #33ff33;*/
+}
+li a:hover {
+  background-color: #f57272;
+  color: #000000;
+  /*background-color: #33ff33;
+    color: #000000;*/
+}
+main {
+  height: 787px;
+  width: 1693px;
+  margin-left: 195px;
+  margin-top: 10px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+}
+#comps {
+  width: 50%;
+  float: left;
+}
+#scheds {
+  width: 50%;
+  margin-left: 50%;
+}
+#compsHeader {
+  text-align: center;
+}
+#schedsHeader {
+  margin-left: 45%;
+}
+#compsTable {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  /*grid-template-columns: 1fr 2fr 1fr 1.5fr 1.5fr 1fr 1fr 1fr*/
+  grid-template-rows: auto;
+  /*grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;*/
+  margin-left: 5%;
+  height: 45%;
+}
+#compsNotTable {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  /*grid-template-columns: 1fr 2fr 1fr 1.5fr 1.5fr 1fr 1fr 1fr*/
+  grid-template-rows: auto;
+  /*grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;*/
+  margin-left: 5%;
+  height: 45%;
+}
+#schedsTable {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /*grid-template-columns: 1fr 2fr 1fr 1.5fr 1.5fr 1fr 1fr 1fr*/
+  grid-template-rows: auto;
+  /*grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;*/
+  margin-left: 5%;
+}
+/* */
+/* */
+/* */
+#compsTable .heading-card {
+  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  background-color: #ffffff;
+
+  padding: 2px;
+  font-weight: bold;
+}
+#compsTable .heading-card:nth-child(1) {
+  border-left: 1px solid #dddddd;
+}
+#compsTable .card {
+  border-right: 1px solid #dddddd;
+  background-color: #dddddd;
+
+  padding: 2px;
+  overflow: clip;
+}
+/*  Last row of grid */
+/*  Bottom line of table  */
+#compsTable .card:nth-last-child(-n + 3) {
+  border-bottom: 1px solid #dddddd;
+}
+/* First column of grid */
+/* Left line of table */
+#compTable .card:nth-child(3n + 1) {
+  border-left: 1px solid #dddddd;
+}
+
+#compsTable .card:nth-child(6n + 1),
+#compsTable .card:nth-child(6n + 2),
+#compsTable .card:nth-child(6n + 3) {
+  background-color: #ffffff;
+}
+
+#compsNotTable .heading-card {
+  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  background-color: #ffffff;
+
+  padding: 2px;
+  font-weight: bold;
+}
+#compsNotTable .heading-card:nth-child(1) {
+  border-left: 1px solid #dddddd;
+}
+#compsNotTable .card {
+  border-right: 1px solid #dddddd;
+  background-color: #dddddd;
+
+  padding: 2px;
+  overflow: clip;
+}
+/*  Last row of grid */
+/*  Bottom line of table  */
+#compsNotTable .card:nth-last-child(-n + 3) {
+  border-bottom: 1px solid #dddddd;
+}
+/* First column of grid */
+/* Left line of table */
+#compNotTable .card:nth-child(3n + 1) {
+  border-left: 1px solid #dddddd;
+}
+
+#compsNotTable .card:nth-child(6n + 1),
+#compsNotTable .card:nth-child(6n + 2),
+#compsNotTable .card:nth-child(6n + 3) {
+  background-color: #ffffff;
+}
+
+#schedsTable .heading-card {
+  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  background-color: #ffffff;
+
+  padding: 2px;
+  font-weight: bold;
+}
+#schedsTable .heading-card:nth-child(1) {
+  border-left: 1px solid #dddddd;
+}
+#schedsTable .card {
+  border-right: 1px solid #dddddd;
+  background-color: #dddddd;
+
+  padding: 2px;
+  overflow: clip;
+}
+/*  Last row of grid */
+/*  Bottom line of table  */
+#schedsTable .card:nth-last-child(-n + 2) {
+  border-bottom: 1px solid #dddddd;
+}
+/* First column of grid */
+/* Left line of table */
+#schedsTable .card:nth-child(2n + 1) {
+  border-left: 1px solid #dddddd;
+}
+
+#schedsTable .card:nth-child(4n + 1),
+#schedsTable .card:nth-child(4n + 2) {
+  background-color: #ffffff;
+}
+.card .data a {
+  float: right;
+  text-decoration: none;
+  font-size: 75%;
+}
+.card .data a:hover {
+  text-decoration: underline;
+}
