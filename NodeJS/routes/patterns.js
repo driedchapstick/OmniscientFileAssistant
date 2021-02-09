@@ -13,15 +13,14 @@ module.exports = () => {
   router.get("/:subpage", function (req, res) {
     patternService.getFlaggedFiles(req.params.subpage).then((result) => {
       res.render("childpatterns", { data: result });
+      console.log("yep");
     });
   });
 
   router.use(express.urlencoded({ extended: true }));
 
   router.post("/:subpage", function (req, res) {
-    res.download(
-      `C:\\Users\\OmniFileAsAdmin\\Google Drive\\${req.params.subpage}\\${req.body.downloadB}`
-    );
+    res.download(`C:\\Users\\OmniFileAsAdmin\\Google Drive\\${req.params.subpage}\\${req.body.downloadB}`);
   });
 
   //Got to 4:20 on LinkedIn Learning course for subpath routing (Section 3 Episode 3)

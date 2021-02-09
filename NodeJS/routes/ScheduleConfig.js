@@ -1,7 +1,7 @@
 const express = require("express");
-const {Connection} = require("tedious");
-const ScheduleConfigService = require("../services/ScheduleConfigService");
+const { Connection } = require("tedious");
 const scheduleConfigService = require("../services/ScheduleConfigService");
+const indiComp = require("./IndiComp");
 const router = express.Router();
 
 module.exports = () => {
@@ -11,15 +11,15 @@ module.exports = () => {
     let schedsTable;
     scheduleConfigService.getCompsTable().then((compsResult) => {
       compsTable = compsResult;
-      ScheduleConfigService.getNotCompsTable().then((compsNotResult) => {
+      scheduleConfigService.getNotCompsTable().then((compsNotResult) => {
         compsNotTable = compsNotResult;
         scheduleConfigService.getSchedsTable().then((schedsResult) => {
           schedsTable = schedsResult;
-          res.render("ScheduleConfig", {comps: compsTable, compsNot: compsNotTable, scheds: schedsTable});
+          res.render("ScheduleConfig", { comps: compsTable, compsNot: compsNotTable, scheds: schedsTable });
         });
       });
     });
   });
-
+  router.use("/IndividualComp", indiComp());
   return router;
 };
