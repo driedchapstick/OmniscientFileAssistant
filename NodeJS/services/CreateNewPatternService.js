@@ -40,21 +40,13 @@ async function addMatchCriteria(CriteriaName, BackupQ) {
     BackupN = 0;
   }
   let pool = await sql.connect(config);
-  let AddedMatchCriteria = await pool
-    .request()
-    .input("CriteriaName", sql.NVarChar, CriteriaName)
-    .input("BackupData", sql.Bit, BackupN)
-    .execute("AddMatchCriteria");
+  let AddedMatchCriteria = await pool.request().input("CriteriaName", sql.NVarChar, CriteriaName).input("BackupData", sql.Bit, BackupN).execute("AddMatchCriteria");
   return AddedMatchCriteria.recordset[0].CriteriaID;
 }
 async function addCriteriaTerms(CriteriaID, AllTerms) {
   let pool = await sql.connect(config);
   AllTerms.forEach(async (element) => {
-    let AddedCriteriaTerm = await pool
-      .request()
-      .input("CriteriaID", sql.Int, CriteriaID)
-      .input("TermID", sql.Int, element)
-      .execute("AddCriteriaTerms");
+    await pool.request().input("CriteriaID", sql.Int, CriteriaID).input("TermID", sql.Int, element).execute("AddCriteriaTerms");
   });
 }
 module.exports = {

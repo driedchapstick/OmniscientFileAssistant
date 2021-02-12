@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" type="text/css" href="../../IndiComp.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <header>
@@ -27,7 +26,19 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div><p>hi</p></div>
+      <h1>Select a Computer Schedule</h1>
+      <h2>Current Schedule: <%= curSched%></h2>
+      <hr style="width: 22%; margin-left: 0" />
+      <form action="" method="POST">
+        <h4>Click the Checkbox of the Desired Schedule</h4>
+        <% for(var i=0; i < scheds.length; i++) { %> <%= scheds[i].id %>
+        <input type="radio" name="schedsID" style="height: 15px; width: 15px" value="<%= scheds[i].SchedID%>" />
+        <label><%= scheds[i].SchedName%> | Base Time: <%= scheds[i].BaseTime%> | Interval: <%= scheds[i].InterName%></label><br />
+        <% } %>
+        <br />
+        <input type="reset" />
+        <input type="submit" value="Submit" />
+      </form>
     </main>
   </body>
 </html>

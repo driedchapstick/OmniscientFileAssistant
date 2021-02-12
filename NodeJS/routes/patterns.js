@@ -13,7 +13,6 @@ module.exports = () => {
   router.get("/:subpage", function (req, res) {
     patternService.getFlaggedFiles(req.params.subpage).then((result) => {
       res.render("childpatterns", { data: result });
-      console.log("yep");
     });
   });
 
