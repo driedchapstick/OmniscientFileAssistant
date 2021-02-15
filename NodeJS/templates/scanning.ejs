@@ -2,43 +2,6 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="scanning.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchFn() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("recentTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      }
-
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -63,35 +26,71 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <form action="" method="POST">
-        <input id="filter" type="text" name="filter_field" value="" />
-        <input type="submit" value="Search" />
-      </form>
-      <div id="recent">
-        <table id="recentTable" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
+      <div id="content">
+        <h1>File Search: <span id="heading">Use attributes to find files.</span></h1>
+        <form action="" method="POST">
+          <section id="inputsTable">
+            <div class="inputs">
+              <label>File Name</label><br />
+              <input id="FileName" type="text" name="FileName" value="" />
+            </div>
+            <div class="inputs">
+              <label>File Path</label><br />
+              <input id="FilePath" type="text" name="FilePath" value="" />
+            </div>
+            <div class="inputs">
+              <label>File Extension</label><br />
+              <input id="FileExt" type="text" name="FileExt" value="" />
+            </div>
+            <div class="inputs">
+              <label>Computer Name</label><br />
+              <input id="CompName" type="text" name="CompName" value="" />
+            </div>
+            <div class="inputs">
+              <label>File Creator</label><br />
+              <input id="FileCreator" type="text" name="FileCreator" value="" />
+            </div>
+            <div class="inputs">
+              <label>Date Created</label><br />
+              <input id="FileCreated" type="date" name="FileCreated" value="" />
+            </div>
+            <div class="inputs">
+              <label>Date Modified</label><br />
+              <input id="FileModified" type="date" name="FileModified" value="" />
+            </div>
+            <div class="inputs">
+              <label>File Size</label><br />
+              <input id="FileSize" type="text" name="FileSize" value="" />
+            </div>
+            <div class="inputs">
+              <input id="search" type="submit" value="Search" />
+            </div>
+          </section>
+        </form>
+
+        <br />
+        <br />
+        <br />
+        <section id="compsTable" style="width: 100%">
+          <div class="heading-card">File Name</div>
+          <div class="heading-card">File Path</div>
+          <div class="heading-card">File Extension</div>
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">File Creator</div>
+          <div class="heading-card">Date Created</div>
+          <div class="heading-card">Date Modified</div>
+          <div class="heading-card">File Size</div>
           <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
+          <div class="card"><div class="data"><%= data[i].FileName %></div></div>
+          <div class="card"><div class="data"><%= data[i].FilePath %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
+          <div class="card"><div class="data"><%= data[i].CompName %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileCreator %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileCreated %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileModified %></div></div>
+          <div class="card"><div class="data"><%= data[i].FileSize %></div></div>
           <% } %>
-        </table>
+        </section>
       </div>
     </main>
   </body>

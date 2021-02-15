@@ -11,7 +11,7 @@ module.exports = () => {
   router.use(express.urlencoded({ extended: true }));
 
   router.post("/", function (req, res) {
-    scanningService.searchForMiiFiles(req.body.filter_field).then((result) => {
+    scanningService.ScanningPageSearch(req.body.FileName, req.body.FilePath, req.body.FileExt, req.body.CompName, req.body.FileCreator, req.body.FileCreated, req.body.FileModified, req.body.FileSize).then((result) => {
       res.render("scanning", { data: result });
     });
   });
