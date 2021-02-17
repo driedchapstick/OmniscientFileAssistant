@@ -2,6 +2,7 @@ const express = require("express");
 const { Connection } = require("tedious");
 const scheduleConfigService = require("../services/ScheduleConfigService");
 const indiComp = require("./IndiComp");
+const indiSched = require("./IndiSched");
 const router = express.Router();
 
 module.exports = () => {
@@ -21,5 +22,6 @@ module.exports = () => {
     });
   });
   router.use("/IndividualComp", indiComp());
+  router.use("/IndividualSchedule", indiSched());
   return router;
 };
