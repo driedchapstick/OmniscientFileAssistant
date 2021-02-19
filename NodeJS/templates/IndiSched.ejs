@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="ScheduleConfig.css" />
+    <link rel="stylesheet" type="text/css" href="../../IndiSched.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <header>
@@ -13,8 +14,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-		</pre
-      >
+		</pre>
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
@@ -26,72 +26,55 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div id="comps">
-        <h2 id="compsHeader">Computers</h2>
-        <section id="compsTable" style="width: 80%">
-          <div class="heading-card">Computer Name</div>
-          <div class="heading-card">IP Address</div>
-          <div class="heading-card">Schedule Name</div>
-          <% for(var i=0; i < comps.length; i++) { %> <%= comps[i].id %>
-          <div class="card"><div class="data"><%= comps[i].CompName%></div></div>
-          <div class="card"><div class="data"><%= comps[i].IPAddr%></div></div>
-          <div class="card">
-            <div class="data"><%= comps[i].SchedName%><a href="/ScheduleConfig/IndividualComp/<%= comps[i].CompID%>">(Change)</a></div>
-          </div>
-          <% } %>
-        </section>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <section id="compsNotTable" style="width: 80%">
-          <div class="heading-card">Computer Name</div>
-          <div class="heading-card">IP Address</div>
-          <div class="heading-card">Schedule Name</div>
-          <% for(var i=0; i < compsNot.length; i++) { %> <%= compsNot[i].id %>
-          <div class="card">
-            <div class="data"><%= compsNot[i].CompName%></div>
-          </div>
-          <div class="card"><div class="data"><%= compsNot[i].IPAddr%></div></div>
-          <div class="card">
-            <div class="data"><a href="/ScheduleConfig/IndividualComp/<%= compsNot[i].CompID%>">(Assign)</a></div>
-          </div>
-          <% } %>
-        </section>
-      </div>
-      <div id="scheds">
-        <h2 id="schedsHeader">Schedules</h2>
-        <section id="schedsTable" style="width: 80%">
-          <div class="heading-card">Schedule Name</div>
-          <div class="heading-card"># of Computers</div>
-          <% for(var i=0; i < scheds.length; i++) { %> <%= scheds[i].id %>
-          <div class="card"><div class="data"><%= scheds[i].SchedName%></div></div>
-          <div class="card">
-            <div class="data"><%= scheds[i].Count%><a href="/ScheduleConfig/IndividualSchedule/<%= scheds[i].SchedID%>">(View)</a></div>
-          </div>
-          <% } %>
-        </section>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <section id="links" style="width: 80%">
-        <div class="links">
-          <a href="/ScheduleConfig/CreateSchedule">Create Schedule</a>
-        </div>
-        <div class="links">
-          <a href="/ScheduleConfig/DeleteSchedule">Delete Schedule</a>
-        </div>
-        <div class="links">
-          <a href="/ScheduleConfig/CreateInterval">Create Interval</a>
-        </div>
-        <div class="links">
-          <a href="/ScheduleConfig/DeleteInterval">Delete Interval</a>
-        </div>
+      <div id="content">
+        <h1>Schedule Config</h1>
+        <section id="grids">
+            <div id="config" class="quad">
+              <form action="" method="POST">
+              <div class="text">
+                <label class="attr">Schedule Name</label><br />
+                <input id="SchedName" type="text" name="SchedName" maxlength="20" pattern="^([a-zA-Z0-9_\-\.\/\\ ]{1,20})$" value="<%=scheds[0].SchedName%>" />
+              </div>
+              <br />
+              <div class="text">
+                <label class="attr">Base Time</label><br />
+                <input id="BaseTime" type="text" name="BaseTime" maxlength="4" pattern="^([0-9]{1,4})$" value="<%=scheds[0].BaseTime%>" />
+              </div>
+              <br />
+              <div class="radio">
+                <label class="attr">Interval </label>
+                <hr />
+                <% for(var i=0; i < ints.length; i++) { %> <%= ints[i].id %>
+                <input id="InterID" class="interval" type="radio" name="InterID" value="<%=ints[i].InterID%>" />
+                <label class="interval"><%=ints[i].InterName%> Minutes</label><br />
+                <% } %>
+              </div>
+              <br />
+              <div class="submit">
+                <input id="submit" type="submit" value="Submit" />
+                <input type="reset" />
+              </div>
+            </form>
+            </div>
+            <div id="listing" class="quad">
+              <section id="comps">
+                <div class="headercell">
+                  Computers Using the Schedule
+                </div>
+                <% for(var i=0; i < comps.length; i++) { %> <%= comps[i].id %>
+                  <div class="cell">
+                    <%=comps[i].CompName%><a href="/ScheduleConfig/IndividualComp/<%= comps[i].CompID%>">(Info)</a>
+                  </div>
+                <% } %>
+                
+              </section>
+            </div>
+          
         </section>
       </div>
     </main>
   </body>
+  <script>
+    $('input[value="<%=scheds[0].InterID%>"]').prop("checked",true);
+  </script>
 </html>

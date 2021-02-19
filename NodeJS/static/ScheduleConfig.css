@@ -209,3 +209,27 @@ main {
 .card .data a:hover {
   text-decoration: underline;
 }
+#links{
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  margin: 5%;
+  grid-gap: 25px;
+}
+.links{
+  height: auto;
+  box-sizing: border-box;
+  border: 2px solid #000000;
+  background-color: #818080;
+  text-align: center;
+  display:inline-block;
+}
+.links a{
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 135%;
+  height: 40px;
+}
+.links a:hover{
+  color: #000000;
+  background-color: #dddddd;
+}
