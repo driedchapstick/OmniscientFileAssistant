@@ -19,7 +19,7 @@ module.exports = () => {
   router.use(express.urlencoded({ extended: true }));
 
   router.post("/:subpage", function (req, res) {
-    res.download(`C:\\Users\\OmniFileAsAdmin\\Google Drive\\${req.params.subpage}\\${req.body.downloadB}`);
+    res.download(`C:\\Users\\OmniFileAsAdmin\\Desktop\\LocalStorage\\${req.params.subpage}\\DRIECHAPSTICKPC-${req.body.downloadB}`);
   });
 
   //Got to 4:20 on LinkedIn Learning course for subpath routing (Section 3 Episode 3)
