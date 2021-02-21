@@ -1,8 +1,12 @@
 const express = require("express");
 const { Connection } = require("tedious");
 const scheduleConfigService = require("../services/ScheduleConfigService");
-const indiComp = require("./IndiComp");
-const indiSched = require("./IndiSched");
+const IndiComp = require("./IndiComp");
+const IndiSched = require("./IndiSched");
+const CreateSched = require("./CreateSchedule");
+const DeleteSched = require("./DeleteSchedule");
+const CreateInterval = require("./CreateInterval");
+const DeleteInterval = require("./DeleteInterval");
 const router = express.Router();
 
 module.exports = () => {
@@ -21,7 +25,11 @@ module.exports = () => {
       });
     });
   });
-  router.use("/IndividualComp", indiComp());
-  router.use("/IndividualSchedule", indiSched());
+  router.use("/IndividualComp", IndiComp());
+  router.use("/IndividualSchedule", IndiSched());
+  router.use("/CreateSchedule", CreateSched());
+  router.use("/DeleteSchedule", DeleteSched());
+  router.use("/CreateInterval", CreateInterval());
+  router.use("/DeleteInterval", DeleteInterval());
   return router;
 };

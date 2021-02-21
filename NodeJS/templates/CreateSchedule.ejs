@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="../../IndiSched.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../CreateSchedule.css" />
   </head>
   <body>
     <header>
@@ -14,7 +13,8 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-		</pre>
+		</pre
+      >
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
@@ -27,18 +27,18 @@
     </ul>
     <main>
       <div id="content">
-        <h1>Schedule Config</h1>
+        <h1>Create Schedule</h1>
         <section id="grids">
-            <div id="config" class="quad">
-              <form action="" method="POST">
+          <div id="config" class="quad">
+            <form action="" method="POST">
               <div class="text">
                 <label class="attr">Schedule Name</label><br />
-                <input id="SchedName" type="text" name="SchedName" maxlength="20" pattern="^([a-zA-Z0-9_\-\.\/\\ ]{1,20})$" value="<%=scheds[0].SchedName%>" />
+                <input id="SchedName" type="text" name="SchedName" maxlength="20" pattern="^([a-zA-Z0-9_\-\.\/\\ ]{1,20})$" value="" />
               </div>
               <br />
               <div class="text">
                 <label class="attr">Base Time</label><br />
-                <input id="BaseTime" type="text" name="BaseTime" maxlength="4" pattern="^([0-9]{1,4})$" value="<%=scheds[0].BaseTime%>" />
+                <input id="BaseTime" type="text" name="BaseTime" maxlength="4" pattern="^([0-9]{1,4})$" value="" />
               </div>
               <br />
               <div class="radio">
@@ -55,35 +55,9 @@
                 <input type="reset" />
               </div>
             </form>
-            <br/>
-            <span id="confirm"><%=confirmstring%></span>
-            </div>
-            <div id="listing" class="quad">
-              <section id="comps">
-                <div class="headercell">
-                  Computers Using the Schedule
-                </div>
-                <% for(var i=0; i < comps.length; i++) { %> <%= comps[i].id %>
-                  <div class="cell">
-                    <%=comps[i].CompName%><a href="/ScheduleConfig/IndividualComp/<%= comps[i].CompID%>">(Info)</a>
-                  </div>
-                <% } %>
-              </section>
-            </div>
+          </div>
         </section>
       </div>
     </main>
-    <script>
-      $(document).ready(function(){
-        $('input[value="<%=scheds[0].InterID%>"]').prop("checked",true);
-        window.onload=function(){
-          if(document.getElementById("confirm").innerHTML == "Update Successful"){
-            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:green");
-          }else{
-            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
-          }
-        }
-      });
-    </script>
   </body>
 </html>

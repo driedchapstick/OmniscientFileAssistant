@@ -51,15 +51,20 @@ async function UpdateSchedule(SchedID, SchedName, BaseTime, InterID) {
   SchedName = CheckSchedName(SchedName);
   BaseTime = CheckBaseTime(BaseTime);
   InterID = CheckID(InterID);
-
-  if(SchedID != "ThisFailedSoWeAreSupplyingThisValue" && SchedName != "ThisFailedSoWeAreSupplyingThisValue" && BaseTime != "ThisFailedSoWeAreSupplyingThisValue" && InterID != "ThisFailedSoWeAreSupplyingThisValue"){
-    let pool = await sql.connect(config);
-    await pool.request()
-      .input("SchedID", sql.Int, SchedID)
-      .input("SchedName", sql.NVarChar, SchedName)
-      .input("BaseTime", sql.TinyInt, BaseTime)
-      .input("InterID", sql.Int, InterID)
-      .execute("UpdateSchedule");
+  try{
+    if(SchedID != "ThisFailedSoWeAreSupplyingThisValue" && SchedName != "ThisFailedSoWeAreSupplyingThisValue" && BaseTime != "ThisFailedSoWeAreSupplyingThisValue" && InterID != "ThisFailedSoWeAreSupplyingThisValue"){
+      let pool = await sql.connect(config);
+      await pool.request()
+        .input("SchedID", sql.Int, SchedID)
+        .input("SchedName", sql.NVarChar, SchedName)
+        .input("BaseTime", sql.SmallInt, BaseTime)
+        .input("InterID", sql.Int, InterID)
+        .execute("UpdateSchedule");
+      return "Update Successful"
+    }
+  }catch(error){
+    console.log(error);
+    return "Update Failed"
   }
 }
 
