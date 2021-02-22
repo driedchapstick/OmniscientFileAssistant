@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="modifyaudit.css" />
+    <link rel="stylesheet" href="modifyterm.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function (event) {
+        if (!event.target.matches(".dropbtn")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
       function searchFn() {
         // Declare variables
         var input, filter, table, tr, td, i, txtValue;
@@ -66,56 +85,39 @@
       <li><a href="/modifyTerm">Modify Term</a></li>
     </ul>
     <main>
-      <h1>Modify Current Audit</h1>
+      <h1>Modify Current Term</h1>
       <form action="" method="POST">
         <input
           id="filter"
           type="text"
-          placeholder="Name the file you wish to audit..."
+          placeholder="Enter the name of the term you wish to modify..."
           name="filter_field"
           value=""
         />
         <input type="submit" value="Submit" />
       </form>
-      <h2>Select the file you wish to audit, once found press "create"...</h2>
       <form action="" method="POST">
         <input
           id="filter"
           type="text"
-          placeholder="Search here for the audit you wish to modify..."
+          placeholder="Enter the password of the term you wish to modify..."
           name="filter_field"
           value=""
         />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Submit" />
       </form>
-      <div id="recent1">
-        <table id="recentTable1" style="width: 200%">
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
-          <% } %>
-        </table>
+      <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">
+          Select the type of term you would like to modify...
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#term1">Term type 1</a>
+          <a href="#term2">Term type 2</a>
+          <a href="#term3">Term type 3</a>
+        </div>
       </div>
-      <button class="btn cancel">Cancel</button>
-      <button class="btn create">Create</button>
+      <input type="reset" />
+      <input type="submit" value="Create" />
     </main>
   </body>
 </html>
