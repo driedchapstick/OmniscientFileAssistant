@@ -24,7 +24,7 @@ namespace OmniFi_Metadata_Service
             ArrayList allMatchCriteria = new ArrayList();
             ArrayList allTerms = new ArrayList();
             try
-            {
+            { //Comment
                 //Do not feel like checking EVERY sub folder in a users folder. That is a lot of useless stuff.
                 //Eventually will implement a call to the database to determine which directories to search.
                 foreach (string leSub in subFolders)
