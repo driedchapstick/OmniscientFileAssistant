@@ -10,6 +10,9 @@ const modifyAuditRoute = require("./modifyAudit");
 const modifyPatternRoute = require("./modifyPattern");
 const createNewTermRoute = require("./createNewTerm");
 const modifyTermRoute = require("./modifyTerm");
+const deletePatternRoute = require("./deletePattern");
+const deleteTermRoute = require("./deleteTerm");
+const deleteAuditRoute = require("./deleteAudit");
 const { response } = require("express");
 
 const router = express.Router();
@@ -37,5 +40,8 @@ module.exports = () => {
   router.use("/modifyPattern", modifyPatternRoute());
   router.use("/createNewTerm", createNewTermRoute());
   router.use("/modifyTerm", modifyTermRoute());
+  router.use("/deletePattern", deletePatternRoute());
+  router.use("/deleteTerm", deleteTermRoute());
+  router.use("/deleteAudit", deleteAuditRoute());
   return router;
 };

@@ -39,13 +39,13 @@ li a {
   background-color: #000000;
   color: #ffffff;
   /*background-color: #000000;
-            color: #33ff33;*/
+          color: #33ff33;*/
 }
 li a:hover {
   background-color: #f57272;
   color: #000000;
   /*background-color: #33ff33;
-            color: #000000;*/
+          color: #000000;*/
 }
 
 #dashboard-icon {
@@ -97,7 +97,7 @@ tr:nth-child(even) {
   margin-top: 20px;
   width: 50%;
 }
-#recentTable1 {
+#blankRecent1 {
   margin-left: 5%;
 }
 
@@ -107,72 +107,4 @@ input {
   /*margin-top: 40px;*/
   height: 30px;
   border-style: solid;
-}
-
-.cancel {
-  font-family: monospace;
-  color: #000000;
-  margin-left: 10%;
-  margin-top: 15px;
-  height: 30px;
-  border-style: solid;
-}
-
-.modify {
-  font-family: monospace;
-  color: #000000;
-  margin-top: 15px;
-  height: 30px;
-  border-style: solid;
-}
-
-h2 {
-  font-family: monospace;
-  font-size: small;
-  margin-left: 5%;
-}
-
-h3 {
-  font-family: monospace;
-  font-size: small;
-  margin-left: 5%;
-}
-
-h4 {
-  font-family: monospace;
-  font-size: small;
-  margin-left: 5%;
-}
-
-h5 {
-  font-family: monospace;
-  font-size: small;
-  margin-left: 5%;
-}
-
-#checkbox {
-  font-family: monospace;
-  font-size: small;
-  /*margin-left: 5%;*/
-  display: inline-block;
-  width: 15px;
-  vertical-align: top;
-}
-
-#submitbutton {
-  margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-  display: inline-block;
-}
-
-#modifybutton {
-  margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-  display: inline-block;
 }

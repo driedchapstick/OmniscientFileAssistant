@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="patterns.css" />
+    <link rel="stylesheet" href="deleteterm.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      function searchFn() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("recentTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+
       $(document).ready(function () {
         $("td").hover(
           function () {
@@ -28,7 +50,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-		</pre
+ </pre
       >
     </header>
     <ul>
@@ -40,7 +62,56 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div id="patterns2"></div>
+      <h1>Delete a Term</h1>
+      <form action="" method="POST">
+        <input
+          id="filter"
+          type="text"
+          placeholder="Search for the term you wish to delete..."
+          name="filter_field"
+          value=""
+        />
+        <input type="submit" value="Search" />
+      </form>
+      <div id="recent1">
+        <table id="blankRecent1" style="width: 200%">
+          <tr>
+            <th></th>
+            <th>File Name</th>
+            <th>File Path</th>
+            <th>File Extension</th>
+            <th>Computer Name</th>
+            <th>File Creator</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th>File Size</th>
+          </tr>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <tr>
+            <td>
+              <input
+                id="regular"
+                type="radio"
+                name="option"
+                style="height: 10px; width: 10px"
+                value=""
+              />
+            </td>
+            <td><%= data[i].FileName %></td>
+            <td><%= data[i].FilePath %></td>
+            <td><%= data[i].FileExt %></td>
+            <td><%= data[i].CompName %></td>
+            <td><%= data[i].FileCreator %></td>
+            <td><%= data[i].FileCreated %></td>
+            <td><%= data[i].FileModified %></td>
+            <td><%= data[i].FileSize %></td>
+          </tr>
+          <% } %>
+        </table>
+      </div>
+      <br />
+      <input type="submit" value="Cancel" />
+      <input type="submit" value="Delete" />
     </main>
   </body>
 </html>
