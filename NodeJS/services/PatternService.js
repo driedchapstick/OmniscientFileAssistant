@@ -1,6 +1,6 @@
 const config = require("./dbconfig");
 const sql = require("mssql");
-var blankPattern = [
+const blankPattern = [
   {
     CriteriaName: "ERROR",
   },
@@ -42,15 +42,16 @@ function formatTime(theTime) {
 }
 async function getPatternsTable() {
   try {
+    let MatchCriteria =[{CompID: "",},];
     let pool = await sql.connect(config);
     let recentFoundFiles = await pool.request().query(Patterns);
     let iterator = 0;
     recentFoundFiles.recordset.forEach(function (row) {
-      blankPattern[iterator] = { ...row };
+      MatchCriteria[iterator] = { ...row };
 
       iterator++;
     });
-    return blankPattern;
+    return MatchCriteria;
   } catch (error) {
     console.log(error);
   }
@@ -74,13 +75,11 @@ async function getFlaggedFiles(subpage) {
     let tempQuery = initialQuery + "'" + subpage + "'";
     let pool = await sql.connect(config);
     let theseFlaggedFiles = await pool.request().query(tempQuery);
-    let it = 0;
+    let i = 0;
     theseFlaggedFiles.recordset.forEach(function (row) {
-      theOutput[it] = { ...row };
-      theOutput[it].Download =
-        theOutput[it].FilePath + "\\" + theOutput[it].FileName;
-      console.log(theOutput[it]);
-      it++;
+      theOutput[i] = { ...row };
+      theOutput[i].Download = theOutput[i].FilePath + "\\" + theOutput[i].FileName;
+      i++;
     });
     return theOutput;
   } catch (error) {

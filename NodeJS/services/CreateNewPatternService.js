@@ -45,9 +45,22 @@ async function addMatchCriteria(CriteriaName, BackupQ) {
 }
 async function addCriteriaTerms(CriteriaID, AllTerms) {
   let pool = await sql.connect(config);
-  AllTerms.forEach(async (element) => {
-    await pool.request().input("CriteriaID", sql.Int, CriteriaID).input("TermID", sql.Int, element).execute("AddCriteriaTerms");
-  });
+  if(typeof AllTerms === 'object'){
+    AllTerms.forEach(async (element) => {
+      await pool.request().input("CriteriaID", sql.Int, CriteriaID).input("TermID", sql.Int, element).execute("AddCriteriaTerms");
+    });
+  }else if(typeof AllTerms === 'string'){
+    await pool.request().input("CriteriaID", sql.Int, CriteriaID).input("TermID", sql.Int, AllTerms).execute("AddCriteriaTerms");
+  }
+  else{
+    console.log("ERROR: The terms that were attempted to be added to CriteriaTerms was not an Object or String.");
+    console.log("ERROR: Object == Multiple Terms    String == Single Term");
+    console.log("ERROR: The user must have submitted something purposefully incorrect or malicious.");
+    console.log("ERROR: The submitted terms will be below this line.");
+    console.log(typeof AllTerms);
+    console.log("");
+  }
+  
 }
 module.exports = {
   getTerms: getTerms,
