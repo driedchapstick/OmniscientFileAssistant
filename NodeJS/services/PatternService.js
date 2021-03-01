@@ -6,10 +6,7 @@ const blankPattern = [
   },
 ];
 
-var Patterns = "SELECT CriteriaName FROM MatchCriteria;";
-var theOutput;
-var initialQuery =
-  "SELECT FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize, '' AS Download FROM FoundFiles INNER JOIN FlaggedFiles ON FoundFiles.FileID = FlaggedFiles.FileID INNER JOIN MatchCriteria ON FlaggedFiles.CriteriaID = MatchCriteria.CriteriaID WHERE CriteriaName=";
+
 /*
 async function getPatternsTable() {
   try {
@@ -44,11 +41,10 @@ async function getPatternsTable() {
   try {
     let MatchCriteria =[{CompID: "",},];
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool.request().query(Patterns);
+    let recentFoundFiles = await pool.request().execute("GetPatternsDashboard");
     let iterator = 0;
     recentFoundFiles.recordset.forEach(function (row) {
       MatchCriteria[iterator] = { ...row };
-
       iterator++;
     });
     return MatchCriteria;
@@ -58,7 +54,7 @@ async function getPatternsTable() {
 }
 async function getFlaggedFiles(subpage) {
   try {
-    theOutput = [
+    let theOutput = [
       {
         FileID: "",
         FileName: "",
@@ -69,16 +65,14 @@ async function getFlaggedFiles(subpage) {
         FileCreated: "",
         FileModified: "",
         FileSize: "",
-        Download: "",
+        BackupData: "",
       },
     ];
-    let tempQuery = initialQuery + "'" + subpage + "'";
     let pool = await sql.connect(config);
-    let theseFlaggedFiles = await pool.request().query(tempQuery);
+    let theseFlaggedFiles = await pool.request().input("PatternName", sql.NVarChar, subpage).execute("GetSpecificPatternsPage");
     let i = 0;
     theseFlaggedFiles.recordset.forEach(function (row) {
       theOutput[i] = { ...row };
-      theOutput[i].Download = theOutput[i].FilePath + "\\" + theOutput[i].FileName;
       i++;
     });
     return theOutput;

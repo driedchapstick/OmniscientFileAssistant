@@ -78,7 +78,7 @@
           </div>
           <div class="card">
             <div class="data">
-              <form action="" method="POST">
+              <form class="<%= data[i].BackupData %>" action="" method="POST">
                 <input type="hidden" name="FileOnServer" value="<%= data[i].CompName %>-<%= data[i].FileName %>"/>
                 <input type="submit" name="DownloadButton" value="Download"/>
               </form>
