@@ -2,43 +2,6 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="createnewpattern.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchFn() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("recentTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      }
-
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -64,27 +27,24 @@
     <main>
       <h1>Create New Pattern</h1>
       <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the name of the pattern you would like to create..."
-          name="filter_field"
-          value=""
-        />
+        <input id="patternName" type="text" placeholder="New Pattern Name" name="name_field" value="" />
+        <br />
+        <br />
+        <label for="terms">Choose the Terms</label>
+        <select name="terms" id="termsList" multiple>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <option value="<%= data[i].TermID %>"><%= data[i].TermName %> | <%= data[i].TermValue %></option>
+          <% } %>
+        </select>
+        <br />
+        <br />
+        <label>Backup Files Matched?</label>
+        <input type="checkbox" id="backupCheck" name="backupName" value="yes" />
+        <br />
+        <br />
         <input type="submit" value="Submit" />
+        <input type="reset" />
       </form>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the term of the pattern you are creating..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      <button class="btn cancel">Cancel</button>
-      <button class="btn create">Create</button>
     </main>
   </body>
 </html>

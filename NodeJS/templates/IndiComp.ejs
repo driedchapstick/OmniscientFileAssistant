@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="scanning.css" />
+    <link rel="stylesheet" type="text/css" href="../../IndiComp.css" />
   </head>
   <body>
     <header>
@@ -26,72 +26,19 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div id="content">
-        <h1>File Search: <span id="heading">Use attributes to find files.</span></h1>
-        <form action="" method="POST">
-          <section id="inputsTable">
-            <div class="inputs">
-              <label>File Name</label><br />
-              <input id="FileName" type="text" name="FileName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Path</label><br />
-              <input id="FilePath" type="text" name="FilePath" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Extension</label><br />
-              <input id="FileExt" type="text" name="FileExt" value="" />
-            </div>
-            <div class="inputs">
-              <label>Computer Name</label><br />
-              <input id="CompName" type="text" name="CompName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Creator</label><br />
-              <input id="FileCreator" type="text" name="FileCreator" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Created</label><br />
-              <input id="FileCreated" type="date" name="FileCreated" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Modified</label><br />
-              <input id="FileModified" type="date" name="FileModified" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Size</label><br />
-              <input id="FileSize" type="text" name="FileSize" value="" />
-            </div>
-            <div class="inputs">
-              <input id="search" type="submit" value="Search" />
-            </div>
-          </section>
-        </form>
-
+      <h1>Select a Computer Schedule</h1>
+      <h2>Current Schedule: <%= curSched%></h2>
+      <hr style="width: 22%; margin-left: 0" />
+      <form action="" method="POST">
+        <h4>Click the Checkbox of the Desired Schedule</h4>
+        <% for(var i=0; i < scheds.length; i++) { %> <%= scheds[i].id %>
+        <input type="radio" name="schedsID" style="height: 15px; width: 15px" value="<%= scheds[i].SchedID%>" />
+        <label><%= scheds[i].SchedName%> | Base Time: <%= scheds[i].BaseTime%> | Interval: <%= scheds[i].InterName%></label><br />
+        <% } %>
         <br />
-        <br />
-        <br />
-        <section id="compsTable" style="width: 100%">
-          <div class="heading-card">File Name</div>
-          <div class="heading-card">File Path</div>
-          <div class="heading-card">File Extension</div>
-          <div class="heading-card">Computer Name</div>
-          <div class="heading-card">File Creator</div>
-          <div class="heading-card">Date Created</div>
-          <div class="heading-card">Date Modified</div>
-          <div class="heading-card">File Size</div>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <div class="card"><div class="data"><%= data[i].FileName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FilePath %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
-          <div class="card"><div class="data"><%= data[i].CompName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreator %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreated %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileModified %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileSize %></div></div>
-          <% } %>
-        </section>
-      </div>
+        <input type="reset" />
+        <input type="submit" value="Submit" />
+      </form>
     </main>
   </body>
 </html>

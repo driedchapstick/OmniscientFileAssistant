@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const config = require("./dbconfig");
-const blankRecent1 = [
+const blankRecent = [
   {
     FileID: "",
     FileName: "",
@@ -126,6 +126,9 @@ const blankRecent1 = [
 var specialOutput;
 var initialQuery =
   "SELECT FoundFiles.FileID, FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize FROM FoundFiles WHERE ";
+function initalLoad() {
+  return blankRecent;
+}
 function formatTime(theTime) {
   theTime = theTime.toString();
 
@@ -140,15 +143,6 @@ function formatTime(theTime) {
 
   return theTime;
 }
-
-function initalLoad() {
-  return blankRecent;
-}
-
-function initalLoad() {
-  return blankRecent1;
-}
-
 async function searchForMiiFiles(whereClause) {
   try {
     specialOutput = [
@@ -165,12 +159,6 @@ async function searchForMiiFiles(whereClause) {
       },
     ];
     let tempQuery = initialQuery + whereClause;
-    console.log("===============");
-    console.log("THE QUERY");
-    console.log("");
-    console.log(tempQuery);
-    console.log("===============");
-    console.log("");
     let pool = await sql.connect(config);
     let recentFoundFiles = await pool.request().query(tempQuery);
     let iterator = 0;
@@ -182,7 +170,6 @@ async function searchForMiiFiles(whereClause) {
       specialOutput[iterator].FileModified = formatTime(
         specialOutput[iterator].FileModified
       );
-      console.log(specialOutput[iterator]);
       iterator++;
     });
     return specialOutput;
@@ -191,7 +178,17 @@ async function searchForMiiFiles(whereClause) {
   }
 }
 
+async function addAuditFile(AuditName, FileID) {
+  let pool = await sql.connect(config);
+  let AddedAudits = await pool
+    .request()
+    .input("AuditName", sql.NVarChar, AuditName)
+    .input("FileID", sql.Int, FileID)
+    .execute("AddAuditFiles");
+}
+
 module.exports = {
   searchForMiiFiles: searchForMiiFiles,
   initalLoad: initalLoad,
+  addAuditFile: addAuditFile,
 };

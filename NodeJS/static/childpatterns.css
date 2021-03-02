@@ -146,3 +146,6 @@ tr:nth-child(even) {
 #recentHeader {
   text-align: center;
 }
+.false{
+  display: none;
+}

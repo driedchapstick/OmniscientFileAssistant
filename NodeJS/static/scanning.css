@@ -48,11 +48,6 @@ li a:hover {
     color: #000000;*/
 }
 
-#dashboard-icon {
-  float: right;
-  padding-right: 12px;
-  padding-bottom: 10px;
-}
 main {
   height: 787px;
   width: 1693px;
@@ -61,39 +56,76 @@ main {
   border: 1px solid #cccccc;
   background-color: #ffffff;
 }
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  max-width: 1000px;
-}
-td {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 1000px;
-}
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-#recent {
-  margin-top: 50px;
-  width: 50%;
-  float: left;
-}
-#recentTable {
+h1 {
   margin-left: 5%;
 }
-
-input {
-  margin-left: 2%;
-  margin-top: 40px;
-  width: 1000px;
+#heading {
+  font-size: 75%;
+}
+#content {
+  width: 75%;
+}
+#inputsTable {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  margin-left: 5%;
+  grid-row-gap: 10%;
+}
+.inputs input {
+  width: 90%;
   height: 30px;
   border-style: solid;
+}
+#search {
+  width: 40%;
+}
+#compsTable {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+  /*grid-template-columns: 1fr 2fr 1fr 1.5fr 1.5fr 1fr 1fr 1fr*/
+  grid-template-rows: auto;
+  /*grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;*/
+  margin-left: 5%;
+  height: 45%;
+}
+#compsTable .heading-card {
+  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  background-color: #ffffff;
+
+  padding: 2px;
+  font-weight: bold;
+}
+#compsTable .heading-card:nth-child(1) {
+  border-left: 1px solid #dddddd;
+}
+#compsTable .card {
+  border-right: 1px solid #dddddd;
+  background-color: #dddddd;
+  padding-top: 0px;
+  padding-left: 1px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+
+/*  Last row of grid */
+/*  Bottom line of table  */
+#compsTable .card:nth-last-child(-n + 8) {
+  border-bottom: 1px solid #dddddd;
+}
+/* First column of grid */
+/* Left line of table */
+#compTable .card:nth-child(8n + 1) {
+  border-left: 1px solid #dddddd;
+}
+
+#compsTable .card:nth-child(16n + 1),
+#compsTable .card:nth-child(16n + 2),
+#compsTable .card:nth-child(16n + 3),
+#compsTable .card:nth-child(16n + 4),
+#compsTable .card:nth-child(16n + 5),
+#compsTable .card:nth-child(16n + 6),
+#compsTable .card:nth-child(16n + 7),
+#compsTable .card:nth-child(16n + 8) {
+  background-color: #ffffff;
 }

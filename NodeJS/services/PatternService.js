@@ -1,15 +1,12 @@
 const config = require("./dbconfig");
 const sql = require("mssql");
-var blankPattern = [
+const blankPattern = [
   {
     CriteriaName: "ERROR",
   },
 ];
 
-var Patterns = "SELECT CriteriaName FROM MatchCriteria;";
-var theOutput;
-var initialQuery =
-  "SELECT FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize, '' AS Download FROM FoundFiles INNER JOIN FlaggedFiles ON FoundFiles.FileID = FlaggedFiles.FileID INNER JOIN MatchCriteria ON FlaggedFiles.CriteriaID = MatchCriteria.CriteriaID WHERE CriteriaName=";
+
 /*
 async function getPatternsTable() {
   try {
@@ -42,22 +39,22 @@ function formatTime(theTime) {
 }
 async function getPatternsTable() {
   try {
+    let MatchCriteria =[{CompID: "",},];
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool.request().query(Patterns);
+    let recentFoundFiles = await pool.request().execute("GetPatternsDashboard");
     let iterator = 0;
     recentFoundFiles.recordset.forEach(function (row) {
-      blankPattern[iterator] = { ...row };
-
+      MatchCriteria[iterator] = { ...row };
       iterator++;
     });
-    return blankPattern;
+    return MatchCriteria;
   } catch (error) {
     console.log(error);
   }
 }
 async function getFlaggedFiles(subpage) {
   try {
-    theOutput = [
+    let theOutput = [
       {
         FileID: "",
         FileName: "",
@@ -68,19 +65,15 @@ async function getFlaggedFiles(subpage) {
         FileCreated: "",
         FileModified: "",
         FileSize: "",
-        Download: "",
+        BackupData: "",
       },
     ];
-    let tempQuery = initialQuery + "'" + subpage + "'";
     let pool = await sql.connect(config);
-    let theseFlaggedFiles = await pool.request().query(tempQuery);
-    let it = 0;
+    let theseFlaggedFiles = await pool.request().input("PatternName", sql.NVarChar, subpage).execute("GetSpecificPatternsPage");
+    let i = 0;
     theseFlaggedFiles.recordset.forEach(function (row) {
-      theOutput[it] = { ...row };
-      theOutput[it].Download =
-        theOutput[it].FilePath + "\\" + theOutput[it].FileName;
-      console.log(theOutput[it]);
-      it++;
+      theOutput[i] = { ...row };
+      i++;
     });
     return theOutput;
   } catch (error) {

@@ -162,3 +162,19 @@ tr:nth-child(even) {
 #scheduleTable {
   margin-left: 15%;
 }
+#schedule a {
+  text-align: center;
+  margin-left: 71%;
+  width: 200px;
+  height: 25px;
+  font-size: 125%;
+  display: block;
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+}
+#schedule a:hover {
+  background-color: #f57272;
+  color: #000000;
+}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="scanning.css" />
+    <link rel="stylesheet" href="ScheduleConfig.css" />
   </head>
   <body>
     <header>
@@ -26,70 +26,70 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div id="content">
-        <h1>File Search: <span id="heading">Use attributes to find files.</span></h1>
-        <form action="" method="POST">
-          <section id="inputsTable">
-            <div class="inputs">
-              <label>File Name</label><br />
-              <input id="FileName" type="text" name="FileName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Path</label><br />
-              <input id="FilePath" type="text" name="FilePath" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Extension</label><br />
-              <input id="FileExt" type="text" name="FileExt" value="" />
-            </div>
-            <div class="inputs">
-              <label>Computer Name</label><br />
-              <input id="CompName" type="text" name="CompName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Creator</label><br />
-              <input id="FileCreator" type="text" name="FileCreator" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Created</label><br />
-              <input id="FileCreated" type="date" name="FileCreated" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Modified</label><br />
-              <input id="FileModified" type="date" name="FileModified" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Size</label><br />
-              <input id="FileSize" type="text" name="FileSize" value="" />
-            </div>
-            <div class="inputs">
-              <input id="search" type="submit" value="Search" />
-            </div>
-          </section>
-        </form>
-
-        <br />
-        <br />
-        <br />
-        <section id="compsTable" style="width: 100%">
-          <div class="heading-card">File Name</div>
-          <div class="heading-card">File Path</div>
-          <div class="heading-card">File Extension</div>
+      <div id="comps">
+        <h2 id="compsHeader">Computers</h2>
+        <section id="compsTable" style="width: 80%">
           <div class="heading-card">Computer Name</div>
-          <div class="heading-card">File Creator</div>
-          <div class="heading-card">Date Created</div>
-          <div class="heading-card">Date Modified</div>
-          <div class="heading-card">File Size</div>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <div class="card"><div class="data"><%= data[i].FileName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FilePath %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
-          <div class="card"><div class="data"><%= data[i].CompName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreator %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreated %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileModified %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileSize %></div></div>
+          <div class="heading-card">IP Address</div>
+          <div class="heading-card">Schedule Name</div>
+          <% for(var i=0; i < comps.length; i++) { %> <%= comps[i].id %>
+          <div class="card"><div class="data"><%= comps[i].CompName%></div></div>
+          <div class="card"><div class="data"><%= comps[i].IPAddr%></div></div>
+          <div class="card">
+            <div class="data"><%= comps[i].SchedName%><a href="/ScheduleConfig/IndividualComp/<%= comps[i].CompID%>">(Change)</a></div>
+          </div>
           <% } %>
+        </section>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <section id="compsNotTable" style="width: 80%">
+          <div class="heading-card">Computer Name</div>
+          <div class="heading-card">IP Address</div>
+          <div class="heading-card">Schedule Name</div>
+          <% for(var i=0; i < compsNot.length; i++) { %> <%= compsNot[i].id %>
+          <div class="card">
+            <div class="data"><%= compsNot[i].CompName%></div>
+          </div>
+          <div class="card"><div class="data"><%= compsNot[i].IPAddr%></div></div>
+          <div class="card">
+            <div class="data"><a href="/ScheduleConfig/IndividualComp/<%= compsNot[i].CompID%>">(Assign)</a></div>
+          </div>
+          <% } %>
+        </section>
+      </div>
+      <div id="scheds">
+        <h2 id="schedsHeader">Schedules</h2>
+        <section id="schedsTable" style="width: 80%">
+          <div class="heading-card">Schedule Name</div>
+          <div class="heading-card"># of Computers</div>
+          <% for(var i=0; i < scheds.length; i++) { %> <%= scheds[i].id %>
+          <div class="card"><div class="data"><%= scheds[i].SchedName%></div></div>
+          <div class="card">
+            <div class="data"><%= scheds[i].Count%><a href="/ScheduleConfig/IndividualSchedule/<%= scheds[i].SchedID%>">(View)</a></div>
+          </div>
+          <% } %>
+        </section>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <section id="links" style="width: 80%">
+        <div class="links">
+          <a href="/ScheduleConfig/CreateSchedule">Create Schedule</a>
+        </div>
+        <div class="links">
+          <a href="/ScheduleConfig/DeleteSchedule">Delete Schedule</a>
+        </div>
+        <div class="links">
+          <a href="/ScheduleConfig/CreateInterval">Create Interval</a>
+        </div>
+        <div class="links">
+          <a href="/ScheduleConfig/DeleteInterval">Delete Interval</a>
+        </div>
         </section>
       </div>
     </main>
