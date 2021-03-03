@@ -23,10 +23,10 @@ async function getTerms() {
     let foundTerms = await pool.request().execute("GetAllTerms");
     let iterator = 0;
     foundTerms.recordset.forEach(function (row) {
-      blankTerms[iterator] = { ...row };
+      specialOutput[iterator] = { ...row };
       iterator++;
     });
-    return blankTerms;
+    return specialOutput;
   } catch (error) {
     console.log(error);
   }
@@ -34,7 +34,7 @@ async function getTerms() {
 
 async function addMatchCriteria(CriteriaName, BackupQ) {
   let BackupN;
-  if (BackupQ == "yes") {
+  if (BackupQ == "true") {
     BackupN = 1;
   } else {
     BackupN = 0;

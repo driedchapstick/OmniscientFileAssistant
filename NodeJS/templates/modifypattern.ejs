@@ -2,43 +2,6 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="modifypattern.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchFn() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("recentTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      }
-
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -63,29 +26,14 @@
     </ul>
     <main>
       <h1>Modify Pattern</h1>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the name of the pattern you wish to modify..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      <h2>Term:</h2>
-      <h3>Term:</h3>
-      <h4>Term:</h4>
-      <h5>Backup?</h5>
-      <input
-        id="checkbox"
-        type="checkbox"
-        name="option"
-        style="height: 10px; width: 10px"
-        value=""
-      />
-      <input id="submitbutton" type="submit" value="Submit" />
-      <input id="modifybutton" type="submit" value="Modify" />
+        <h4>Select the Desired Pattern</h4>
+        <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <a class="dynamic" href="/ModifyPatterns/<%=data[i].CriteriaID%>">
+            <%=data[i].CriteriaName %>
+          </a>
+          <% } %>
+        <br />
+        
     </main>
   </body>
 </html>

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="patterns.css" />
+    <link rel="stylesheet" href="../../IndiPattern.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script></script>
   </head>
   <body>
     <header>
@@ -15,7 +14,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-		</pre
+ </pre
       >
     </header>
     <ul>
@@ -27,34 +26,58 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <div id="recent">
-        <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-        <a class="dynamic" href="/patterns/<%=data[i].CriteriaName%>">
-          <%=data[i].CriteriaName %>
-        </a>
-        <% } %>
-      </div>
-      <div id="buttons">
-        <a href="/CreateNewPattern">Create New Pattern</a>
-      </div>
-      <div id="buttons2">
-        <a href="/ModifyPatterns">Modify Current Pattern</a>
-      </div>
-      <div id="buttons3">
-        <a href="/CreateNewTerm">Create New Term</a>
-      </div>
-      <div id="buttons4">
-        <a href="/modifyTerm">Modify Current Term</a>
-      </div>
-      <div id="buttons5">
-        <a href="/deletePattern">Delete Current Pattern</a>
-      </div>
-      <div id="buttons6">
-        <a href="/deleteTerm">Delete Current Term</a>
-      </div>
-      <div id="buttons7">
-        <a href="/deleteAudit">Delete Current Audit</a>
-      </div>
+      <h1>Create New Pattern</h1>
+      <form action="" method="POST">
+        <input id="patternName" type="text" placeholder="New Pattern Name" name="name_field" value="<%= pats[0].CriteriaName %>" />
+        <br />
+        <br />
+        <label for="terms">Choose the Terms</label>
+        <select name="terms" id="termsList" multiple>
+          <% for(var i=0; i < terms.length; i++) { %> <%= terms[i].id %>
+          <option value="<%= terms[i].TermID %>"><%= terms[i].TermName %> | <%= terms[i].TermValue %></option>
+          <% } %>
+        </select>
+        <br />
+        <br />
+        <label>Backup Files Matched?</label>
+        <input type="checkbox" id="backupCheck" name="backupName" value="<%= pats[0].BackupData %>" />
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+        <input type="reset" />
+      </form>
+      <br/>
+      <span id="confirm"><%=confirmstring%></span>
     </main>
+    <script>
+      $(document).ready(function(){
+        window.onload=function(){
+          if(document.getElementById("confirm").innerHTML == "Update Successful"){
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:green");
+          }else{
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
+          }
+        }
+      });
+    </script>
+    
+    <script>
+      var select = [];
+      '<% for(var i=0; i < criterms.length; i++) { %> <%= criterms[i].id %>'
+        select.push('<%= criterms[i].TermID %>');
+      '<% } %>'
+      $(document).ready(function(){
+        window.onload=function(){
+          $("#termsList").val(select);
+          if(document.getElementById("confirm").innerHTML == "Update Successful"){
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:green");
+          }else{
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
+          }
+          $('input[value="true"]').prop("checked",true);
+        }
+      });
+    </script>
+    
   </body>
 </html>
