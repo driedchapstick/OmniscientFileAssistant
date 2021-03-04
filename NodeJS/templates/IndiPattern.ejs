@@ -26,7 +26,7 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Pattern</h1>
+      <h1>Modify The Pattern</h1>
       <form action="" method="POST">
         <input id="patternName" type="text" placeholder="New Pattern Name" name="name_field" value="<%= pats[0].CriteriaName %>" />
         <br />
@@ -40,14 +40,14 @@
         <br />
         <br />
         <label>Backup Files Matched?</label>
-        <input type="checkbox" id="backupCheck" name="backupName" value="<%= pats[0].BackupData %>" />
+        <input type="checkbox" id="backupCheck" name="backupName" value="true" />
         <br />
         <br />
         <input type="submit" value="Submit" />
         <input type="reset" />
       </form>
       <br/>
-      <span id="confirm"><%=confirmstring%></span>
+      <span id="confirm"><%=ConfirmString%></span>
     </main>
     <script>
       $(document).ready(function(){
@@ -74,7 +74,7 @@
           }else{
             document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
           }
-          $('input[value="true"]').prop("checked",true);
+          $('input[value="<%= pats[0].BackupData %>"]').prop("checked",true);
         }
       });
     </script>
