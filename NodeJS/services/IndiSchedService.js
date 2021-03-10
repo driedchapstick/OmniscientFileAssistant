@@ -25,7 +25,6 @@ function CheckID(input) {
   }else{
     return input;
   }
-  
 }
 function CheckSchedName(input) {
   let reggie = new RegExp("^([a-zA-Z0-9_\\-\\.\\/\\\ ]{1,20})$");
@@ -34,7 +33,6 @@ function CheckSchedName(input) {
   }else{
     return input;
   }
-  
 }
 function CheckBaseTime(input) {
   let reggie = new RegExp("^([0-9]{1,4})$");
