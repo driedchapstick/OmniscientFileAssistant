@@ -50,18 +50,6 @@
       <span id="confirm"><%=ConfirmString%></span>
     </main>
     <script>
-      $(document).ready(function(){
-        window.onload=function(){
-          if(document.getElementById("confirm").innerHTML == "Update Successful"){
-            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:green");
-          }else{
-            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
-          }
-        }
-      });
-    </script>
-    
-    <script>
       var select = [];
       '<% for(var i=0; i < criterms.length; i++) { %> <%= criterms[i].id %>'
         select.push('<%= criterms[i].TermID %>');
