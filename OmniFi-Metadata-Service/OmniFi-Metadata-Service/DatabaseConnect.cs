@@ -4,12 +4,14 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Collections;
 using System.Globalization;
+using System.Net;
+using System.Net.Sockets;
 
 namespace OmniFi_Metadata_Service
 {
     public static class DatabaseConnect
     {
-        static readonly string connectionString = "";
+        static readonly string connectionString = "Server=omnifileasdbs.database.windows.net;Database=OmniFileAsDB;User ID=OmniFileAsDBA;Password=;Encrypt=true;";
         static readonly CultureInfo usaDates = new CultureInfo("en-US");
         public static ArrayList GetAllMatchCriteria(ArrayList allMatchCriteria)
         {
@@ -73,7 +75,7 @@ namespace OmniFi_Metadata_Service
                 {
                     while (theReader.Read())
                     {
-                        allTerms.Add(new Term(Int32.Parse(theReader[0].ToString()), theReader[2].ToString(), theReader[3].ToString()));
+                        allTerms.Add(new Term(Int32.Parse(theReader[0].ToString()), Int32.Parse(theReader[1].ToString()), theReader[2].ToString(), theReader[3].ToString()));
                     }
                 }
                 theConnection.Close();
@@ -393,6 +395,91 @@ namespace OmniFi_Metadata_Service
                 theConnection.Close();
             }
             return schedules;
+        }
+        public static string CheckForCompEntry()
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("CheckForCompEntry", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters["@CompName"].Value = Environment.MachineName;
+
+                theConnection.Open();
+                string output = "";
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        output = theReader[0].ToString();
+                    }
+                }
+                theConnection.Close();
+                return output;
+            }
+        }
+        public static void AddComputers()
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("AddComputers", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                string IPAddr = "";
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        IPAddr = ip.ToString();
+                    }
+                }
+                theCommand.Parameters.Add("@CompName", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters.Add("@IPAddr", System.Data.SqlDbType.VarChar);
+                theCommand.Parameters["@CompName"].Value = Environment.MachineName;
+                theCommand.Parameters["@IPAddr"].Value = IPAddr;
+                theConnection.Open();
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        //HI I am John
+                    }
+                }
+                theConnection.Close();
+            }
+        }
+        public static void UpdateCompIP(int CompID)
+        {
+            using (SqlConnection theConnection = new SqlConnection(connectionString))
+            {
+                SqlCommand theCommand = new SqlCommand("UpdateCompIP", theConnection);
+                theCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                string IPAddr = "";
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        IPAddr = ip.ToString();
+                    }
+                }
+                theCommand.Parameters.Add("@CompID", System.Data.SqlDbType.Int);
+                theCommand.Parameters.Add("@IPAddr", System.Data.SqlDbType.NVarChar);
+                theCommand.Parameters["@CompID"].Value = CompID;
+                theCommand.Parameters["@IPAddr"].Value = IPAddr;
+                theConnection.Open();
+                using (SqlDataReader theReader = theCommand.ExecuteReader())
+                {
+                    while (theReader.Read())
+                    {
+                        //Hi I am John
+                    }
+                }
+                theConnection.Close();
+            }
         }
     }
 }

@@ -8,6 +8,12 @@ using System.Text;
 using System.Globalization;
 using System.Threading;
 using System.Diagnostics;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Presentation;
+using A = DocumentFormat.OpenXml.Drawing;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OmniFi_Metadata_Service
 {
@@ -16,7 +22,7 @@ namespace OmniFi_Metadata_Service
         public void CommenceScan(EventLog theEventLog)
         {
             string[] subFolders = { "Desktop", "Documents", "Downloads", "Pictures", "Videos" };
-            string startingString = "C:\\Users\\johno\\";
+            string startingString;
             HashSet<FoundFile> allFoundFiles = new HashSet<FoundFile>(new FoundFileComparer());
             HashSet<FoundFile> allOldFiles = new HashSet<FoundFile>(new FoundFileComparer());
             HashSet<FoundFile> allNewFiles = new HashSet<FoundFile>(new FoundFileComparer());
@@ -24,15 +30,23 @@ namespace OmniFi_Metadata_Service
             ArrayList allMatchCriteria = new ArrayList();
             ArrayList allTerms = new ArrayList();
             try
-            { //Comment
-                //Do not feel like checking EVERY sub folder in a users folder. That is a lot of useless stuff.
-                //Eventually will implement a call to the database to determine which directories to search.
-                foreach (string leSub in subFolders)
+            { 
+                foreach (DirectoryInfo profile in new DirectoryInfo("C:\\Users\\").GetDirectories())
                 {
-                    startingString = "C:\\Users\\johno\\" + leSub;
-
-                    DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
-                    SearchTheDir(startingDirectory, allFoundFiles);
+                    if (profile.Name.Equals("All Users") || profile.Name.Equals("administrator") || profile.Name.Equals("Administrator") || profile.Name.Equals("Default.migrated"))
+                    {
+                        //Console.WriteLine("SKIPPING - C:\\Users\\" + profile + "\r\n");
+                    }
+                    else
+                    {
+                        foreach (string leSub in subFolders)
+                        {
+                            startingString = "C:\\Users\\" + profile.Name + "\\" + leSub;
+                            //Console.WriteLine(startingString + "\r\n");
+                            DirectoryInfo startingDirectory = new DirectoryInfo(startingString);
+                            SearchTheDir(startingDirectory, allFoundFiles);
+                        }
+                    }
                 }
                 //Need to get all the Criterias and Terms setup before I can inspect the files.
                 DatabaseConnect.GetAllMatchCriteria(allMatchCriteria);
@@ -55,7 +69,11 @@ namespace OmniFi_Metadata_Service
             }
             catch (Exception e)
             {
-                theEventLog.WriteEntry("COULD NOT FIND A STARTING DIRECTORY\r\nDirectory: " + startingString + "\r\nDirectory will be skipped.");
+                Console.WriteLine("============================");
+                Console.WriteLine("");
+                Console.WriteLine(e);
+                Console.WriteLine("");
+                Console.WriteLine("============================");
             }
         }
         static void SearchTheDir(DirectoryInfo currentParentDir, HashSet<FoundFile> allFoundFiles)
@@ -111,6 +129,100 @@ namespace OmniFi_Metadata_Service
                         }
                     }
                 }
+            }
+        }
+        static String GetTextFromWord(string input)
+        {
+            try
+            {
+                // Open a Wordprocessing document for editing.
+                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(input, false))
+                {
+                    string wordDocString = wordDoc.MainDocumentPart.Document.Body.InnerText;
+                    //Console.WriteLine("Successfull Word Doc Text Retrieval: "+input);
+                    return wordDocString;
+                }
+            }
+            catch (System.IO.InvalidDataException e)
+            {
+                //Console.WriteLine("ERROR: File was not a .docx file. (" + input + ")" + "\r\n");
+                return "";
+            }
+            catch (System.IO.IOException e)
+            {
+                //Console.WriteLine("ERROR: The .docx file was open. (" + input + ")" + "\r\n");
+                return "";
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("ERROR: General exception with .docx file, therefore the reason is unknown. (" + input + ")" + "\r\n");
+                //Console.WriteLine(e + "\r\n");
+                return "";
+            }
+        }
+        public static int GetSlideCount(string input)
+        {
+            try
+            {
+                using (PresentationDocument presentationDocument = PresentationDocument.Open(input, false))
+                {
+                    if (presentationDocument == null)
+                    {
+                        throw new ArgumentNullException("presentationDocument");
+                    }
+
+                    int slidesCount = 0;
+                    PresentationPart presentationPart = presentationDocument.PresentationPart;
+
+                    if (presentationPart != null)
+                    {
+                        slidesCount = presentationPart.SlideParts.Count();
+                    }
+
+                    return slidesCount;
+                }
+            }
+            catch (System.IO.InvalidDataException e)
+            {
+                //Console.WriteLine("ERROR: File was not a .pptx file. (" + input + ")" + "\r\n");
+                return 0;
+            }
+            catch (System.IO.IOException e)
+            {
+                //Console.WriteLine("ERROR: The .pptx file was open. (" + input + ")" + "\r\n");
+                return 0;
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("ERROR: General exception with .pptx file, therefore the reason is unknown. (" + input + ")" + "\r\n");
+                //Console.WriteLine(e + "\r\n");
+                return 0;
+            }
+
+        }
+        public static string GetTextFromPP(string docName, int index)
+        {
+            using (PresentationDocument ppt = PresentationDocument.Open(docName, false))
+            {
+                // Get the relationship ID of the first slide.
+                PresentationPart part = ppt.PresentationPart;
+                OpenXmlElementList slideIds = part.Presentation.SlideIdList.ChildElements;
+
+                string relId = (slideIds[index] as SlideId).RelationshipId;
+
+                // Get the slide part from the relationship ID.
+                SlidePart slide = (SlidePart)part.GetPartById(relId);
+
+                // Build a StringBuilder object.
+                StringBuilder paragraphText = new StringBuilder();
+
+                // Get the inner text of the slide:
+                IEnumerable<A.Text> texts = slide.Slide.Descendants<A.Text>();
+                foreach (A.Text text in texts)
+                {
+                    paragraphText.Append(text.Text);
+                }
+                return paragraphText.ToString();
             }
         }
         static void CompareOldAndFound(HashSet<FoundFile> oldies, HashSet<FoundFile> scanned, HashSet<FoundFile> noobs, HashSet<FoundFile> zombies)
