@@ -8,6 +8,7 @@ const createNewAuditRoute = require("./createNewAudit");
 const createNewPatternRoute = require("./createNewPattern");
 const modifyAuditRoute = require("./modifyAudit");
 const scheduleConfigRoute = require("./ScheduleConfig");
+const auditDashRoute = require("./auditdash");
 const { response } = require("express");
 
 const router = express.Router();
@@ -33,5 +34,6 @@ module.exports = () => {
   router.use("/createNewPattern", createNewPatternRoute());
   router.use("/modifyAudit", modifyAuditRoute());
   router.use("/ScheduleConfig", scheduleConfigRoute());
+  router.use("/auditdash", auditDashRoute());
   return router;
 };

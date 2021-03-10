@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="createnewpattern.css" />
+    <link rel="stylesheet" href="auditdash.css" />
   </head>
   <body>
     <header>
@@ -13,7 +13,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
- </pre
+		</pre
       >
     </header>
     <ul>
@@ -21,38 +21,24 @@
       <li><a href="/scanning">Scanning</a></li>
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
+      <li><a href="/createNewAudit">Create New Audit</a></li>
+      <li><a href="/createNewPattern">Create New Pattern</a></li>
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Pattern</h1>
-      <form action="" method="POST">
-        <input
-          id="patternName"
-          type="text"
-          placeholder="New Pattern Name"
-          name="name_field"
-          value=""
-        />
-        <br />
-        <br />
-        <label for="terms">Choose the Terms</label>
-        <select name="terms" id="termsList" multiple>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <option value="<%= data[i].TermID %>">
-            <%= data[i].TermName %> | <%= data[i].TermValue %>
-          </option>
-          <% } %>
-        </select>
-        <br />
-        <br />
-        <label>Backup Files Matched?</label>
-        <input type="checkbox" id="backupCheck" name="backupName" value="yes" />
-        <br />
-        <br />
-        <input type="submit" value="Submit" />
-        <input type="reset" />
-      </form>
+      <br />
+      <br />
+      <section id="links" style="width: 80%">
+        <div class="links">
+          <a href="/CreateNewAudit">Create Audit</a>
+        </div>
+        <div class="links">
+          <a href="/DeleteAudit">Delete Audit</a>
+        </div>
+        <div class="links">
+          <a href="/ModifyAudit">ModifyAudit</a>
+        </div>
+      </section>
     </main>
   </body>
 </html>

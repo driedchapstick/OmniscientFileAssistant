@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="createnewpattern.css" />
+    <link rel="stylesheet" href="individualterm.css" />
   </head>
   <body>
     <header>
@@ -25,12 +25,12 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Pattern</h1>
+      <h1>Find a Term</h1>
       <form action="" method="POST">
         <input
-          id="patternName"
+          id="termName"
           type="text"
-          placeholder="New Pattern Name"
+          placeholder="Term Name"
           name="name_field"
           value=""
         />
@@ -44,10 +44,6 @@
           </option>
           <% } %>
         </select>
-        <br />
-        <br />
-        <label>Backup Files Matched?</label>
-        <input type="checkbox" id="backupCheck" name="backupName" value="yes" />
         <br />
         <br />
         <input type="submit" value="Submit" />
