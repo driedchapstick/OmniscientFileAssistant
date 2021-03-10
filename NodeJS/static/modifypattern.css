@@ -159,20 +159,19 @@ h5 {
   vertical-align: top;
 }
 
-#submitbutton {
-  margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-  display: inline-block;
-}
 
-#modifybutton {
+a.dynamic {
   margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-  display: inline-block;
+  border: 4px solid #acacac;
+  background: rgb(0, 0, 0);
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  max-width: 250px;
+  margin-top: 30px;
+  height: 25px;
+  color: rgb(197, 197, 197);
+  text-decoration: none;
 }

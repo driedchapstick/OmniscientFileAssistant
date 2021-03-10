@@ -33,16 +33,16 @@ namespace OmniFi_Metadata_Service
         {
             try
             {
-                eventLog1.WriteEntry("Scanning the Directory");
+                eventLog1.WriteEntry("Service has started.\r\n\r\nInitial scan is now starting.\r\n");
 
                 MetadataScanner theScan = new MetadataScanner();
                 theScan.CommenceScan(eventLog1);
                 theScan = null;
-                eventLog1.WriteEntry("Past CommenceScan");
+                eventLog1.WriteEntry("Initial scan has finished.\r\n\r\nNow determining the first scheduled scan.\r\n");
                 var firstSchedScan = DetermineFirstSchedScan();
                 DateTime schedScan = firstSchedScan.SchedScan;
                 double schedInt = firstSchedScan.SchedInterval;
-                eventLog1.WriteEntry("Past DetermineFristSchedScan");
+                eventLog1.WriteEntry("The first scan on the schedule has been determined.\r\n");
                 //WE HAVE THE FIRST TIME THE SCHEDUDLED SCAN SHOULD RUN
                 //WRITE THE CODE TO CHECK EVERY MINUTE AND THEN UP THE TIME BY THE INTERVAL.
 
@@ -113,6 +113,11 @@ namespace OmniFi_Metadata_Service
                         deInterval = curInterval;
                     }
                 }
+                if (deBaseTime.Equals("") && deInterval.Equals("1440"))
+                {
+                    deBaseTime = "00:00";
+                    deInterval = "5";
+                }
                 DateTime baseTime = DateTime.ParseExact(deBaseTime, "HH:mm", CultureInfo.InvariantCulture);
                 double interval = double.Parse(deInterval, CultureInfo.InvariantCulture);
                 DateTime firstSchedScan;
@@ -127,6 +132,7 @@ namespace OmniFi_Metadata_Service
                     firstSchedScan = baseTime;
 
                 } while (loopCont);
+                eventLog1.WriteEntry("First Scan: " + firstSchedScan + "\r\nInterval: " + interval + "\r\n");
                 (DateTime SchedScan, double SchedInterval) schedStuff = (firstSchedScan, interval);
                 return schedStuff;
             }

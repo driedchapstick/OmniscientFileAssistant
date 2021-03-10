@@ -1,0 +1,10 @@
+<<<<<<< HEAD
+﻿<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package id="DocumentFormat.OpenXml" version="2.12.3" targetFramework="net472" />
+=======
+﻿<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package id="DocumentFormat.OpenXml" version="2.12.3" targetFramework="net472" />
+>>>>>>> master
+</packages>
