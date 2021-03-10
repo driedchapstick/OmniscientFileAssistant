@@ -39,7 +39,7 @@ function formatTime(theTime) {
 }
 async function getPatternsTable() {
   try {
-    let MatchCriteria =[{CompID: "",},];
+    let MatchCriteria =[{CriteriaID: "", CriteriaName: "",},];
     let pool = await sql.connect(config);
     let recentFoundFiles = await pool.request().execute("GetPatternsDashboard");
     let iterator = 0;

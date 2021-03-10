@@ -27,19 +27,27 @@
     <main>
       <h1>Create New Pattern</h1>
       <form action="" method="POST">
-        <input id="patternName" type="text" placeholder="New Pattern Name" name="name_field" value="" />
+        <input
+          id="patternName"
+          type="text"
+          placeholder="New Pattern Name"
+          name="name_field"
+          value=""
+        />
         <br />
         <br />
         <label for="terms">Choose the Terms</label>
         <select name="terms" id="termsList" multiple>
           <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <option value="<%= data[i].TermID %>"><%= data[i].TermName %> | <%= data[i].TermValue %></option>
+          <option value="<%= data[i].TermID %>">
+            <%= data[i].TermName %> | <%= data[i].TermValue %>
+          </option>
           <% } %>
         </select>
         <br />
         <br />
         <label>Backup Files Matched?</label>
-        <input type="checkbox" id="backupCheck" name="backupName" value="yes" />
+        <input type="checkbox" id="backupCheck" name="backupName" value="true" />
         <br />
         <br />
         <input type="submit" value="Submit" />

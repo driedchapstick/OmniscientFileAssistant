@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="ModifyTerm.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="individualterm.css" />
   </head>
   <body>
     <header>
@@ -26,14 +25,30 @@
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Modify Terms</h1>
-        <h4>Select the Desired Term</h4>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <a class="dynamic" href="/ModifyTerms/<%=data[i].TermID%>">
-            <%=data[i].TermName %>
-          </a>
-          <% } %>
+      <h1>Find a Term</h1>
+      <form action="" method="POST">
+        <input
+          id="termName"
+          type="text"
+          placeholder="Term Name"
+          name="name_field"
+          value=""
+        />
         <br />
+        <br />
+        <label for="terms">Choose the Terms</label>
+        <select name="terms" id="termsList" multiple>
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+          <option value="<%= data[i].TermID %>">
+            <%= data[i].TermName %> | <%= data[i].TermValue %>
+          </option>
+          <% } %>
+        </select>
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+        <input type="reset" />
+      </form>
     </main>
   </body>
 </html>
