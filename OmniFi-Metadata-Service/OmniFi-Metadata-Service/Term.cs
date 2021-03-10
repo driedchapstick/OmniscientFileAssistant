@@ -9,7 +9,7 @@ namespace OmniFi_Metadata_Service
     class Term
     {
         private int termID;
-        //I do not include an attribute for TermType because TermTypes can only be adjusted with administrative actions. 
+        private int termType;
         private string termName;
         private string termValue;
 
@@ -17,6 +17,11 @@ namespace OmniFi_Metadata_Service
         {
             get { return termID; }
             set { termID = value; }
+        }
+        public int TermType
+        {
+            get { return termType; }
+            set { termType = value; }
         }
         public string TermName
         {
@@ -28,10 +33,10 @@ namespace OmniFi_Metadata_Service
             get { return termValue; }
             set { termValue = value; }
         }
-
-        public Term(int suppliedID, string suppliedName, string suppliedValue)
+        public Term(int suppliedID, int suppliedType, string suppliedName, string suppliedValue)
         {
             TermID = suppliedID;
+            TermType = suppliedType;
             TermName = suppliedName;
             TermValue = suppliedValue;
         }

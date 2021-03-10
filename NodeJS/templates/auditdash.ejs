@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="ModifyTerm.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="auditdash.css" />
   </head>
   <body>
     <header>
@@ -14,7 +13,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
- </pre
+		</pre
       >
     </header>
     <ul>
@@ -22,18 +21,24 @@
       <li><a href="/scanning">Scanning</a></li>
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
+      <li><a href="/createNewAudit">Create New Audit</a></li>
+      <li><a href="/createNewPattern">Create New Pattern</a></li>
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Modify Terms</h1>
-        <h4>Select the Desired Term</h4>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <a class="dynamic" href="/ModifyTerms/<%=data[i].TermID%>">
-            <%=data[i].TermName %>
-          </a>
-          <% } %>
-        <br />
+      <br />
+      <br />
+      <section id="links" style="width: 80%">
+        <div class="links">
+          <a href="/CreateNewAudit">Create Audit</a>
+        </div>
+        <div class="links">
+          <a href="/DeleteAudit">Delete Audit</a>
+        </div>
+        <div class="links">
+          <a href="/ModifyAudit">ModifyAudit</a>
+        </div>
+      </section>
     </main>
   </body>
 </html>

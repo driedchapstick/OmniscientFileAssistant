@@ -1,197 +1,50 @@
 const sql = require("mssql");
 const config = require("./dbconfig");
-const blankRecent1 = [
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-];
-var specialOutput;
-var initialQuery =
-  "SELECT FoundFiles.FileID, FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize FROM FoundFiles WHERE ";
-function formatTime(theTime) {
-  theTime = theTime.toString();
 
-  dayOf = theTime.indexOf(" ") + 1;
-  theTime = theTime.substring(dayOf);
-
-  zoneName = theTime.indexOf("(") - 1;
-  theTime = theTime.substring(0, zoneName);
-
-  zoneID = theTime.lastIndexOf(" ");
-  theTime = theTime.substring(0, zoneID);
-
-  return theTime;
-}
-
-function initalLoad() {
-  return blankRecent;
-}
-
-function initalLoad() {
-  return blankRecent1;
-}
-
-async function searchForMiiFiles(whereClause) {
-  try {
-    specialOutput = [
-      {
-        FileID: "",
-        FileName: "",
-        FilePath: "",
-        FileExt: "",
-        CompName: "",
-        FileCreator: "",
-        FileCreated: "",
-        FileModified: "",
-        FileSize: "",
-      },
-    ];
-    let tempQuery = initialQuery + whereClause;
-    console.log("===============");
-    console.log("THE QUERY");
-    console.log("");
-    console.log(tempQuery);
-    console.log("===============");
-    console.log("");
+async function GetAllTerms(){
+  try{
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool.request().query(tempQuery);
-    let iterator = 0;
-    recentFoundFiles.recordset.forEach(function (row) {
-      specialOutput[iterator] = { ...row };
-      specialOutput[iterator].FileCreated = formatTime(
-        specialOutput[iterator].FileCreated
-      );
-      specialOutput[iterator].FileModified = formatTime(
-        specialOutput[iterator].FileModified
-      );
-      console.log(specialOutput[iterator]);
-      iterator++;
-    });
-    return specialOutput;
-  } catch (error) {
+    let theTerms = await pool.request().execute("GetAllTerms");
+    return theTerms.recordset;
+  }catch(error){
+    console.log("ERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\n\r\n");
     console.log(error);
+    console.log("");
   }
 }
-
+async function GetCurTermOptions(TermID, ConfirmString){
+  try{
+    let pool = await sql.connect(config);
+    let term = await pool.request().input("TermID", sql.Int, TermID).execute("GetCurTermOptions");
+    let termTypes = await pool.request().execute("GetAllTermTypes");
+    let type = await pool.request().input("TermID", sql.Int, TermID).execute("GetSpecificTermType");
+    
+    return [term.recordset, termTypes.recordset, type.recordset, ConfirmString];
+  }catch(error){
+    console.log("ERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\n\r\n");
+    console.log(error);
+    console.log("");
+  }
+}
+async function UpdateTheTerm(TermID, TermType, TermName, TermValue,){
+  try{
+    let pool = await sql.connect(config);
+    await pool.request()
+      .input("TermID", sql.Int, TermID)
+      .input("TermType", sql.Int, TermType)
+      .input("TermName", sql.NVarChar, TermName)
+      .input("TermValue", sql.NVarChar, TermValue)
+    .execute("UpdateTerm");
+    return GetCurTermOptions(TermID, "Update Successful");
+  }catch(error){
+    console.log("ERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\nERROR ERROR ERROR ERROR ERROR\r\n\r\n");
+    console.log(error);
+    console.log("");
+    return GetCurTermOptions(TermID, "Update Failed");
+  }
+}
 module.exports = {
-  searchForMiiFiles: searchForMiiFiles,
-  initalLoad: initalLoad,
+  GetAllTerms: GetAllTerms,
+  GetCurTermOptions: GetCurTermOptions,
+  UpdateTheTerm: UpdateTheTerm,
 };

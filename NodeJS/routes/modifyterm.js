@@ -1,27 +1,25 @@
 const express = require("express");
 const { Connection } = require("tedious");
-const modifyTermService = require("../services/modifyTermService.js");
+const ModifyTermService = require("../services/ModifyTermService.js");
 const router = express.Router();
 
 module.exports = () => {
-  router.get("/", function (req, res) {
-    res.render("modifyTerm", {
-      data: modifyTermService.initalLoad(),
-    });
-  });
-
   router.use(express.urlencoded({ extended: true }));
 
-  router.post("/", function (req, res) {
-    console.log("===============");
-    console.log("IVE BEEN POSTED");
-    console.log("===============");
-    console.log("");
-    createNewTermService
-      .searchForMiiFiles(req.body.filter_field)
-      .then((result) => {
-        res.render("modifyTerm", { data: result });
-      });
+  router.get("/", function (req, res) {
+    ModifyTermService.GetAllTerms().then((result)=> {
+      res.render("ModifyTerm", { data: result});
+    });
+  });
+  router.get("/:subpage", function(req, res){
+    ModifyTermService.GetCurTermOptions(req.params.subpage, "").then((result) => {
+      res.render("IndiTerm", { TermData: result[0], AllTypes: result[1], SpecificType: result[2], ConfirmString: result[3] },)
+    });
+  });
+  router.post("/:subpage", function(req, res){
+    ModifyTermService.UpdateTheTerm(req.params.subpage, req.body.TermType, req.body.TermName, req.body.TermValue).then((result) => {
+      res.render("IndiTerm", { TermData: result[0], AllTypes: result[1], SpecificType: result[2], ConfirmString: result[3] },)
+    })
   });
   return router;
 };

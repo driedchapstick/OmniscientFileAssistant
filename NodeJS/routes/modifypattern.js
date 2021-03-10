@@ -1,25 +1,25 @@
 const express = require("express");
 const { Connection } = require("tedious");
-const modifyPatternService = require("../services/modifyPatternService");
+const ModifyPatternService = require("../services/ModifyPatternService");
 const router = express.Router();
 
 module.exports = () => {
-  router.get("/", function (req, res) {
-    res.render("modifyPattern", { data: modifyPatternService.initalLoad() });
-  });
-
   router.use(express.urlencoded({ extended: true }));
 
-  router.post("/", function (req, res) {
-    console.log("===============");
-    console.log("IVE BEEN POSTED");
-    console.log("===============");
-    console.log("");
-    modifyPatternService
-      .searchForMiiFiles(req.body.filter_field)
-      .then((result) => {
-        res.render("modifyPattern", { data: result });
-      });
+  router.get("/", function (req, res) {
+    ModifyPatternService.GetPatternsTable().then((result)=> {
+      res.render("modifypattern", { data: result});
+    });
+  });
+  router.get("/:subpage", function(req, res){
+    ModifyPatternService.GetCurPatternOptions(req.params.subpage, "").then((result) => {
+      res.render("IndiPattern", { pats: result[0], terms: result[1], criterms: result[2], ConfirmString: result[3] },)
+    })
+  });
+  router.post("/:subpage", function(req, res){
+    ModifyPatternService.UpdateThePattern(req.params.subpage, req.body.name_field, req.body.backupName, req.body.terms).then((result) => {
+      res.render("IndiPattern", { pats: result[0], terms: result[1], criterms: result[2], ConfirmString: result[3] },)
+    })
   });
   return router;
 };
