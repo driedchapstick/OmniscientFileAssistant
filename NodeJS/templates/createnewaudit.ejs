@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="createnewaudit.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <header>
@@ -21,74 +22,115 @@
       <li><a href="/scanning">Scanning</a></li>
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
+      <li><a href="/createNewAudit">Create New Audit</a></li>
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Create New Audit</h1>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Search for the file you wish to audit..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Search" />
-      </form>
-      <div id="recent1">
-        <table id="recentTable1" style="width: 200%">
-          <form action="/createnewaudit/NewAudit" id="my_form" method="POST">
-            <tr>
-              <th></th>
-              <th>File Name</th>
-              <th>File Path</th>
-              <th>File Extension</th>
-              <th>Computer Name</th>
-              <th>File Creator</th>
-              <th>Date Created</th>
-              <th>Date Modified</th>
-              <th>File Size</th>
-            </tr>
+      <div id="content">
+        <h1>Create New Audit: <span id="heading">Use attributes to find files.</span></h1>
+        <form action="" method="POST">
+          <section id="inputsTable">
+            <div class="inputs">
+              <label>File Name</label><br />
+              <input type="text" id="FileName" name="FileName" value="<%= InputField[0].FileName %>" />
+            </div>
+            <div class="inputs">
+              <label>File Path</label><br />
+              <input type="text" id="FilePath" name="FilePath" value="<%= InputField[0].FilePath %>" />
+            </div>
+            <div class="inputs">
+              <label>File Extension</label><br />
+              <input type="text" id="FileExt" name="FileExt" value="<%= InputField[0].FileExt %>" />
+            </div>
+            <div class="inputs">
+              <label>Computer Name</label><br />
+              <input type="text" id="CompName" name="CompName" value="<%= InputField[0].CompName %>" />
+            </div>
+            <div class="inputs">
+              <label>File Creator</label><br />
+              <input type="text" id="FileCreator" name="FileCreator" value="<%= InputField[0].FileCreator %>" />
+            </div>
+            <div class="inputs">
+              <label>Date Created</label><br />
+              <input type="date" id="FileCreated" name="FileCreated" value="<%= InputField[0].FileCreated %>" />
+            </div>
+            <div class="inputs">
+              <label>Date Modified</label><br />
+              <input type="date" id="FileModified" name="FileModified" value="<%= InputField[0].FileModified %>" />
+            </div>
+            <div class="inputs">
+              <label>File Size</label><br />
+              <input type="text" id="FileSize" name="FileSize" value="<%= InputField[0].FileSize %>" />
+            </div>
+            <div class="inputs">
+              <input type="submit" id="search" name="TheButton" value="Search" />
+            </div>
+          </section>
+          <br />
+          <br />
+          <span id="ConfirmSearch"><%=ConfirmSearch%></span>
+          <br />
+          <br />
+          <section id="compsTable" style="width: 100%">
+            <div class="heading-card">&nbsp;</div>
+            <div class="heading-card">File Name</div>
+            <div class="heading-card">File Path</div>
+            <div class="heading-card">File Extension</div>
+            <div class="heading-card">Computer Name</div>
+            <div class="heading-card">File Creator</div>
+            <div class="heading-card">Date Created</div>
+            <div class="heading-card">Date Modified</div>
+            <div class="heading-card">File Size</div>
             <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-            <tr>
-              <td>
-                <input
-                  type="radio"
-                  id="regular"
-                  name="option"
-                  style="height: 10px; width: 10px"
-                  value="<%=data[i].FileID%>"
-                />
-                
-              </td>
-              <td><%= data[i].FileName %></td>
-              <td><%= data[i].FilePath %></td>
-              <td><%= data[i].FileExt %></td>
-              <td><%= data[i].CompName %></td>
-              <td><%= data[i].FileCreator %></td>
-              <td><%= data[i].FileCreated %></td>
-              <td><%= data[i].FileModified %></td>
-              <td><%= data[i].FileSize %></td>
-            </tr>
+              <div class="card">
+                <div class="data">
+                  <input type="radio" id="FileID" class="<%= data[i].FileID %>" name="FileID" value="<%= data[i].FileID %>" />
+                </div>
+              </div>
+              <div class="card"><div class="data"><%= data[i].FileName %></div></div>
+              <div class="card"><div class="data"><%= data[i].FilePath %></div></div>
+              <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
+              <div class="card"><div class="data"><%= data[i].CompName %></div></div>
+              <div class="card"><div class="data"><%= data[i].FileCreator %></div></div>
+              <div class="card"><div class="data"><%= data[i].FileCreated %></div></div>
+              <div class="card"><div class="data"><%= data[i].FileModified %></div></div>
+              <div class="card"><div class="data"><%= data[i].FileSize %></div></div>
             <% } %>
-          
-        </table>
+          </section>
+          <br />
+            <div id="SubmitArea">
+                <input type="text" id="AuditName" name="AuditName" placeholder="Name of Audit" value=""/>
+                <br />
+                <br />
+                <input type="submit" name="TheButton" value="Submit" />
+                <input type="reset" />
+                <br />
+                <br />
+                <span id="ConfirmSubmit"><%=ConfirmSubmit%></span>
+            </div>
+            
+        </form>
       </div>
-      <br />
-      <input
-          id="MatchCriteria"
-          type="text"
-          placeholder="Name of Audit"
-          name="name_audit"
-          value=""
-          style="width: 684px"
-        />
-      <br />
-      <br />
-      <input type="submit" value="Submit" />
-      <input type="reset" />
-    </form>
     </main>
+    <script>
+      $(document).ready(function(){
+        window.onload=function(){
+          if(document.getElementById("ConfirmSearch").innerHTML == "SUCCESS: Search Complete"){
+            document.getElementById("ConfirmSearch").setAttribute("style", "font-weight:bold; color:green");
+          }else if(document.getElementById("ConfirmSearch").innerHTML == "ERROR: Server Error" || document.getElementById("ConfirmSearch").innerHTML == "ERROR: File Search Empty"){
+            document.getElementById("ConfirmSearch").setAttribute("style", "font-weight:bold; color:red");
+          }else{
+            document.getElementById("ConfirmSearch").setAttribute("style", "font-weight:bold; color:white")
+          }
+          if(document.getElementById("ConfirmSubmit").innerHTML == "SUCCESS: Audit Created"){
+            document.getElementById("ConfirmSubmit").setAttribute("style", "font-weight:bold; color:green");
+          }else if(document.getElementById("ConfirmSubmit").innerHTML == "ERROR: Server Error" || document.getElementById("ConfirmSubmit").innerHTML == "ERROR: Required Fields Not Provided"){
+            document.getElementById("ConfirmSubmit").setAttribute("style", "font-weight:bold; color:red");
+          }else{
+            document.getElementById("ConfirmSubmit").setAttribute("style", "font-weight:bold; color:white")
+          }
+        }
+      });
+    </script>
   </body>
 </html>
