@@ -1,197 +1,46 @@
 const sql = require("mssql");
 const config = require("./dbconfig");
-const blankRecent1 = [
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-  {
-    FileID: "",
-    FileName: "",
-    FilePath: "",
-    FileExt: "",
-    CompName: "",
-    FileCreator: "",
-    FileCreated: "",
-    FileModified: "",
-    FileSize: "",
-  },
-];
-var specialOutput;
-var initialQuery =
-  "SELECT FoundFiles.FileID, FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize FROM FoundFiles WHERE ";
-function formatTime(theTime) {
-  theTime = theTime.toString();
 
-  dayOf = theTime.indexOf(" ") + 1;
-  theTime = theTime.substring(dayOf);
-
-  zoneName = theTime.indexOf("(") - 1;
-  theTime = theTime.substring(0, zoneName);
-
-  zoneID = theTime.lastIndexOf(" ");
-  theTime = theTime.substring(0, zoneID);
-
-  return theTime;
-}
-
-function initalLoad() {
-  return blankRecent;
-}
-
-function initalLoad() {
-  return blankRecent1;
-}
-
-async function searchForMiiFiles(whereClause) {
-  try {
-    specialOutput = [
-      {
-        FileID: "",
-        FileName: "",
-        FilePath: "",
-        FileExt: "",
-        CompName: "",
-        FileCreator: "",
-        FileCreated: "",
-        FileModified: "",
-        FileSize: "",
-      },
-    ];
-    let tempQuery = initialQuery + whereClause;
-    console.log("===============");
-    console.log("THE QUERY");
-    console.log("");
-    console.log(tempQuery);
-    console.log("===============");
-    console.log("");
+async function InitialLoad(){
+  try{
     let pool = await sql.connect(config);
-    let recentFoundFiles = await pool.request().query(tempQuery);
-    let iterator = 0;
-    recentFoundFiles.recordset.forEach(function (row) {
-      specialOutput[iterator] = { ...row };
-      specialOutput[iterator].FileCreated = formatTime(
-        specialOutput[iterator].FileCreated
-      );
-      specialOutput[iterator].FileModified = formatTime(
-        specialOutput[iterator].FileModified
-      );
-      console.log(specialOutput[iterator]);
-      iterator++;
-    });
-    return specialOutput;
-  } catch (error) {
+    let Patterns = await pool.request().execute("GetPatternsDashboard");
+    return Patterns.recordset;
+  }catch(error){
+    console.log("============ERROR============");
+    console.log("Error in InitialLoad of DeletePatternService.js");
+    console.log("============ERROR============");
     console.log(error);
+    console.log("");
   }
 }
 
+function CheckID(input) {
+  let reggie = new RegExp("^([0-9]{1,})$");
+  if (reggie.test(input) == false) {
+    throw "ERROR: THIS IS NOT A VALID CriteriaID.\r\nCriteriaID: "+input+"\r\n";
+  }else{
+    return input;
+  }
+}
+
+async function DeletePattern(CriteriaID){
+  try{
+    let pool = await sql.connect(config);
+    await pool.request().input("CriteriaID", sql.Int, CheckID(CriteriaID)).execute("DeleteMatchCriteria");
+    let otherPatterns = await InitialLoad();
+    return [otherPatterns, "SUCCESS: Pattern Deleted"];
+  }catch(error){
+    console.log("============ERROR============");
+    console.log("Error in DeletePattern of DeletePatternService.js");
+    console.log("============ERROR============");
+    console.log(error);
+    console.log("");
+    let otherPatterns = await InitialLoad();
+    return [otherPatterns, "ERROR: Pattern Not Deleted"];
+  }
+}
 module.exports = {
-  searchForMiiFiles: searchForMiiFiles,
-  initalLoad: initalLoad,
+  InitialLoad: InitialLoad,
+  DeletePattern: DeletePattern,
 };

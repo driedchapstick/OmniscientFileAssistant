@@ -1,25 +1,23 @@
 const express = require("express");
 const { Connection } = require("tedious");
-const deleteTermService = require("../services/deleteTermService");
+const DeleteTermService = require("../services/deleteTermService");
 const router = express.Router();
 
 module.exports = () => {
-  router.get("/", function (req, res) {
-    res.render("deleteTerm", { data: deleteTermService.initalLoad() });
-  });
-
   router.use(express.urlencoded({ extended: true }));
 
-  router.post("/", function (req, res) {
-    console.log("===============");
-    console.log("IVE BEEN POSTED");
-    console.log("===============");
-    console.log("");
-    deleteTermService
-      .searchForMiiFiles(req.body.filter_field)
-      .then((result) => {
-        res.render("deleteTerm", { data: result });
-      });
+  router.get("/", function (req, res) {
+    DeleteTermService.InitialLoad().then((result)=>{
+      res.render("DeleteTerm", { terms: result, ConfirmString: "\xa0" });
+    });
   });
+
+  router.post("/", function (req, res){
+    DeleteTermService.DeleteTerm(req.body.TermID).then((result) => {
+      res.render("DeleteTerm", {terms: result[0], ConfirmString: result[1]});
+    });
+  });
+  
+  
   return router;
 };

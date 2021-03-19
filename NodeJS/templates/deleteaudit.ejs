@@ -1,44 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="deleteaudit.css" />
+    <link rel="stylesheet" href="../../DeletePattern.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchFn() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("recentTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      }
-
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -50,7 +14,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
- </pre
+		</pre
       >
     </header>
     <ul>
@@ -58,60 +22,41 @@
       <li><a href="/scanning">Scanning</a></li>
       <li><a href="/patterns">Patterns</a></li>
       <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
+      <li><a href="/createNewAudit">Create New Audit</a></li>
+      <li><a href="/createNewPattern">Create New Pattern</a></li>
       <li><a href="/modifyAudit">Modify Audit</a></li>
     </ul>
     <main>
-      <h1>Delete an Audit</h1>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Search for the audit you wish to delete..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Search" />
-      </form>
-      <div id="recent1">
-        <table id="blankRecent1" style="width: 200%">
-          <tr>
-            <th></th>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td>
-              <input
-                id="regular"
-                type="radio"
-                name="option"
-                style="height: 10px; width: 10px"
-                value=""
-              />
-            </td>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
-          <% } %>
-        </table>
+      <div id="content">
+        <h1>Delete Audit</h1>
+        <section id="grids">
+          <div id="config" class="quad">
+            <h3>Select an Audit to Delete</h3>
+            <form action="" method="POST">
+              <% for(var i=0; i < audits.length; i++) { %> <%= audits[i].id %>
+                <input id="CriteriaID" type="radio" name="AuditID" value="<%=audits[i].AuditID%>" />
+                <label><%=audits[i].AuditName%></label><br/>
+              <% } %>
+              <br/>
+              <input id="submit" type="submit" value="Submit" />
+              <input type="reset" />
+            </form>
+          </div>
+        </section>
+        <br />
+        <span id="ConfirmString"><%=ConfirmString%></span>
       </div>
-      <br />
-      <input type="submit" value="Cancel" />
-      <input type="submit" value="Delete" />
+      <script>
+        $(document).ready(function(){
+          window.onload=function(){
+            if(document.getElementById("ConfirmString").innerHTML == "SUCCESS: Audit Deleted"){
+              document.getElementById("ConfirmString").setAttribute("style", "font-weight:bold; color:green");
+            }else{
+              document.getElementById("ConfirmString").setAttribute("style", "font-weight:bold; color:red");
+            }
+          }
+        });
+      </script>
     </main>
   </body>
 </html>

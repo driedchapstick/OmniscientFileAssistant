@@ -39,32 +39,14 @@ li a {
   background-color: #000000;
   color: #ffffff;
   /*background-color: #000000;
-          color: #33ff33;*/
+    color: #33ff33;*/
 }
 li a:hover {
   background-color: #f57272;
   color: #000000;
   /*background-color: #33ff33;
-          color: #000000;*/
+    color: #000000;*/
 }
-
-#dashboard-icon {
-  float: right;
-  padding-right: 12px;
-  padding-bottom: 10px;
-}
-
-h1 {
-  font-family: monospace;
-  padding: 10px;
-  color: #ffffff;
-  background-color: #818080;
-  text-align: center;
-  border: 1px solid #cccccc;
-  display: inline-block;
-  margin-left: 5%;
-}
-
 main {
   height: 787px;
   width: 1693px;
@@ -73,38 +55,12 @@ main {
   border: 1px solid #cccccc;
   background-color: #ffffff;
 }
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  max-width: 1000px;
-}
-td {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 1000px;
-}
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
 
-#recent1 {
-  margin-top: 20px;
-  width: 50%;
+#grids {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  margin-left: 0%;
 }
-#blankRecent1 {
-  margin-left: 5%;
-}
-
-input {
-  margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
+.quad {
+  font-size: 100%; /* Meaningless - Only Used as a Placeholder. */
 }
