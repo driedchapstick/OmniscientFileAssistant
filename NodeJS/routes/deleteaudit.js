@@ -1,25 +1,22 @@
 const express = require("express");
 const { Connection } = require("tedious");
-const deleteAuditService = require("../services/deleteAuditService");
+const DeleteAuditService = require("../services/DeleteAuditService");
 const router = express.Router();
 
 module.exports = () => {
-  router.get("/", function (req, res) {
-    res.render("deleteAudit", { data: deleteAuditService.initalLoad() });
-  });
-
   router.use(express.urlencoded({ extended: true }));
 
-  router.post("/", function (req, res) {
-    console.log("===============");
-    console.log("IVE BEEN POSTED");
-    console.log("===============");
-    console.log("");
-    deleteAuditService
-      .searchForMiiFiles(req.body.filter_field)
-      .then((result) => {
-        res.render("deleteAudit", { data: result });
-      });
+  router.get("/", function (req, res) {
+    DeleteAuditService.InitialLoad().then((result)=>{
+      res.render("DeleteAudit", { audits: result, ConfirmString: "\xa0" });
+    });
   });
+
+  router.post("/", function (req, res){
+    DeleteAuditService.DeleteAudit(req.body.AuditID).then((result) => {
+      res.render("DeleteAudit", {audits: result[0], ConfirmString: result[1]});
+    });
+  });
+
   return router;
 };

@@ -62,7 +62,6 @@ h1 {
   text-align: center;
   border: 1px solid #cccccc;
   display: inline-block;
-  margin-left: 5%;
 }
 
 main {
@@ -73,61 +72,25 @@ main {
   border: 1px solid #cccccc;
   background-color: #ffffff;
 }
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  max-width: 1000px;
+
+#content{
+  margin-left: 5%
 }
-td {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 1000px;
+
+.links{
+  height: auto;
+  box-sizing: border-box;
+  border: 2px solid #000000;
+  background-color: #818080;
+  text-align: center;
+  display:inline-block;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 115%;
+  width: 17%;
 }
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-tr:nth-child(even) {
+
+.links:hover{
+  color: #000000;
   background-color: #dddddd;
-}
-
-#recent1 {
-  margin-top: 20px;
-  width: 50%;
-}
-#recentTable1 {
-  margin-left: 5%;
-}
-
-input {
-  margin-left: 5%;
-  width: 300px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-}
-
-.cancel {
-  font-family: monospace;
-  color: #000000;
-  margin-left: 28%;
-  margin-top: 15px;
-  height: 30px;
-  border-style: solid;
-}
-
-.create {
-  font-family: monospace;
-  color: #000000;
-  margin-top: 15px;
-  height: 30px;
-  border-style: solid;
-}
-
-h2 {
-  font-family: monospace;
-  font-size: small;
-  margin-left: 5%;
 }
