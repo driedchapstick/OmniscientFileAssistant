@@ -39,14 +39,14 @@ module.exports = () => {
   router.use("/auditing", auditingRoute());
   router.use("/createNewAudit", createNewAuditRoute());
   router.use("/createNewPattern", createNewPatternRoute());
-  router.use("/modifyAudit", modifyAuditRoute());
+  router.use("/modifyAudits", modifyAuditRoute());
   router.use("/ScheduleConfig", scheduleConfigRoute());
   router.use("/ModifyPatterns", ModifyPatternRoute());
   router.use("/ModifyTerms", ModifyTermRoute());
   router.use("/createNewTerm", createNewTermRoute());
   router.use("/individualTerm", individualTermRoute());
-  router.use("/deletePattern", deletePatternRoute());
-  router.use("/deleteTerm", deleteTermRoute());
+  router.use("/deletePatterns", deletePatternRoute());
+  router.use("/deleteTerms", deleteTermRoute());
   router.use("/deleteAudit", deleteAuditRoute());
   router.use("/auditDash", auditDashRoute());
   return router;
