@@ -1,70 +1,210 @@
 const sql = require("mssql");
 const config = require("./dbconfig");
+const blankRecent1 = [
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+];
+const blankRecent = [
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+  {
+    FileID: "",
+    FileName: "",
+    FilePath: "",
+    FileExt: "",
+    CompName: "",
+    FileCreator: "",
+    FileCreated: "",
+    FileModified: "",
+    FileSize: "",
+  },
+];
+var specialOutput;
+var initialQuery =
+  "SELECT FoundFiles.FileID, FoundFiles.FileName, FoundFiles.FilePath, FoundFiles.FileExt, FoundFiles.CompName, FoundFiles.FileCreator, FoundFiles.FileCreated, FoundFiles.FileModified, FoundFiles.FileSize FROM FoundFiles WHERE ";
+function formatTime(theTime) {
+  theTime = theTime.toString();
 
-async function getCompsTable() {
-  let blankComps = [
-    {
-      CompID: "",
-      CompName: "",
-      IPAddr: "",
-      SchedID: "",
-      SchedName: "",
-    },
-  ];
-  try {
-    let pool = await sql.connect(config);
-    let compsTable = await pool.request().execute("GetCompsTable");
-    let iterator = 0;
-    compsTable.recordset.forEach(function (row) {
-      blankComps[iterator] = { ...row };
-      iterator++;
-    });
-    return blankComps;
-  } catch (error) {}
+  dayOf = theTime.indexOf(" ") + 1;
+  theTime = theTime.substring(dayOf);
+
+  zoneName = theTime.indexOf("(") - 1;
+  theTime = theTime.substring(0, zoneName);
+
+  zoneID = theTime.lastIndexOf(" ");
+  theTime = theTime.substring(0, zoneID);
+
+  return theTime;
 }
-async function getNotCompsTable() {
-  let blankNotComps = [
-    {
-      CompID: "",
-      CompName: "",
-      IPAddr: "",
-    },
-  ];
-  try {
-    let pool = await sql.connect(config);
-    let compsNotTable = await pool.request().execute("GetNotCompsTable");
-    let iterator = 0;
-    compsNotTable.recordset.forEach(function (row) {
-      blankNotComps[iterator] = { ...row };
-      iterator++;
-    });
-    return blankNotComps;
-  } catch (error) {}
+
+function initalLoad() {
+  return blankRecent;
 }
-async function getSchedsTable() {
-  let blankScheds = [
-    {
-      SchedID: "",
-      SchedName: "",
-      Count: "",
-    },
-  ];
+
+function initalLoad() {
+  return blankRecent1;
+}
+
+async function searchForMiiFiles(whereClause) {
   try {
+    specialOutput = [
+      {
+        FileID: "",
+        FileName: "",
+        FilePath: "",
+        FileExt: "",
+        CompName: "",
+        FileCreator: "",
+        FileCreated: "",
+        FileModified: "",
+        FileSize: "",
+      },
+    ];
+    let tempQuery = initialQuery + whereClause;
+    console.log("===============");
+    console.log("THE QUERY");
+    console.log("");
+    console.log(tempQuery);
+    console.log("===============");
+    console.log("");
     let pool = await sql.connect(config);
-    let schedsTable = await pool.request().execute("GetSchedsTable");
+    let recentFoundFiles = await pool.request().query(tempQuery);
     let iterator = 0;
-    schedsTable.recordset.forEach(function (row) {
-      blankScheds[iterator] = { ...row };
+    recentFoundFiles.recordset.forEach(function (row) {
+      specialOutput[iterator] = { ...row };
+      specialOutput[iterator].FileCreated = formatTime(
+        specialOutput[iterator].FileCreated
+      );
+      specialOutput[iterator].FileModified = formatTime(
+        specialOutput[iterator].FileModified
+      );
+      console.log(specialOutput[iterator]);
       iterator++;
     });
-    return blankScheds;
+    return specialOutput;
   } catch (error) {
     console.log(error);
   }
 }
 
 module.exports = {
-  getCompsTable: getCompsTable,
-  getSchedsTable: getSchedsTable,
-  getNotCompsTable: getNotCompsTable,
+  searchForMiiFiles: searchForMiiFiles,
+  initalLoad: initalLoad,
 };
