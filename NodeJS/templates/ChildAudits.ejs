@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="scanning.css" />
+    <link rel="stylesheet" href="../../ChildAudits.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <header>
@@ -13,7 +14,7 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
-		</pre
+	</pre
       >
     </header>
     <ul>
@@ -23,52 +24,11 @@
       <li><a href="/Auditing">Auditing</a></li>
     </ul>
     <main>
-      <div id="content">
-        <h1>File Search: <span id="heading">Use attributes to find files.</span></h1>
-        <form action="" method="POST">
-          <section id="inputsTable">
-            <div class="inputs">
-              <label>File Name</label><br />
-              <input id="FileName" type="text" name="FileName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Path</label><br />
-              <input id="FilePath" type="text" name="FilePath" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Extension</label><br />
-              <input id="FileExt" type="text" name="FileExt" value="" />
-            </div>
-            <div class="inputs">
-              <label>Computer Name</label><br />
-              <input id="CompName" type="text" name="CompName" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Creator</label><br />
-              <input id="FileCreator" type="text" name="FileCreator" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Created</label><br />
-              <input id="FileCreated" type="date" name="FileCreated" value="" />
-            </div>
-            <div class="inputs">
-              <label>Date Modified</label><br />
-              <input id="FileModified" type="date" name="FileModified" value="" />
-            </div>
-            <div class="inputs">
-              <label>File Size</label><br />
-              <input id="FileSize" type="text" name="FileSize" value="" />
-            </div>
-            <div class="inputs">
-              <input id="search" type="submit" value="Search" />
-            </div>
-          </section>
-        </form>
-
+      <div id="recent">
+        <h2 class="recentHeader">Audit History</h2>
         <br />
-        <br />
-        <br />
-        <section id="compsTable" style="width: 100%">
+        <h3 class="recentHeader">Current File Info</h3>
+        <section id="recentTable">
           <div class="heading-card">File Name</div>
           <div class="heading-card">File Path</div>
           <div class="heading-card">File Extension</div>
@@ -77,18 +37,82 @@
           <div class="heading-card">Date Created</div>
           <div class="heading-card">Date Modified</div>
           <div class="heading-card">File Size</div>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <div class="card"><div class="data"><%= data[i].FileName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FilePath %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileExt %></div></div>
-          <div class="card"><div class="data"><%= data[i].CompName %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreator %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileCreated %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileModified %></div></div>
-          <div class="card"><div class="data"><%= data[i].FileSize %></div></div>
+          <div class="card">
+              <div class="data"><%= data[0].FileName %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FilePath %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FileExt %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].CompName %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FileCreator %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FileCreated %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FileModified %></div>
+          </div>
+          <div class="card">
+              <div class="data"><%= data[0].FileSize %></div>
+          </div>
+        </section>
+        <br />
+        <br />
+        <h3 class="recentHeader">Audit Records</h3>
+        <section id="AuditTable">
+          <div class="AuditHeading">History ID</div>
+          <div class="AuditHeading">Date Recorded</div>
+          <div class="AuditHeading">Previous Hash</div>
+          <div class="AuditHeading">New Hash</div>
+          <div class="AuditHeading">Stored File</div>
+          <% for(var i=0; i < hist.length; i++) { %> <%= hist[i].id %>
+            <div class="AuditData">
+              <div class="de_audit">
+                <%= hist[i].HistoryID %>
+              </div>
+            </div>
+            <div class="AuditData">
+              <div class="de_audit">
+                <%= hist[i].AuditDate %>
+              </div>
+            </div>
+            <div class="AuditData">
+              <div class="de_audit">
+                <%= hist[i].PrvHash %>
+              </div>
+            </div>
+            <div class="AuditData">
+              <div class="de_audit">
+                <%= hist[i].CurHash %>
+              </div>
+            </div>
+            <div class="AuditData">
+              <div class="de_audit">
+                <form class="dl" action="" method="POST">
+                  <input type="hidden" name="AuditRepo" value="<%= hist[i].AuditRepo %>" />
+                  <input type="hidden" name="AuditName" value="<%= data[0].AuditName %>"/>
+                  <input type="hidden" name="FileOnServer" value="<%= data[0].AuditName %>-<%= hist[i].HistoryID %>"/>
+                  <input type="submit" name="DownloadButton" id="DownloadButton" value="Download"/>
+                </form>
+              </div>
+            </div>
           <% } %>
         </section>
       </div>
     </main>
+    <script>
+      $(document).ready(function(){
+        window.onload=function(){
+          // Don't actually need JavaScript to remove the download button, just in case if there was no file, because there will always be a backup of an audit.
+          // I left this in here in case I needed to add JavaScript later. 
+        }
+      });
+    </script>
   </body>
 </html>

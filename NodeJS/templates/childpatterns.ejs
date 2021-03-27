@@ -3,20 +3,6 @@
   <head>
     <link rel="stylesheet" href="../../childpatterns.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -33,11 +19,9 @@
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
-      <li><a href="/scanning">Scanning</a></li>
-      <li><a href="/patterns">Patterns</a></li>
-      <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
-      <li><a href="/modifyAudit">Modify Audit</a></li>
+      <li><a href="/Scanning">Scanning</a></li>
+      <li><a href="/Patterns">Patterns</a></li>
+      <li><a href="/Auditing">Auditing</a></li>
     </ul>
     <main>
       <div id="recent">
@@ -77,9 +61,9 @@
           </div>
           <div class="card">
             <div class="data">
-              <form class="<%= data[i].BackupData %>" action="" method="POST">
-                <input type="hidden" name="FileOnServer" value="<%= data[i].CompName %>-<%= data[i].FileName %>"/>
-                <input type="submit" name="DownloadButton" value="Download"/>
+              <form class="TheForm" action="" method="POST">
+                <input type="hidden" name="FileOnServer" value="<%= data[i].CompName %>-<%= data[i].FileName %>" id="ThePath"/>
+                <input type="submit" name="DownloadButton" value="Download" id="TheButton"/>
               </form>
             </div>
           </div>
@@ -87,5 +71,14 @@
         </section>
       </div>
     </main>
+    <script>
+      $(document).ready(function(){
+        window.onload=function(){
+          if(document.getElementById("ThePath").getAttribute("value") == "-" || document.getElementById("ThePath").getAttribute("value") == ""){
+            document.getElementById("TheButton").setAttribute("style", "display:none;");
+          };
+        };
+      });
+    </script>
   </body>
 </html>

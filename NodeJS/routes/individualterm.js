@@ -4,13 +4,13 @@ const individualTermService = require("../services/individualTermService.js");
 const router = express.Router();
 
 module.exports = () => {
+  router.use(express.urlencoded({ extended: true }));
+
   router.get("/", function (req, res) {
     individualTermService.getTerms().then((result) => {
       res.render("individualterm", { data: result });
     });
   });
-
-  router.use(express.urlencoded({ extended: true }));
 
   router.post("/", function (req, res) {
     //Re-renders the page
@@ -36,6 +36,6 @@ module.exports = () => {
       });
   });
 
-  router.post("/");
+  
   return router;
 };

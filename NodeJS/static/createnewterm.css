@@ -39,13 +39,13 @@ li a {
   background-color: #000000;
   color: #ffffff;
   /*background-color: #000000;
-            color: #33ff33;*/
+          color: #33ff33;*/
 }
 li a:hover {
   background-color: #f57272;
   color: #000000;
   /*background-color: #33ff33;
-            color: #000000;*/
+          color: #000000;*/
 }
 
 #dashboard-icon {
@@ -124,44 +124,4 @@ input {
   margin-top: 15px;
   height: 30px;
   border-style: solid;
-}
-.dropbtn {
-  margin-left: 5%;
-  width: 406px;
-  /*margin-top: 40px;*/
-  height: 30px;
-  border-style: solid;
-  background-color: #ffffff;
-}
-
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #ffffff;
-}
-
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #ffffff;
-}
-
-.dropdown-content {
-  display: none;
-  position: relative;
-  background-color: #ffffff;
-  /*min-width: 160px;*/
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdown a:hover {
-  background-color: #ddd;
-}
-.show {
-  display: block;
 }

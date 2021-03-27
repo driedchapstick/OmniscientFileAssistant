@@ -169,14 +169,14 @@ async function ScanningPageSearch(FileNameIN, FilePathIN, FileExtIN, CompNameIN,
     let specialOutput = [
       {
         FileID: "",
-        FileName: "",
-        FilePath: "",
-        FileExt: "",
-        CompName: "",
-        FileCreator: "",
-        FileCreated: "",
-        FileModified: "",
-        FileSize: "",
+        FileName: "\xa0",
+        FilePath: "\xa0",
+        FileExt: "\xa0",
+        CompName: "\xa0",
+        FileCreator: "\xa0",
+        FileCreated: "\xa0",
+        FileModified: "\xa0",
+        FileSize: "\xa0",
       },
     ];
 
@@ -264,7 +264,7 @@ function FailedSearch(AuditNameIN){
   return [
     [
       {
-        FileID: "void",
+        FileID: "",
         FileName: "\xa0",
         FilePath: "\xa0",
         FileExt: "\xa0",

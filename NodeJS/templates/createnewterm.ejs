@@ -1,63 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="createnewterm.css" />
+    <link rel="stylesheet" href="../../CreateNewTerm.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      /* When the user clicks on the button, 
-        toggle between hiding and showing the dropdown content */
-      function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-      }
-
-      // Close the dropdown if the user clicks outside of it
-      window.onclick = function (event) {
-        if (!event.target.matches(".dropbtn")) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains("show")) {
-              openDropdown.classList.remove("show");
-            }
-          }
-        }
-      };
-      function searchFn() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("recentTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      }
-
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
   </head>
   <body>
     <header>
@@ -74,46 +19,45 @@
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
-      <li><a href="/scanning">Scanning</a></li>
-      <li><a href="/patterns">Patterns</a></li>
-      <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
-      <li><a href="/modifyAudit">Modify Audit</a></li>
+      <li><a href="/Scanning">Scanning</a></li>
+      <li><a href="/Patterns">Patterns</a></li>
+      <li><a href="/Auditing">Auditing</a></li>
     </ul>
     <main>
       <h1>Create New Term</h1>
       <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the name of the term you would like to create..."
-          name="filter_field"
-          value=""
-        />
+        <label>Name:</label><br/>
+        <input name="TermName" id="patternName" type="text" placeholder="Term Name" value="<%= TermData[0].TermName %>" />
+        <br />
+        <br />
+        <label for="terms">Choose the Term Type</label>
+        <select name="TermType" id="termsList">
+          <% for(var i=0; i < AllTypes.length; i++) { %> <%= AllTypes[i].id %>
+          <option value="<%= AllTypes[i].TypeID %>"><%= AllTypes[i].TermDesc %></option>
+          <% } %>
+        </select>
+        <br />
+        <br />
+        <label>Value:</label><br/>
+        <input name="TermValue" id="patternName" type="text" placeholder="Term Value" value="<%= TermData[0].TermValue %>" />
+        <br />
+        <br />
         <input type="submit" value="Submit" />
+        <input type="reset" />
       </form>
-      <form action="" method="POST">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Enter the value of the term you are creating..."
-          name="filter_field"
-          value=""
-        />
-        <input type="submit" value="Submit" />
-      </form>
-      <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">
-          Select the type of term you would like to create...
-        </button>
-        <div id="myDropdown" class="dropdown-content">
-          <a href="#term1">Term type 1</a>
-          <a href="#term2">Term type 2</a>
-          <a href="#term3">Term type 3</a>
-        </div>
-      </div>
-      <input type="reset" />
-      <input type="submit" value="Create" />
+      <br/>
+      <span id="confirm"><%=ConfirmString%></span>
     </main>
+    <script>
+      $(document).ready(function(){
+        window.onload=function(){
+          if(document.getElementById("confirm").innerHTML == "Update Successful" || document.getElementById("confirm").innerHTML == "SUCCESS: Term added to the databse."){
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:green");
+          }else{
+            document.getElementById("confirm").setAttribute("style", "font-weight:bold; color:red");
+          }
+        }
+      });
+    </script>
   </body>
 </html>

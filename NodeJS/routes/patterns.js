@@ -5,6 +5,8 @@ const patternService = require("../services/PatternService");
 const router = express.Router();
 
 module.exports = () => {
+  router.use(express.urlencoded({ extended: true }));
+  
   router.get("/", function (req, res) {
     patternService.getPatternsTable().then((result) => {
       res.render("patterns", { data: result });
@@ -16,8 +18,6 @@ module.exports = () => {
       res.render("childpatterns", { data: result });
     });
   });
-
-  router.use(express.urlencoded({ extended: true }));
 
   router.post("/:subpage", function (req, res) {
     res.download(`C:\\Users\\OmniFileAsAdmin\\Desktop\\LocalStorage\\${req.params.subpage}\\${req.body.FileOnServer}`);

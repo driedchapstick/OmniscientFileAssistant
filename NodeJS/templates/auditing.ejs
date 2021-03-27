@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="auditing.css" />
+    <link rel="stylesheet" href="Auditing.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("td").hover(
-          function () {
-            $(this).css("white-space", "normal");
-            $(this).siblings().css("white-space", "normal");
-          },
-          function () {
-            $(this).css("white-space", "nowrap");
-            $(this).siblings().css("white-space", "nowrap");
-          }
-        );
-      });
-    </script>
+    <script></script>
   </head>
   <body>
     <header>
@@ -28,73 +15,46 @@
 ╚██████╔╝██║ ╚═╝ ██║██║ ╚████║██║███████║╚██████╗██║███████╗██║ ╚████║   ██║       ██║     ██║███████╗███████╗    ██║  ██║███████║███████║██║███████║   ██║   ██║  ██║██║ ╚████║   ██║   
  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   
  
- </pre
+		</pre
       >
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
-      <li><a href="/scanning">Scanning</a></li>
-      <li><a href="/patterns">Patterns</a></li>
-      <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create Audit</a></li>
-      <li><a href="/modifyAudit">Modify Audit</a></li>
+      <li><a href="/Scanning">Scanning</a></li>
+      <li><a href="/Patterns">Patterns</a></li>
+      <li><a href="/Auditing">Auditing</a></li>
     </ul>
     <main>
-      <h1>Audits</h1>
-      <div id="buttons">
-        <a href="/auditdash">Auditing Dashboard</a>
-      </div>
-      <div id="recent1">
-        <table id="recentTable1" style="width: 200%">
-          <caption>
-            Current File Info
-          </caption>
-          <tr>
-            <th>File Name</th>
-            <th>File Path</th>
-            <th>File Extension</th>
-            <th>Computer Name</th>
-            <th>File Creator</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>File Size</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-            <td><%= data[i].FileCreated %></td>
-            <td><%= data[i].FileModified %></td>
-            <td><%= data[i].FileSize %></td>
-          </tr>
+      <h1>Audits: <span id="heading">Track the modification of files.</span></h1>
+      <div id="LeftHalf">
+        <section id="PatternList" class="OneHalf">
+          <% for(var i=0; i < audit.length; i++) { %> <%= audit[i].id %>
+            <a class="PatternLink" href="/Auditing/<%=audit[i].AuditID%>">
+              <span class="LinkText">
+                <%=audit[i].AuditName%>
+              </span>
+            </a>
           <% } %>
-        </table>
+        </section>
       </div>
-      <div id="recent">
-        <table id="recentTable" style="width: 200%">
-          <caption>
-            Audit History
-          </caption>
-          <tr>
-            <th>History ID</th>
-            <th>Date Recorded</th>
-            <th>Previous Hash</th>
-            <th>New Hash</th>
-            <th>Stored File</th>
-          </tr>
-          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-          <tr>
-            <td><%= data[i].FileName %></td>
-            <td><%= data[i].FilePath %></td>
-            <td><%= data[i].FileExt %></td>
-            <td><%= data[i].CompName %></td>
-            <td><%= data[i].FileCreator %></td>
-          </tr>
-          <% } %>
-        </table>
+      <div id="RightHalf">
+        <section id="OtherItems" class="OneHalf">
+          <a class="OtherLink" href="/CreateNewAudit">
+            <span class="LinkText">
+              Create New Pattern
+            </span>
+          </a>
+          <a class="OtherLink" href="/ModifyAudits">
+            <span class="LinkText">
+              Modify Current Pattern
+            </span>
+          </a>
+          <a class="OtherLink" href="/DeleteAudits">
+            <span class="LinkText">
+              Delete Current Pattern
+            </span>
+          </a>
+        </section>
       </div>
     </main>
   </body>

@@ -20,43 +20,56 @@
     </header>
     <ul>
       <li><a href="/">Dashboard</a></li>
-      <li><a href="/scanning">Scanning</a></li>
-      <li><a href="/patterns">Patterns</a></li>
-      <li><a href="/auditing">Auditing</a></li>
-      <li><a href="/createNewAudit">Create New Audit</a></li>
-      <li><a href="/modifyAudit">Modify Audit</a></li>
+      <li><a href="/Scanning">Scanning</a></li>
+      <li><a href="/Patterns">Patterns</a></li>
+      <li><a href="/Auditing">Auditing</a></li>
     </ul>
     <main>
-      <div id="recent">
-        <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
-        <a class="dynamic" href="/patterns/<%=data[i].CriteriaName%>">
-          <%=data[i].CriteriaName %>
-        </a>
-        <% } %>
+      <h1>Audits: <span id="heading">Use terms to match files.</span></h1>
+      <div id="LeftHalf">
+        <section id="PatternList" class="OneHalf">
+          <% for(var i=0; i < data.length; i++) { %> <%= data[i].id %>
+            <a class="PatternLink" href="/Patterns/<%=data[i].CriteriaName%>">
+              <span class="LinkText">
+                <%=data[i].CriteriaName %>
+              </span>
+            </a>
+          <% } %>
+        </section>
       </div>
-      <div id="buttons">
-        <a href="/CreateNewPattern">Create New Pattern</a>
-      </div>
-      <div id="buttons2">
-        <a href="/ModifyPatterns">Modify Current Pattern</a>
-      </div>
-      <div id="buttons3">
-        <a href="/CreateNewTerm">Create New Term</a>
-      </div>
-      <div id="buttons4">
-        <a href="/ModifyTerms">Modify Current Term</a>
-      </div>
-      <div id="buttons5">
-        <a href="/DeletePatterns">Delete Current Pattern</a>
-      </div>
-      <div id="buttons6">
-        <a href="/DeleteTerms">Delete Current Term</a>
-      </div>
-      <div id="buttons7">
-        <a href="/deleteAudit">Delete Current Audit</a>
-      </div>
-      <div id="buttons8">
-        <a href="/individualTerm">Find a Term</a>
+      <div id="RightHalf">
+        <section id="OtherItems" class="OneHalf">
+          <a class="OtherLink" href="/CreateNewPattern">
+            <span class="LinkText">
+              Create New Pattern
+            </span>
+          </a>
+          <a class="OtherLink" href="/ModifyPatterns">
+            <span class="LinkText">
+              Modify Current Pattern
+            </span>
+          </a>
+          <a class="OtherLink" href="/DeletePatterns">
+            <span class="LinkText">
+              Delete Current Pattern
+            </span>
+          </a>
+          <a class="OtherLink" href="/CreateNewTerm">
+            <span class="LinkText">
+              Create New Term
+            </span>
+          </a>
+          <a class="OtherLink" href="/ModifyTerms">
+            <span class="LinkText">
+              Modify Current Term
+            </span>
+          </a>
+          <a class="OtherLink" href="/DeleteTerms">
+            <span class="LinkText">
+              Delete Current Term
+            </span>
+          </a>
+        </section>
       </div>
     </main>
   </body>
